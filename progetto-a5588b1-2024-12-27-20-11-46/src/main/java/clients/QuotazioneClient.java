@@ -21,6 +21,15 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+
 /** Client di test per alcune funzionalità relative alle <strong>quotazioni</strong>. */
 public class QuotazioneClient {
 
@@ -39,4 +48,39 @@ public class QuotazioneClient {
    * linea, in ordine alfabetico, e i nomi di azienda devono essere prefissati
    * da "- ". 
    */
+  public static void main(String[] args) {
+    Map<String, Borsa> borseMap = new HashMap<>();
+    Scanner scanner = new Scanner(System.in);
+
+    while (scanner.hasNextLine()) {
+      String[] input = scanner.nextLine().split(" ");
+
+      Borsa borsa = borseMap.computeIfAbsent(input[1], Borsa::new);
+      borsa.aggiungiAllaLista();
+
+      Azienda az = Azienda.factoryAzienda(input[0], Integer.parseInt(input[2]), Integer.parseInt(input[3]));
+
+      borsa.quotaAzienda(az, Integer.parseInt(input[3]));
+    }
+
+    stampaBorseQuotate(borseMap);
+
+  }
+
+  private static void stampaBorseQuotate(Map<String, Borsa> borseMap){
+    ArrayList<Borsa> borse = new ArrayList<>(borseMap.values());
+    Collections.sort(borse, (b1, b2) -> b1.getNome().compareTo(b2.getNome()));
+    for(Borsa b : borse){
+      System.out.println(b.getNome());
+      stampaAziendeQuotate(b);
+    }
+  }
+
+  private static void stampaAziendeQuotate(Borsa b){
+    ArrayList<Azienda> aziende = new ArrayList<>(b.getAziendeQuotate());
+    Collections.sort(aziende, (a1, a2) -> a1.nome.compareTo(a2.nome));
+    for(Azienda a : aziende){
+      System.out.println("- "+a.nome);
+    }
+  }
 }

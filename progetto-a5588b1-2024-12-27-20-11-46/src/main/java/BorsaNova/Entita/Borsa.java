@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe per rappresentare una <p>borsa</p>
+ */
 public class Borsa {
+    /** Il nome della borsa */
     private final String nome;
+    /** Mappa delle quotazioni (key= azienda, value= quotazione) */
     private final Map<Azienda, Quotazione> quotazioni = new HashMap<>();
+    /** Lista delle borse */
     private static ArrayList<Borsa> borse = new ArrayList<>();
-
+    /** Mappa delle azioni (key= azienda, value= quantità) */
     private Map<Azienda, Integer> azioni = new HashMap<>();
 
     /**
@@ -23,7 +29,13 @@ public class Borsa {
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
         this.nome = nome;
-        //borse.add(this);
+    }
+
+    /**
+     * Metodo per aggiungere la borsa alla lista delle borse
+     */
+    public void aggiungiAllaLista() {
+        borse.add(this);
     }
 
     /**
@@ -130,5 +142,14 @@ public class Borsa {
         } else {
             throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
         }
+    }
+
+    /**
+     * Metodo per ottenere le aziende quotate in questa borsa
+     * 
+     * @return le aziende quotate in questa borsa
+     */
+    public ArrayList<Azienda> getAziendeQuotate(){
+        return new ArrayList<>(quotazioni.keySet());
     }
 }

@@ -1,11 +1,15 @@
 package BorsaNova.Entita;
 
+/**
+ * Classe per rappresentare una <p>quotazione</p>
+ */
 public class Quotazione {
+    /** L'azienda della quotazione */
     private final Azienda azienda;
+    /** La borsa della quotazione */
     private final Borsa borsa;
+    /** Il prezzo corrente della quotazione */
     private int prezzoCorrente;
-
-    
 
     /**
      * Metodo per costruire una quotazione

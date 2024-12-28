@@ -3,11 +3,17 @@ package BorsaNova.Entita;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe per rappresentare un <p>operatore</p>
+ */
 public class Operatore {
-
-    private static final Map<String, Operatore> operatori = new HashMap<>();
+    /** Il nome dell'operatore */
     private final String nome;
+    /** Mappa degli operatori (key= nome operatore, value= operatore stesso) */
+    private static final Map<String, Operatore> operatori = new HashMap<>();
+    /** Il budget dell'operatore */
     private int budget;
+    /** Mappa delle azioni possedute dall'operatore (key= nome azienda, value= quantità) */
     private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
     
     /**
@@ -30,8 +36,6 @@ public class Operatore {
      * Metodo per ottenere un operatore
      * 
      * @param nome il nome dell'operatore da ottenere
-     * 
-     * @return l'operatore richiesto
      */
     private Operatore(String nome) {
         this.nome = nome;
@@ -61,11 +65,11 @@ public class Operatore {
      * 
      * @param deposito l'importo da depositare
      * 
-     * @throws IllegalArgumentException se l'importo del deposito è negativo o nullo
+     * @throws IllegalArgumentException se l'importo del deposito è negativo
      */
     public void depositaInBudget(int deposito){
         if(deposito<=0){
-            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo o nullo");
+            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo");
         }
         budget += deposito;
     }
@@ -75,11 +79,11 @@ public class Operatore {
      * 
      * @param prelievo l'importo da prelevare
      * 
-     * @throws IllegalArgumentException se l'importo del prelievo è negativo o nullo, se l'importo del prelievo è maggiore del budget
+     * @throws IllegalArgumentException se l'importo del prelievo è negativo, se l'importo del prelievo è maggiore del budget
      */
     public void prelievoDalBudget(int prelievo){
         if(prelievo<=0){
-            throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo o nullo");
+            throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo");
         }
 
         if(prelievo>budget){
@@ -97,7 +101,7 @@ public class Operatore {
      * @param quantita la quantità di azioni da acquistare
      * 
      * @throws NullPointerException se l'azienda è nulla
-     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o nulla, se il costo delle azioni da acquistare è maggiore del budget
+     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa
      */
     public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita){
         if(azienda==null){
@@ -105,14 +109,10 @@ public class Operatore {
         }
 
         if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da acquistare non può essere negativa o nulla");
+            throw new IllegalArgumentException("La quantità di azioni da acquistare non può essere negativa");
         }
 
         int costo = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
-
-        /*if(costo>budget){ //l'operatore non fa sta roba
-            throw new IllegalArgumentException("Il costo delle azioni da acquistare non può essere maggiore del budget");
-        }*/
 
         budget -= costo;
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.getOrDefault(azienda.getNome(), 0) + quantita);

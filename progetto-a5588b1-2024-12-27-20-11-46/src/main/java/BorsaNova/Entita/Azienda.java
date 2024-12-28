@@ -3,11 +3,17 @@ package BorsaNova.Entita;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe per rappresentare una <p>azienda</p>
+ */
 public class Azienda {
+    /** Il [@code nome} dell'azienda */
     public final String nome; //pensiamoci - il nome potrebbe variare
+    /** Il [@code numeroAzioni} dell'azienda */
     private int numeroAzioni;
+    /** Il [@code prezzoUnitarioAzione} di ogni azione dell'azienda (errato btw, l'azienda ad ogni quotazione sceglie il prezzo) */
     private int prezzoUnitarioAzione;
-
+    /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Map<String, Azienda> aziende = new HashMap<>();
 
     /**
@@ -42,16 +48,16 @@ public class Azienda {
     }
 
     /**
-     * Metodo per ottenere un'azienda
+     * Metodo per creare un'azienda
      * 
      * @param nome il nome dell'azienda da ottenere
-     * 
-     * @return l'azienda richiesta
+     * @param numeroAzioni il numero di azioni dell'azienda da creare
+     * @param prezzoUnitarioAzione il prezzo unitario di un'azione dell'azienda da creare
      */
     public Azienda(String nome, int numeroAzioni, int prezzoUnitarioAzione){
         this.nome = nome;
         this.numeroAzioni = numeroAzioni;
-        this.prezzoUnitarioAzione = prezzoUnitarioAzione; //deve scegleire l'azienda, correggi
+        this.prezzoUnitarioAzione = prezzoUnitarioAzione; //deve scegliere l'azienda, correggi
     }
 
     /**
@@ -82,7 +88,7 @@ public class Azienda {
     }
 
     /**
-     * Metodo per ottenere3 l'azienda dal nome
+     * Metodo per ottenere l'azienda dal nome
      * 
      * @param nome il nome dell'azienda da ottenere
      * 
