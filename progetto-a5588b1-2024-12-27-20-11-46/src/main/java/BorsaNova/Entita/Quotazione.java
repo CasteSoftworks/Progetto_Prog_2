@@ -5,6 +5,8 @@ public class Quotazione {
     private final Borsa borsa;
     private int prezzoCorrente;
 
+    
+
     /**
      * Metodo per costruire una quotazione
      * 
@@ -60,4 +62,6 @@ public class Quotazione {
     public Borsa getBorsa(){
         return borsa;
     }
+
+
 }

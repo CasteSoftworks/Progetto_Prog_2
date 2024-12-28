@@ -48,7 +48,7 @@ public class Azienda {
      * 
      * @return l'azienda richiesta
      */
-    private Azienda(String nome, int numeroAzioni, int prezzoUnitarioAzione){
+    public Azienda(String nome, int numeroAzioni, int prezzoUnitarioAzione){
         this.nome = nome;
         this.numeroAzioni = numeroAzioni;
         this.prezzoUnitarioAzione = prezzoUnitarioAzione; //deve scegleire l'azienda, correggi

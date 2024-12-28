@@ -9,6 +9,8 @@ public class Borsa {
     private final Map<Azienda, Quotazione> quotazioni = new HashMap<>();
     private static ArrayList<Borsa> borse = new ArrayList<>();
 
+    private Map<Azienda, Integer> azioni = new HashMap<>();
+
     /**
      * Metodo per costruire una borsa
      * 
@@ -21,7 +23,7 @@ public class Borsa {
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
         this.nome = nome;
-        borse.add(this);
+        //borse.add(this);
     }
 
     /**
@@ -78,6 +80,36 @@ public class Borsa {
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {
             quotazioni.put(azienda, new Quotazione(azienda, this));
+        }
+    }
+
+    public void modificaAzioni(Azienda azienda, int quantita){
+        if(azienda==null){
+            throw new NullPointerException("L'azienda non può essere nulla");
+        }     
+
+        if(azioni.containsKey(azienda)){
+            if(quantita<=0 && azioni.get(azienda)<Math.abs(quantita)){
+                throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle disponibili");
+            }
+            azioni.put(azienda, azioni.get(azienda) + quantita);
+        } else {
+            if(quantita<=0){
+                throw new IllegalArgumentException("Le azioni non possono essere rimosse se non esistono");
+            }
+            azioni.put(azienda, quantita);
+        }
+    }
+
+    public void modificaQuotazione(Azienda azienda, int var){
+        if(azienda==null){
+            throw new NullPointerException("L'azienda non può essere nulla");
+        }
+
+        if(quotazioni.containsKey(azienda)){
+            quotazioni.get(azienda).aggiornaPrezzo(var);
+        } else {
+            throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
         }
     }
 }
