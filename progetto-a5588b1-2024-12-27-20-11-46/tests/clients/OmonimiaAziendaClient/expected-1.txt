@@ -1,0 +1,4 @@
+Apple
+Broadcom
+Microsoft
+Tesla
