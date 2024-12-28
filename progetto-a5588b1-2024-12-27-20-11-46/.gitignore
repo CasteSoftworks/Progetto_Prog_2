@@ -3,3 +3,9 @@ build/
 dist/
 .gradle/
 actual-[0-9]*.txt
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
