@@ -96,7 +96,8 @@ public class Operatore {
      * @param borsa la borsa dove acquistare le azioni
      * @param quantita la quantità di azioni da acquistare
      * 
-     * @throws IllegalArgumentException se l'azienda è nulla, se la quantità di azioni da acquistare è negativa o nulla, se il costo delle azioni da acquistare è maggiore del budget
+     * @throws NullPointerException se l'azienda è nulla
+     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o nulla, se il costo delle azioni da acquistare è maggiore del budget
      */
     public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita){
         if(azienda==null){
@@ -124,7 +125,8 @@ public class Operatore {
      * @param borsa la borsa dove vendere le azioni
      * @param quantita la quantità di azioni da vendere
      * 
-     * @throws IllegalArgumentException se l'azienda è nulla, se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
+     * @throws NullPointerException se l'azienda è nulla
+     * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
     public void vendeAzione(Azienda azienda, Borsa borsa, int quantita){
         if(azienda==null){
