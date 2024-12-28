@@ -65,6 +65,7 @@ public class AzioneClient {
 
       out.add(nome+", "+prezzo+", "+numero);
     }
+    scanner.close();
 
     Collections.sort(out);
 

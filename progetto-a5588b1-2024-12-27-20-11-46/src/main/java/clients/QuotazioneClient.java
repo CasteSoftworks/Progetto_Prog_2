@@ -63,6 +63,8 @@ public class QuotazioneClient {
       borsa.quotaAzienda(az, Integer.parseInt(input[3]));
     }
 
+    scanner.close();
+
     stampaBorseQuotate(borseMap);
 
   }
