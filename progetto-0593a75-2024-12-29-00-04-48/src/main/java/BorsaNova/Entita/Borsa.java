@@ -1,12 +1,16 @@
 package BorsaNova.Entita;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Classe per rappresentare una <p>borsa</p>
  */
+
+ //DEVO TENERE TRACCIA DELLE AZIONI CHE POSSIEDE UN OPERATORE
 public class Borsa {
     /** Il nome della borsa */
     private final String nome;
@@ -150,6 +154,7 @@ public class Borsa {
      * @return le aziende quotate in questa borsa
      */
     public ArrayList<Azienda> getAziendeQuotate(){
-        return new ArrayList<>(quotazioni.keySet());
+        //return  Collections.unmodifiableList<>(quotazioni.keySet().stream().collect(Collectors.toList())); //ATTENZIOEN DEVI RITORNARE UNMODIFIABLELIST
+        //return new ArrayList<>(quotazioni.keySet());
     }
 }
