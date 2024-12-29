@@ -151,10 +151,9 @@ public class Borsa {
     /**
      * Metodo per ottenere le aziende quotate in questa borsa
      * 
-     * @return le aziende quotate in questa borsa
+     * @return lista non modificabile delle aziende quotate in questa borsa
      */
     public ArrayList<Azienda> getAziendeQuotate(){
-        //return  Collections.unmodifiableList<>(quotazioni.keySet().stream().collect(Collectors.toList())); //ATTENZIOEN DEVI RITORNARE UNMODIFIABLELIST
-        //return new ArrayList<>(quotazioni.keySet());
+        return new ArrayList<>(Collections.unmodifiableSet(quotazioni.keySet()));
     }
 }
