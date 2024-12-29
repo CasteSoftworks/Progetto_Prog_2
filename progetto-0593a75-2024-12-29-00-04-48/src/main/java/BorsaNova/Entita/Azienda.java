@@ -8,11 +8,9 @@ import java.util.Map;
  */
 public class Azienda {
     /** Il [@code nome} dell'azienda */
-    public final String nome; //pensiamoci - il nome potrebbe variare
+    public final String nome;
     /** Il [@code numeroAzioni} dell'azienda */
     private int numeroAzioni;
-    /** Il [@code prezzoUnitarioAzione} di ogni azione dell'azienda (errato btw, l'azienda ad ogni quotazione sceglie il prezzo) */
-    private int prezzoUnitarioAzione;
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Map<String, Azienda> aziende = new HashMap<>();
 
@@ -21,13 +19,12 @@ public class Azienda {
      * 
      * @param nome il nome dell'azienda
      * @param numeroAzioni il numero di azioni dell'azienda
-     * @param prezzoUnitarioAzione il prezzo unitario di un'azione dell'azienda
-     * 
+     *  
      * @return l'azienda costruita
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto, se il numero di azioni è minore o uguale a 0, se il prezzo unitario delle azioni è minore o uguale a 0
      */
-    public static Azienda factoryAzienda(String nome, int numeroAzioni, int prezzoUnitarioAzione){
+    public static Azienda factoryAzienda(String nome, int numeroAzioni){
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
@@ -36,12 +33,8 @@ public class Azienda {
             throw new IllegalArgumentException("Il numero di azioni deve essere maggiore di 0");
         }
 
-        if(prezzoUnitarioAzione<=0){
-            throw new IllegalArgumentException("Il prezzo unitario delle azioni deve essere maggiore di 0");
-        }
-
         if(!aziende.containsKey(nome)){
-            Azienda az = new Azienda(nome, numeroAzioni, prezzoUnitarioAzione);
+            Azienda az = new Azienda(nome, numeroAzioni);
             aziende.put(nome, az);
         }
         return getAzienda(nome);
@@ -52,12 +45,10 @@ public class Azienda {
      * 
      * @param nome il nome dell'azienda da ottenere
      * @param numeroAzioni il numero di azioni dell'azienda da creare
-     * @param prezzoUnitarioAzione il prezzo unitario di un'azione dell'azienda da creare
      */
-    public Azienda(String nome, int numeroAzioni, int prezzoUnitarioAzione){
+    public Azienda(String nome, int numeroAzioni){
         this.nome = nome;
         this.numeroAzioni = numeroAzioni;
-        this.prezzoUnitarioAzione = prezzoUnitarioAzione; //deve scegliere l'azienda, correggi
     }
 
     /**
@@ -76,15 +67,6 @@ public class Azienda {
      */
     public int getNumeroAzioni(){
         return numeroAzioni;
-    }
-
-    /**
-     * Metodo per ottenere il prezzo unitario di un'azione dell'azienda
-     * 
-     * @return il prezzo unitario di un'azione dell'azienda
-     */
-    public int getPrezzoUnitarioAzione(){
-        return prezzoUnitarioAzione;
     }
 
     /**

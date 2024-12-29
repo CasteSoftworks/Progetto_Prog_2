@@ -92,7 +92,7 @@ public class Borsa {
             }
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {
-            quotazioni.put(azienda, new Quotazione(azienda, this));
+            quotazioni.put(azienda, new Quotazione(azienda, this, prezzo));
         }
     }
 

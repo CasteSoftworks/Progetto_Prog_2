@@ -16,16 +16,21 @@ public class Quotazione {
      * 
      * @param azienda l'azienda della quotazione
      * @param borsa la borsa della quotazione
+     * @param prezzo il prezzo corrente della quotazione
      * 
      * @throws NullPointerException se l'azienda o la borsa sono nulle
      */
-    public Quotazione(Azienda azienda, Borsa borsa){
+    public Quotazione(Azienda azienda, Borsa borsa, Integer prezzo){
         if(azienda==null || borsa==null){
             throw new NullPointerException("L'azienda e/o la borsa della quotazione non possono essere nulli");
         }
+        if(prezzo<0||prezzo==null){
+            throw new IllegalArgumentException("Il prezzo della quotazione non può essere negativo o nullo");
+        }
+        
         this.azienda = azienda;
         this.borsa = borsa;
-        this.prezzoCorrente = azienda.getPrezzoUnitarioAzione();
+        this.prezzoCorrente = prezzo;
     }
 
     /**
