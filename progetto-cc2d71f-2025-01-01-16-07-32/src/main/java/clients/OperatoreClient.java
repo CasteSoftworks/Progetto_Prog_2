@@ -75,8 +75,8 @@ public class OperatoreClient {
    */
 
    //b: buy, s: sell, d: deposit, w: withdraw
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     // TODO
-  }
+  }*/
 
 }

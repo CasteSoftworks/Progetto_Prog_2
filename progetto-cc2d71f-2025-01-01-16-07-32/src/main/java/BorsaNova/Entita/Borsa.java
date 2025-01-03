@@ -64,10 +64,10 @@ public class Borsa {
     /**
      * Metodo per ottenere le borse
      * 
-     * @return le borse
+     * @return le borse non modificabili
      */
     public static ArrayList<Borsa> getBorse(){
-        return borse;
+        return new ArrayList<>(Collections.unmodifiableList(borse));
     }
 
     /**
