@@ -2,14 +2,15 @@ package BorsaNova.Entita;
 
 //import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Classe per rappresentare una <p>azienda</p>
  */
 
-public class Azienda {
+public class Azienda implements Comparable<Azienda>{
     /**
      * AF:
      * AF(nome, numeroAzioni) = Un'azienda rappresentata da:
@@ -27,7 +28,7 @@ public class Azienda {
     /** Il [@code numeroAzioni} dell'azienda */
     private int numeroAzioni;
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
-    private static final Map<String, Azienda> aziende = new HashMap<>();
+    private static final Map<String, Azienda> aziende = new TreeMap<>();
 
     /**
      * Metodo per costruire un'azienda
@@ -112,5 +113,21 @@ public class Azienda {
      */
     public static Map<String, Azienda> getAziende(){
         return Collections.unmodifiableMap(aziende);
+    }
+
+    @Override
+    public int compareTo(Azienda a){
+        return this.getNome().compareTo(a.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getNome().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Azienda other)) return false;
+        return this.getNome().equals(other.getNome());
     }
 }
