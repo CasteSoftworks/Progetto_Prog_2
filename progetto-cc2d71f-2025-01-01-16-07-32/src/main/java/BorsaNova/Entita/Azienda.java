@@ -10,12 +10,12 @@ import java.util.Map;
 public class Azienda {
     /**
      * AF:
-     * AF(nome, numeroAzioni) = Un'azienda rappresentata dall'oggetto c, dove:
-     * - nome è il nome dell'azienda
-     * - numeroAzioni è il numero di azioni dell'azienda
+     * AF(nome, numeroAzioni) = Un'azienda rappresentata da:
+     * - nome: è il nome dell'azienda
+     * - numeroAzioni: è il numero di azioni dell'azienda
      *
      * RI:
-     * RI(nome, numeroAzioni) = L'oggetto c rispetta le seguenti condizioni:
+     * RI(nome, numeroAzioni) = L'oggetto azienda rispetta le seguenti condizioni:
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
      * - numeroAzioni è maggiore di 0
      */

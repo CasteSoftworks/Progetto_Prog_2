@@ -117,7 +117,7 @@ public class QuotazioneClient {
    */
   private static void stampaBorseQuotate(Map<String, Borsa> borseMap){
     ArrayList<Borsa> borse = new ArrayList<>(borseMap.values());
-    Collections.sort(borse, (b1, b2) -> b1.getNome().compareTo(b2.getNome()));
+    Collections.sort(borse, (b1, b2) -> b1.getNome().compareTo(b2.getNome())); //forse treeset sarebbe stato meglio
     for(Borsa b : borse){
       System.out.println(b.getNome());
       stampaAziendeQuotate(b);
@@ -131,7 +131,9 @@ public class QuotazioneClient {
    */
   private static void stampaAziendeQuotate(Borsa b){
     ArrayList<Azienda> aziende = new ArrayList<>(b.getAziendeQuotate());
-    Collections.sort(aziende, (a1, a2) -> a1.nome.compareTo(a2.nome));
+    Collections.sort(aziende, (a1, a2) -> a1.nome.compareTo(a2.nome)); //forse treeset sarebbe stato meglio
+
+
     for(Azienda a : aziende){
       System.out.println("- "+a.nome);
     }

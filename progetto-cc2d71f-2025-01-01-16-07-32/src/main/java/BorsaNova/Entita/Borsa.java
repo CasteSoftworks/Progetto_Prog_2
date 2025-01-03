@@ -12,6 +12,16 @@ import java.util.Map;
 
  //DEVO TENERE TRACCIA DELLE AZIONI CHE POSSIEDE UN OPERATORE
 public class Borsa {
+    /**
+     * AF:
+     * AF(nome) = Una borsa rappresentata da:
+     * - nome: è il nome della borsa
+     *
+     * RI:
+     * RI(nome) = L'oggetto borsa rispetta le seguenti condizioni:
+     * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
+     */
+    
     /** Il nome della borsa */
     private final String nome;
     /** Mappa delle quotazioni (key= azienda, value= quotazione) */

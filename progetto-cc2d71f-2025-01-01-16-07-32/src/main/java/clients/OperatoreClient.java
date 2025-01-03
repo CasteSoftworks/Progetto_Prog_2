@@ -43,7 +43,8 @@ public class OperatoreClient {
    *     nome_operatore s nome_borsa nome_azienda numero_azioni 
    *     ... [oppure]
    *     nome_operatore d valore 
-   *     ... [oppure] nome_operatore w valore
+   *     ... [oppure] 
+   *     nome_operatore w valore
    *
    * Assuma che i nomi non contengano spazi. In base al contenuto del primo
    * blocco, quota le azioni delle aziende nelle borse secondo il numero e
@@ -72,5 +73,10 @@ public class OperatoreClient {
    * seguito da quello dell'azienda e dal numero di azioni possedute (separati
    * da virgole).
    */
+
+   //b: buy, s: sell, d: deposit, w: withdraw
+  public static void main(String[] args) {
+    // TODO
+  }
 
 }
