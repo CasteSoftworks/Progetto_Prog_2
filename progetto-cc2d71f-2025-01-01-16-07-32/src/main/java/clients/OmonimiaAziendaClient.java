@@ -21,6 +21,10 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+
+import BorsaNova.Entita.*;
+
 /** Client di test per alcune funzionalità relative alle <strong>aziende</strong>. */
 public class OmonimiaAziendaClient {
 
@@ -33,4 +37,20 @@ public class OmonimiaAziendaClient {
    * nel flusso d'uscita l'elenco di tali nomi di azienda in ordine alfabetico e
    * senza ripetizioni.
    */
+
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+      
+      Azienda a = Azienda.factoryAzienda(line,1);
+    }
+    scanner.close();
+
+    for (String nome : Azienda.getAziende().keySet()) {
+      System.out.println(nome);
+    }
+    
+  }
 }

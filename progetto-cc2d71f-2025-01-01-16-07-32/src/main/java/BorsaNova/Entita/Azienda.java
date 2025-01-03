@@ -1,5 +1,7 @@
 package BorsaNova.Entita;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +61,7 @@ public class Azienda {
      * @param nome il nome dell'azienda da ottenere
      * @param numeroAzioni il numero di azioni dell'azienda da creare
      */
-    public Azienda(String nome, int numeroAzioni){
+    private Azienda(String nome, int numeroAzioni){
         this.nome = nome;
         this.numeroAzioni = numeroAzioni;
     }
@@ -101,5 +103,14 @@ public class Azienda {
      */
     public Quotazione getQuotazione(Borsa borsa){
         return borsa.getQuotazioneAzienda(this);
+    }
+
+    /**
+     * Metodo per ottenere la mappa non modificabile delle aziende
+     * 
+     * @return la mappa delle aziende
+     */
+    public static Map<String, Azienda> getAziende(){
+        return Collections.unmodifiableMap(aziende);
     }
 }
