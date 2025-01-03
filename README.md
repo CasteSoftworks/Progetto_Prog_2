@@ -1,6 +1,6 @@
-#Progetto Programmazione 2 - Inverno 2025
+# Progetto Programmazione 2 - Inverno 2025
 
-##Tree del progetto
+## Tree del progetto
 * Entita
   * Azienda
   * Borsa
