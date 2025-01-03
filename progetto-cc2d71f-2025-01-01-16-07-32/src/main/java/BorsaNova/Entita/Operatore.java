@@ -7,6 +7,18 @@ import java.util.Map;
  * Classe per rappresentare un <p>operatore</p>
  */
 public class Operatore {
+    /**
+     * AF:
+     * AF(nome, budget) = Un operatore rappresentato da:
+     * - nome: è il nome dell'operatore
+     * - budget: è il budget dell'operatore
+     *
+     * RI:
+     * RI(nome, budget) = L'oggetto operatore rispetta le seguenti condizioni:
+     * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
+     * - budget è maggiore o uguale a 0
+     */
+    
     /** Il nome dell'operatore */
     private final String nome;
     /** Mappa degli operatori (key= nome operatore, value= operatore stesso) */
@@ -23,7 +35,7 @@ public class Operatore {
      * 
      * @return l'operatore costruito
      * 
-     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto
+     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi
      */
     public static Operatore factoryOperatore(String nome){
         if(nome==null || nome.isBlank()){
