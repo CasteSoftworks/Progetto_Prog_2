@@ -21,6 +21,11 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+//import java.util.Set;
+
+import BorsaNova.Entita.Borsa;
+
 /** Client di test per alcune funzionalità relative alle <strong>aziende</strong>. */
 public class OmonimiaBorsaClient {
 
@@ -33,5 +38,23 @@ public class OmonimiaBorsaClient {
    * nel flusso d'uscita l'elenco di tali nomi di borsa in ordine alfabetico e
    * senza ripetizioni.
    */
+
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    //Set<String> borseTree = new TreeSet<>(); //FA SCHIFO
+    
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+      
+      Borsa b = new Borsa(line);
+      //borseTree.add(line);
+      b.aggiungiAllaLista();
+    }
+    scanner.close();
+
+    for (Borsa b : Borsa.getBorse()) {
+      System.out.println(b.getNome());
+    }
+  }
 
 }
