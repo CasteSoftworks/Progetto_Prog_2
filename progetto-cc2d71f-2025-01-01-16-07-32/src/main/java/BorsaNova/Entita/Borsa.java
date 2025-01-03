@@ -46,10 +46,12 @@ public class Borsa {
     }
 
     /**
-     * Metodo per aggiungere la borsa alla lista delle borse
+     * Metodo per aggiungere la borsa alla lista delle borse se non è già presente
      */
     public void aggiungiAllaLista() {
-        borse.add(this);
+        if(!borse.contains(this)){
+            borse.add(this);
+        }
     }
 
     /**
