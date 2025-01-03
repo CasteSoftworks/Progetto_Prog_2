@@ -22,6 +22,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package clients;
 
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
 import BorsaNova.Entita.*;
 
@@ -40,17 +42,20 @@ public class OmonimiaAziendaClient {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
+    Set<String> aziendeTree = new TreeSet<>(); //FA SCHIFO
     
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       
-      Azienda a = Azienda.factoryAzienda(line,1);
+      Azienda.factoryAzienda(line,1);
+      aziendeTree.add(line);
     }
     scanner.close();
 
-    for (String nome : Azienda.getAziende().keySet()) {
-      System.out.println(nome);
+    for (String a : aziendeTree) {
+      System.out.println(a);
     }
     
   }
+
 }
