@@ -31,6 +31,11 @@ public class Borsa {
     /** Mappa delle azioni (key= azienda, value= quantità) */
     private Map<Azienda, Integer> azioni = new HashMap<>();
 
+    /*
+     * idea di implementazione operatore-sue azioni
+     * private Map<Operatore, Map<Azienda, Integer>> azioniOperatore = new HashMap<>();
+     */
+
     /**
      * Metodo per costruire una borsa
      * 
