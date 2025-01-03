@@ -21,13 +21,6 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
-
-import BorsaNova.Entita.Azienda;
-import BorsaNova.Entita.Borsa;
-
 /** Client di test per alcune funzionalità relative alle <strong>azioni</strong>. */
 public class AzioneClient {
 
@@ -47,31 +40,4 @@ public class AzioneClient {
    * numero (separati da virgole). Assuma che il nome dell'azienda non contenga
    * spazi.
    */
-  public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-
-    ArrayList<String> out=new ArrayList<>();
-        
-
-    while(scanner.hasNext()){
-      String nome = scanner.next();
-      int numero = scanner.nextInt();
-      int prezzo = scanner.nextInt();
-
-      Azienda a = Azienda.factoryAzienda(nome, numero);
-      Borsa b = new Borsa(args[0]);
-      b.quotaAzienda(a, prezzo);
-
-      b.modificaAzioni(a, numero);
-
-      out.add(nome+", "+prezzo+", "+numero);
-    }
-    scanner.close();
-
-    Collections.sort(out);
-
-    for(String s: out){
-      System.out.println(s);
-    }
-  }
 }

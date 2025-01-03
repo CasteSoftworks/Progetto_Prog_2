@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<title>README</title>
+<title>ISTRUZIONI</title>
 <style>
 
 .markdown-body {
@@ -1321,239 +1321,170 @@ code {
   white-space: pre-wrap !important;
   }
 </style></head><body class="markdown-body">
-<h1>Bo{r,s}sa nova</h1>
-<p>Questo repository contiene il <strong>progetto d'esame</strong> dell'insegnamento di
-"Programmazione II" all'a.a 2024/2025.</p>
-<p>Obiettivo del progetto è modellare il comportamento di alcuni <strong>operatori</strong> che
-scambiano <strong>azioni</strong> di alcune <strong>aziende</strong> quotate in varie <strong>borse</strong>.</p>
-<p>Per portare a termine il lavoro dovrà decidere se e quali classi (concrete o
-astratte) e quali interfacce implementare. Per ciascuna di esse <strong>dovrà
-descrivere</strong> (in formato Javadoc attraverso commenti presenti nel codice) le
-scelte relative alla <strong>rappresentazione</strong> dello stato (con particolare
-riferimento all'<strong>invariante di rappresentazione</strong> e alla <strong>funzione di
-astrazione</strong> così come definiti nel libro di testo dell'insegnamento e
-illustrati a lezione) e ai <strong>metodi</strong> (con particolare riferimento a
-<em>pre/post-condizioni</em> ed <em>effetti collaterali</em>, soffermandosi ad illustrare le
-ragioni della <em>correttezza</em> solo per le implementazioni che riterrà più
-critiche). Osservi che l'esito di questa prova, che le consentirà di accedere o
-meno all'orale, si baserà tanto su questa documentazione quanto sul codice
-sorgente.</p>
-<p>Può prendere visione dei dettagli tecnici riguardanti la realizzazione del
-progetto nelle apposite <a href="ISTRUZIONI.html">istruzioni</a>. Osservi che <strong>la presenza
-di errori o fallimenti nella compilazione, generazione della documentazione ed
-esecuzione dei test impedisce il superamento dell'esame</strong>.</p>
-<h2>Descrizione delle entità coinvolte</h2>
-<p>Le entità coinvolte nel progetto sono: <strong>aziende</strong>, <strong>operatori</strong>, <strong>borse</strong> e
-<strong>azioni</strong>. Di seguito ne vengono illustrate le caratteristiche principali (le
-informazioni che le descrivono e le competenze che possiedono).</p>
-<h3>Azienda</h3>
-<p>Una azienda è caratterizzata da un <em>nome</em> (non vuoto); ogni azienda può decidere
-di <em>quotarsi</em> in una o più delle borse presenti (al più una volta per ciascuna
-di esse), nel farlo decide per ciascuna borsa sia il <em>numero</em> di azioni che
-intende emettere che il loro <em>prezzo</em> unitario (entrambe le grandezze sono per
-semplicità rappresentate da numeri interi positivi). Ogni azienda tiene traccia
-delle borse in cui è quotata.</p>
-<h3>Operatore</h3>
-<p>Un operatore (di borsa) è caratterizzato da un <em>nome</em> (non vuoto) e da un
-<em>budget</em> (rappresentato per semplicità da un numero intero non negativo,
-inizialmente pari a 0). Ogni operatore può decidere di <em>acquistare</em> o <em>vendere</em>
-azioni di una o più aziende presenti in una o più borse. L'acquisto di azioni
-comporta una diminuzione del budget pari al prezzo corrente dell'azione per il
-numero di azioni acquistate (che deve essere un numero intero positivo), mentre
-la vendita di azioni comporta un aumento del budget pari al prezzo corrente
-dell'azione per il numero di azioni vendute (che deve essere un numero intero
-positivo). Il budget può essere aumentato grazie a un <em>deposito</em> e diminuito
-grazie a un <em>prelievo</em> (entrambi rappresentati da numeri interi positivi), ma in
-nessun caso (neppure per l'acquisto di azioni) può diventare negativo. Il
-<em>capitale totale</em> di un operatore è dato dalla somma del budget e del valore
-delle azioni possedute. Ogni operatore tiene traccia del proprio budget e delle
-azioni possedute correntemente (ma non necessariamente dell'intera storia degli
-acquisti e delle vendite); è responsabilità esclusiva dell'operatore garantire
-che il suo budget non diventi mai negativo.</p>
-<h3>Borsa e azione</h3>
-<p>Una borsa è caratterizzata da un <em>nome</em> (non vuoto); la borsa tiene traccia
-delle quotazioni delle varie aziende ed emette le relative <strong>azioni</strong>. Inoltre,
-tiene traccia delle <strong>allocazioni</strong> di tali azioni agli operatori, in modo da
-poter sapere per ciascuna azienda quotata di quante azioni è in possesso ciascun
-operatore e quante non siano ancora state vendute; è responsabilità esclusiva
-della borsa garantire che un operatore non venda più azioni di quante gliene
-siano correntemente allocate, o compri più azioni di quante siano disponibili al
-momento dell'acquisto.</p>
-<p>La borsa può cambiare il prezzo delle azioni in seguito ad ogni vendita, o
-acquisto; per farlo segue una <strong>politica di prezzo</strong> che, data l'azione e il
-numero di quante ne sono state vendute, o comprate, indica il nuovo prezzo
-dell'azione; la politica di prezzo può cambiare nel tempo. Ad esempio, una
-politica di prezzo</p>
-<ul>
-<li>
-<p>ad <em>incremento costante</em> <span class="arithmatex">\(k\)</span> è tale per cui ad ogni acquisto, il prezzo
-  dell'azione aumenta di <span class="arithmatex">\(k\)</span> unità, restando invariato in caso di vendita;</p>
-</li>
-<li>
-<p>a <em>decremento costante</em> <span class="arithmatex">\(h\)</span> è tale per cui ad ogni vendita il prezzo
-  dell'azione diminuisce di <span class="arithmatex">\(h\)</span> unità (se maggiore dI <span class="arithmatex">\(h\)</span>, o diventando <span class="arithmatex">\(1\)</span>
-  viceversa), restando invariato in caso di acquisto;</p>
-</li>
-<li>
-<p>a <em>variazione costante</em> <span class="arithmatex">\((k, h)\)</span> che si comporta come un incremento costante
-  <span class="arithmatex">\(k\)</span> (in caso di acquisto) e come un decremento costante <span class="arithmatex">\(h\)</span> (in caso di
-  vendita);</p>
-</li>
-<li>
-<p>altre politiche possono cambiare il prezzo a seconda del numero di azioni
-  scambiate, ad esempio aumentando in modo lineare il prezzo tanto più quante
-  azioni sono vendute, oppure diminuendo il prezzo in modo esponenziale.</p>
-</li>
-</ul>
-<p>Ovviamente l'azione dipende dalla borsa che l'ha emessa e <em>il suo prezzo può
-essere cambiato esclusivamente da essa</em>; qualunque altra entità oltre alla borsa
-che l'ha emessa venga a conoscenza di una azione potrà interrogarla per
-conoscerne: l'azienda e borsa cui corrisponde, il suo prezzo corrente, quante ne
-sono state emesse e quante sono correntemente disponibili, ma non potrà
-modificare direttamente nessuno di tali valori!</p>
-<h2>Un suggerimento su identità e confronti</h2>
-<p>Le entità sopra descritte hanno tutte un <em>nome</em>, può essere molto utile ritenere
-identiche due entità che hanno il medesimo nome (per semplificare i confronti
-tra esse, e per mantenerle in ordine lessicografico); questo sarebbe però
-difficilmente sensato se fosse possibile, per ciascun tipo, creare più entità
-col medesimo nome.</p>
-<p>Per fare in modo che per ciascuna entità non ce ne siano di omonime, è possibile
-sostituire i costruttori pubblici con metodi di fabbricazione che, grazie ad un
-attributo statico che tenga traccia di tutti gli oggetti istanziati, verifichino
-che non ci siano omonimie (e consentano, al contempo, di reperire le istanze a
-partire dal nome).</p>
-<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">NameBasedExample</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Comparable</span><span class="o">&lt;</span><span class="n">NameBasedExample</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">NameBasedExample</span><span class="o">&gt;</span><span class="w"> </span><span class="n">INSTANCES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
-
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
-
-<span class="w">  </span><span class="c1">//  other fields may appear here</span>
-
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">NameBasedExample</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Objects</span><span class="p">.</span><span class="na">requireNonNull</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Name must not be null.&quot;</span><span class="p">).</span><span class="na">isBlank</span><span class="p">())</span>
-<span class="w">      </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;Name must not be empty.&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">INSTANCES</span><span class="p">.</span><span class="na">containsKey</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="n">INSTANCES</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">NameBasedExample</span><span class="p">(</span><span class="n">name</span><span class="p">));</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">INSTANCES</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-
-<span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="nf">NameBasedExample</span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
-<span class="w">    </span><span class="c1">// other initializations may appear here</span>
-<span class="w">  </span><span class="p">}</span>
-
-<span class="w">  </span><span class="c1">// other methods may appear here</span>
-
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">obj</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">obj</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">NameBasedExample</span><span class="w"> </span><span class="n">other</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="na">name</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">hashCode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">hashCode</span><span class="p">();</span>
-<span class="w">  </span><span class="p">}</span>
-
-<span class="w">  </span><span class="nd">@Override</span>
-<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">compareTo</span><span class="p">(</span><span class="n">NameBasedExample</span><span class="w"> </span><span class="n">other</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">compareTo</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="na">name</span><span class="p">);</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Ovviamente sono possibili molte altre strategie per gestire l'omonimia così come
-è possibile confrontare le entità con criteri più ricchi di quello basato sul
-solo nome. Attenzione però! Sarebbe difficilmente plausibile usare il codice
-sopra per definire una gerarchia di cui le entità del progetto siano tutte
-sottoclassi: non solo sarebbe più difficile controllare che l'unicità del nome
-valga solo tra istanze della stessa classe, ma sopratutto diventerebbe pressoché
-inevitabile consentire la comparazione di istanze di entità di sottoclassi
-diverse tra loro.</p>
-<h2>Cosa è necessario implementare</h2>
-<p>Dovrà implementare una gerarchia di oggetti utili a:</p>
-<ul>
-<li>
-<p>rappresentare le entità fondamentali <strong>aziende</strong>, <strong>operatori</strong>, <strong>borse</strong> e
-  <strong>azioni</strong> e, tra le altre, le informazioni accessorie come le <strong>allocazioni</strong>
-  e le <strong>politiche di prezzo</strong>;</p>
-</li>
-<li>
-<p>gestire (oltre alla costruzione delle entità) le competenze essenziali come la
-  <em>quotazione</em> in borsa e le <em>compravendite</em> di azioni senza dimenticare le
-  altre competenze che rendano <em>adeguate</em> (nel preciso senso dato a questo
-  termine nel contesto dell'insegnamento) le specifiche dei vari oggetti (con
-  particolare riferimento all'osservabilità);</p>
-</li>
-<li>
-<p>implementare tutti i <em>client</em>, ossia le classi di test (come descritto di
-  seguito).</p>
-</li>
-</ul>
-<p>Al fine di evitare confusione con i client (descritti nella prossima
-sottosezione), è consigliabile che il suo codice sia contenuto in una gerarchia
-di pacchetti, ad esempio nel pacchetto <code>borsanova</code>, i cui sorgenti dovranno
-essere nella directory <code>src/main/java/borsanova</code>.</p>
-<h3>Le classi client</h3>
-<p>Secondo quanto illustrato nelle <a href="ISTRUZIONI.html">istruzioni</a>, per guidarla nel
-processo di sviluppo, in <code>src/main/java/clients/</code> le sono forniti alcuni
-scheletri di test sotto forma di "client" di cui <strong>lei dovrà produrre una
-implementazione</strong> (secondo le specifiche che troverà nella documentazione
-contenuta nel sorgente di ciascuno di essi) <em>facendo uso delle classi della sua
-soluzione</em>; per ciascun client, nella sottodirectory di <code>tests/clients/</code> avente
-nome uguale a quello della classe client, si trovano un corredo di file di input
-e output che le permetteranno di verificare il corretto funzionamento del suo
-codice.</p>
-<p>Faccia attenzione al fatto che i client hanno non a caso questo nome: il loro
-compito è usare le classi da lei implementate per svolgere il loro compito,
-dovrebbero contenere poco e semplice codice al loro interno, praticamente solo
-quello strettamente necessario a leggere i dati di input, istanziare ed
-esercitare le classi da lei implementate e quindi per scrivere i dati di output
-ottenuti tramite di esse.</p>
-<p>Si ricorda che <strong>il progetto non sarà valutato a meno che tutti i test</strong> svolti
-tramite il comando <code>gradle test</code> <strong>diano esito positivo</strong> .</p>
-<h2>Codice di condotta</h2>
-<p>Dovendo svolgere il progetto a casa non le vengono imposte particolari
-restrizioni delle quali sarebbe peraltro difficile verificare il rispetto.</p>
-<p>Le è pertanto <strong>consentito</strong> di avvalersi:</p>
-<ul>
-<li>di qualunque risorsa disponibile in rete,</li>
-<li>di strumenti di supporto basati sull'AI (come <a href="https://github.com/features/copilot">GitHub
-  Copilot</a>, o
-  <a href="https://chat.openai.com/">ChatGPT</a>),</li>
-<li>del <em>confronto</em> con altri studenti, o professionisti,</li>
-</ul>
-<p>sia per la <em>progettazione</em> che per l'<em>implementazione</em> e <em>documentazione</em> del
-codice. Ogni supporto che la aiuti a apprendere e dominare gli obiettivi
-culturali dell'insegnamento è benvenuto! </p>
-<p>D'altro canto le viene  <strong>formalmente richiesto di elencare</strong> (nella
-documentazione del codice) in modo chiaro ed esaustivo <strong>ogni risorsa di cui si
-è avvalso al di fuori di quelle esplicitamente indicate come materiale
-didattico</strong> dell'insegnamento. L'omissione di tale elenco può costituire motivo
-di <strong>respingimento</strong> del progetto e, in gravi casi di <em>plagio</em> alle <strong>sanzioni
-disciplinari</strong> previste.</p>
-<p>Si sottolinea che consegnando il progetto lei dichiara di fatto di esserne
-l'<strong>unico autore</strong>, assumendosi la piena responsabilità dell'<strong>originalità</strong> del
-codice e della documentazione che esso include, nonché della completezza e
-veridicità del suddetto elenco. Per questa ragione <strong>non le è consentito
-condividere il suo codice con altri studenti</strong>.</p>
-<p>Durante la discussione orale, eventuali incertezze nell'<em>illustrare</em>,
-<em>giustificare</em> o <em>modificare</em> il materiale consegnato non potranno che essere a
-lei esclusivamente addebitate e, come tali, <strong>valutate negativamente</strong>.</p>
+<h1>Istruzioni d'uso</h1>
+<p>Al fine di favorire l'automazione di alcuni compiti, tra i quali la
+<strong>compilazione</strong>, la <strong>generazione della documentazione</strong> e l'<strong>esecuzione dei
+test</strong> <em>black-box</em>, questo progetto fa uso di un <em>build automation tool</em>
+denominato <a href="https://gradle.org/">Gradle</a> unitamente al <em>testing framework</em>
+<a href="https://github.com/prog2-unimi/jubbiot">Jubbiot</a> (a sua volta basato su
+<a href="https://junit.org/junit5/">JUnit</a>). </p>
+<p>Sebbene tali strumenti siano stati utilizzati durante le lezioni ed
+esercitazioni, ragione per cui non dovrebbero risultare del tutto sconosciuti,
+una <em>conoscenza approfondita del funzionamento di essi non è affatto necessaria
+per il superamento dell'esame</em>, perché sono predisposti e completamente
+configurati dal docente, come illustrato nelle sezioni seguenti.</p>
+<p>L'unica cosa che lei dovrà fare è <strong>installare il <em>Java Developer Kit</em> (JDK)</strong>
+in una versione sufficientemente recente, la configurazione fornita col progetto
+provvederà poi ad installare automaticamente sia la versione 21 del JDK che il
+tool Gradle e le librerie Jubbiot e JUnit.</p>
+<h2>Organizzazione del materiale</h2>
+<p>Il contenuto della directory dove si trova questo file  segue l'organizzazione
+dei file prevista dal <em>build automation tool</em> scelto per la gestione del codice.</p>
+<p>In particolare, i <strong>file sorgenti</strong> sono contenuti nella directory
+<code>src/main/java</code>, divisi in sottodirectory a seconda della strutturazione in
+<em>package</em>. Può sviluppare le sue classi (e interfacce) nella gerarchia di
+pacchetti che riterrà più opportuna (sotto tale directory). Man mano che
+realizzerà il suo codice dovrà completare il codice delle classi nel pacchetto
+<code>clients</code> (che si trovano nella directory <code>src/main/java/clients</code>) in modo da
+poter eseguire i <em>test</em> (come illustrato di seguito).</p>
+<p>Al termine, come illustrato nell'apposita sezione, gli unici file che verranno
+consegnati al docente saranno quelli contenuti nella directory <code>src/main/java</code>
+(e eventuali sottodirectory); è comunque fortemente sconsigliato che lei
+modifichi, o rimuova, il resto del contenuto di questa directory.</p>
+<h2>Come compilare ed eseguire il codice</h2>
+<p>Può compilare il codice con il comando:</p>
+<pre><code>./gradlew assemble
+</code></pre>
+<p>se usa una ragionevole versione di GNU/Linux, oppure se usa Windows (qui e di
+seguito) può sostituire <code>./gradlew</code> con <code>gradlew.bat</code>. Presti attenzione ai
+problemi di compilazione riportati da questo comando che vanno eliminati prima
+di procedere con i passi descritti nelle prossime sezioni.</p>
 <blockquote>
-<p><strong>Nota bene</strong>: la violazione del presente codice di condotta, qualora
-ne venga accertato il dolo, può condurre a <strong>sanzioni disciplinari</strong> 
-come previste dal comma d) dell'art. 52 del 
-<a href="https://www.unimi.it/sites/default/files/regolamenti/Regolamento%20generale%20d%27Ateneo_in%20vigore%20dal%202%20giugno%202020.pdf">Regolamento generale d'Ateneo</a></p>
+<p><strong>Nota bene</strong>: la presenza di errori o warning in questa fase <strong>impedisce il
+superamento dell'esame</strong>.</p>
 </blockquote>
-<h2>Note legali e copyright</h2>
-<p>Ai sensi della Legge n. 633/1941 e successive modificazioni, l'autore si
-riserva, in ogni forma e modo nei limiti fissati dalla legge, il diritto
-esclusivo di pubblicare e di utilizzare il materiale contenuto nel presente
-repository.</p>
-<p>Più specificatamente, è fatto <strong>divieto di riprodurre, trascrivere, comunicare
-al pubblico, distribuire, tradurre, elaborare e modificare il presente
-materiale</strong> (codice sorgente compreso), in tutto o in parte, senza specifica
-autorizzazione scritta dell'autore.</p>
+<p>La compilazione genererà i file <code>.class</code> nella directory <code>build/classes</code>. Può
+eseguire il codice di una specifica classe, ad esempio <code>my.package.HelloWorld</code>
+con il comando</p>
+<pre><code>./gradlew runClass -PmainClass=my.package.HelloWorld
+</code></pre>
+<h2>Come generare la documentazione</h2>
+<p>Può generare la documentazione con il comando:</p>
+<pre><code>./gradlew javadoc
+</code></pre>
+<p>Tale comando è configurato per riportare un errore anche in caso di <em>warning</em>,
+al fine di aiutarla nel comprendere se la documentazione è, almeno dal punto di
+vista sintattico, completa. </p>
+<blockquote>
+<p><strong>Nota bene</strong>: la presenza di errori o warning in questa fase <strong>impedisce il
+superamento dell'esame</strong>.</p>
+</blockquote>
+<p>Può trovare la documentazione generata nella directory <code>build/docs/javadoc</code>,
+prendendone visione aprendo il file <code>build/docs/javadoc/index.html</code> con
+qualunque browser ragionevolmente recente.</p>
+<h2>Come eseguire i test</h2>
+<p>Può eseguire i test con il comando:</p>
+<pre><code>./gradlew test
+</code></pre>
+<p>Tale comando eseguirà tutte le classi <em>client</em> presenti nella directory
+<code>src/clients</code> facendo uso dei file predisposti dal docente (che non deve in
+alcun modo modificare) nella sottodirectory di <code>tests/clients</code> il cui nome
+coincide con il nome del <em>client</em>.</p>
+<p>Tali directory contengono una serie di file di nome <code>input-N.txt</code>, <code>args-N.txt</code>
+e <code>expected-N.txt</code> (al variare di <code>N</code> da <code>1</code> in poi) che costituiscono
+rispettivamente l'<em>input</em> e gli <em>argomenti sulla lina di comando</em> che il sistema
+di test darà in pasto al <code>main</code> del <em>client</em> e l'output <em>atteso</em>. Se il suo
+output differisce da quello atteso verrà riportato un <strong>fallimento</strong>. </p>
+<blockquote>
+<p><strong>Nota bene</strong>: la presenza anche si un solo fallimento <strong>impedisce il
+superamento dell'esame</strong>.</p>
+</blockquote>
+<p>Ci sono molti modi per prendere visione delle eventuali differenze che hanno
+condotto al fallimento:</p>
+<ul>
+<li>
+<p>può aprire il file <code>build/reports/tests/test/index.html</code> con qualunque browser
+ragionevolmente recente,</p>
+</li>
+<li>
+<p>se usa <a href="https://code.visualstudio.com/">Visual Studio Code</a>, può usare il
+<a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-test">Test Runner for
+Java</a>
+(grazie al <code>build.gradle</code> l'editor verrà automaticamente configurato per usare
+JUnit 5 e Jubbiot);</p>
+</li>
+<li>
+<p>se definisce la variabile d'ambiente <code>GENERATE_ACTUAL_FILES</code> (ad esempio con
+il comando di shell <code>export GENERATE_ACTUAL_FILES=1</code> se usa GNU/Linux con una
+shell Posix) prima di eseguire i test, nelle varie directory coi file
+predisposti dal docente verranno generati i file <code>actual-N.txt</code> contenenti
+l'output prodotto dal suo codice (l'eventuale differenza tra il contenuto dei
+file <code>expected-N.txt</code> e <code>actual-N.txt</code> costituisce ragione di fallimento).</p>
+</li>
+</ul>
+<p>Per maggiori informazioni sul funzionamento dei test consulti l'<a href="https://github.com/prog2-unimi/jubbiot/blob/master/README.md#example">esempio d'uso
+di
+Jubbiot</a>;
+in particolare presti attenzione alla sezione sulla <a href="https://github.com/prog2-unimi/jubbiot/blob/master/README.md#generating-actual-outputs">generazione degli output
+dello
+studente</a>.</p>
+<h2>Come consegnare la soluzione</h2>
+<p>Al termine del lavoro può preparare l'archivio da consegnare al docente con il
+comando: </p>
+<pre><code>./gradlew consegna
+</code></pre>
+<p>questo comando creerà il file <code>consegna.zip</code> nella directory base del progetto,
+che dovrà provvedere a caricare <strong>entro il mezzogiorno della data dell'appello</strong>
+sul sito <a href="https://upload.di.unimi.it/">Upload@DI</a> nell'apposita sessione di
+consegna denominata "Programmazione II (Informatica) (Consegna progetto —
+Santini)".</p>
+<blockquote>
+<p><strong>Nota bene</strong>: verrà preso in considerazione solo l'<strong>ultimo</strong> archivio
+caricato <em>entro la scadenza prescritta</em> e di <em>formato corretto</em> (come ottenuto
+tramite il comando <code>consegna</code>) relativo a una <em>regolare iscrizione</em> (tramite
+il SIFA/UniMIA) all'appello in corso.</p>
+</blockquote>
+<h2>Aggiornamento del materiale e QA col docente</h2>
+<p>Qualora abbia delle <strong>domande sulla traccia</strong>, può usare un client
+<a href="https://matrix.org/">Matrix</a> per consultare lo spazio
+<a href="https://matrix.to/#/#prog2@unimi-examqa:gitter.im">Prog2@Unimi-ExamQA</a>; osservi
+che <em>non è garantita alcuna tempestività nella risposta</em>: se ha urgenza,
+<a href="https://cal.com/mapio/ricevimento">prenoti un <strong>ricevimento studenti</strong></a>.</p>
+<p>Sebbene sia raro, <strong>può capitare che il docente aggiorni il materiale del
+progetto</strong> (ad esempio, a seguito di segnalazioni di errore da parte degli
+studenti).</p>
+<p>Questa è la versione cc2d71f del progetto (del: 2025-01-01, ora: 16:07:32), contenuta
+nel file `progetto-cc2d71f.zip' che ha scaricato dal sito 
+<a href="https://upload.di.unimi.it/">Upload@DI</a>.</p>
+<p>Controlli periodicamente il sito per verificare se è stata rilasciata una nuova
+versione (il cui file zip avrà un nome diverso da quello attuale). Nel caso ciò
+avvenisse:</p>
+<ul>
+<li>faccia una <em>copia di sicurezza</em> del suo lavoro (nel caso commetta errori nel
+  seguire i prossimi passi)!</li>
+<li>scarichi il nuovo file <code>.zip</code> da <a href="https://upload.di.unimi.it/">Upload@DI</a>,</li>
+<li>lo estragga in una <em>nuova directory</em>,</li>
+<li>copi i file della sua soluzione dalla directory <code>src/main/java</code> della sua
+  vecchia soluzione nella nuova directory, avendo cura di <strong>verificare che i
+  client che ha già sviluppato soddisfino le nuove specifiche</strong> (se presenti),</li>
+<li>proceda con lo sviluppo (e quindi la consegna) nella nuova directory.</li>
+</ul>
+<h3>Approcci alternativi</h3>
+<p>Chi non intendesse usare il <em>build automation tool</em> può comunque compilare ed
+eseguire il codice e i test, nonché generare la documentazione, usando il JDK
+tramite la linea di comando, oppure un IDE a sua scelta.  </p>
+<blockquote>
+<p><strong>Nota bene</strong>: non sarà valutato alcun codice che presenti <em>errori</em> (o
+<em>warning</em>) di compilazione (sia nella parte di <em>Java</em> che di <em>Javadoc</em>).</p>
+<p>Per questa ragione si consiglia, qualora si decida di usare gli usuali comandi
+del JDK, di aggiungere sempre le opzioni <code>-Xlint:all -Werror</code> al comando
+<code>javac</code> e <code>-Xdoclint:all -Werror</code> al comando <code>javadoc</code> (sia da riga di comando
+che attraverso l'IDE scelto).</p>
+<p>Similmente, non sarà valutato alcun codice che presenti <em>discrepanze</em> nel
+comportamento dei <em>client</em> rispetto a quanto atteso.</p>
+</blockquote>
+<p>Il docente <strong>non fornirà alcun supporto per l'uso di approcci differenti</strong> da
+quello basato sul <em>build automation tool</em>. suggerito e preconfigurato.</p>
 </body>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
