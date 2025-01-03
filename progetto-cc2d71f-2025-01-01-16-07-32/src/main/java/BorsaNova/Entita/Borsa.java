@@ -11,7 +11,7 @@ import java.util.Map;
  */
 
  //DEVO TENERE TRACCIA DELLE AZIONI CHE POSSIEDE UN OPERATORE
-public class Borsa {
+public class Borsa implements Comparable<Borsa>{
     /**
      * AF:
      * AF(nome) = Una borsa rappresentata da:
@@ -172,5 +172,10 @@ public class Borsa {
      */
     public ArrayList<Azienda> getAziendeQuotate(){
         return new ArrayList<>(Collections.unmodifiableSet(quotazioni.keySet()));
+    }
+
+    @Override
+    public int compareTo(Borsa borsa){
+        return this.getNome().compareTo(borsa.getNome());
     }
 }
