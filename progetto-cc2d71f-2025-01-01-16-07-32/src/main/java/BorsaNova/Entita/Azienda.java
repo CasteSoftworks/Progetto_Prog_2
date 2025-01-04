@@ -41,11 +41,7 @@ public class Azienda implements Comparable<Azienda>{
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
 
-        if(!aziende.containsKey(nome)){
-            Azienda az = new Azienda(nome);
-            aziende.put(nome, az);
-        }
-        return getAzienda(nome);
+        return aziende.computeIfAbsent(nome, Azienda::new);
     }
 
     /**
