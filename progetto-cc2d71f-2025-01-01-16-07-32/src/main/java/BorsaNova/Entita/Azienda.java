@@ -75,8 +75,18 @@ public class Azienda implements Comparable<Azienda>{
      * @param nome il nome dell'azienda da ottenere
      * 
      * @return l'azienda richiesta
+     * 
+     * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto, se l'azienda richiesta non esiste
      */
     public static Azienda getAzienda(String nome){
+        if(nome==null || nome.isBlank()){
+            throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
+        }
+
+        if(!aziende.containsKey(nome)){
+            throw new IllegalArgumentException("L'azienda richiesta non esiste");
+        }
+
         return aziende.get(nome);
     }
 
