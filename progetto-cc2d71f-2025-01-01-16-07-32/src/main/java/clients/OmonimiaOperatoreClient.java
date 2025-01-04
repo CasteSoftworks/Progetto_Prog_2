@@ -47,7 +47,7 @@ public class OmonimiaOperatoreClient {
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       
-      Operatore op=Operatore.factoryOperatore(line);
+      Operatore op=Operatore.factoryOperatore(line,0);
       operatoriTree.add(op);
     }
     scanner.close();
