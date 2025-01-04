@@ -191,11 +191,11 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere il valore totale del portafoglio dell'operatore (budget + valore delle azioni possedute)
+     * Metodo per ottenere il valore totale del portafoglio dell'operatore (valore delle azioni possedute)
      * 
      * @return il valore totale del portafoglio dell'operatore
      */
-    public int getBudgetTotale(){
+    public int getValorePortafoglio(){
         int valorePortafoglio=0;
         
         Iterator<Map.Entry<String, Integer>> iterator = portafoglioAzionario.entrySet().iterator();
@@ -208,7 +208,7 @@ public class Operatore implements Comparable<Operatore>{
             }
         }
 
-        return budget + valorePortafoglio;
+        return valorePortafoglio;
     }
 
     /**
