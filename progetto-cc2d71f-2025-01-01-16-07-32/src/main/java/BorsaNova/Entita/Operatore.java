@@ -79,7 +79,7 @@ public class Operatore {
      * 
      * @throws IllegalArgumentException se l'importo del deposito è negativo
      */
-    public void depositaInBudget(int deposito){
+    public void depositaInBudget(int deposito) throws IllegalArgumentException{
         if(deposito<=0){
             throw new IllegalArgumentException("Il deposito di denaro non può essere negativo");
         }
@@ -93,7 +93,7 @@ public class Operatore {
      * 
      * @throws IllegalArgumentException se l'importo del prelievo è negativo, se l'importo del prelievo è maggiore del budget
      */
-    public void prelievoDalBudget(int prelievo){
+    public void prelievoDalBudget(int prelievo) throws IllegalArgumentException{
         if(prelievo<=0){
             throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo");
         }
@@ -115,7 +115,7 @@ public class Operatore {
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa
      */
-    public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita){
+    public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
@@ -140,7 +140,7 @@ public class Operatore {
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    public void vendeAzione(Azienda azienda, Borsa borsa, int quantita){
+    public void vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
