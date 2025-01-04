@@ -120,6 +120,8 @@ public class Borsa implements Comparable<Borsa>{
      * @param azienda l'azienda da quotare
      * @param prezzo il prezzo di quotazione dell'azienda
      * 
+     * modifies la quotazione della azienda
+     * 
      * @throws NullPointerException se l'azienda da quotare è nulla
      * @throws IllegalArgumentException se il prezzo di quotazione è minore o uguale a 0
      */
@@ -144,11 +146,12 @@ public class Borsa implements Comparable<Borsa>{
      * @param azienda l'azienda di cui si vogliono modificare/aggiungere le azioni
      * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
      * 
+     * @return true se l'operazione è andata a buon fine
+     * 
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
      */
-    //PROBABILMENTE POSSO ELIMINARE COMPRAAZIONE E REIMMETTIAZIONE
-    public void modificaAzioni(Azienda azienda, int quantita){
+    public Boolean modificaAzioni(Azienda azienda, int quantita){
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }     
@@ -158,32 +161,13 @@ public class Borsa implements Comparable<Borsa>{
                 throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle disponibili");
             }
             azioni.put(azienda, azioni.get(azienda) + quantita);
+            return true;
         } else {
             if(quantita<=0){
                 throw new IllegalArgumentException("Le azioni non possono essere rimosse se non esistono");
             }
             azioni.put(azienda, quantita);
-        }
-    }
-
-    /**
-     * Metodo per modificare la quotazione di un'azienda
-     * 
-     * @param azienda l'azienda di cui si vuole modificare la quotazione
-     * @param var la variazione della quotazione
-     * 
-     * @throws NullPointerException se l'azienda è nulla
-     * @throws IllegalArgumentException se l'azienda non è quotata in questa borsa
-     */
-    public void modificaQuotazione(Azienda azienda, int var){
-        if(azienda==null){
-            throw new NullPointerException("L'azienda non può essere nulla");
-        }
-
-        if(quotazioni.containsKey(azienda)){
-            quotazioni.get(azienda).aggiornaPrezzo(var);
-        } else {
-            throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
+            return true;
         }
     }
 
@@ -195,58 +179,6 @@ public class Borsa implements Comparable<Borsa>{
     public ArrayList<Azienda> getAziendeQuotate(){
         return new ArrayList<>(Collections.unmodifiableSet(quotazioni.keySet()));
     }
-
-    /**
-     * Metodo per ottenere il numero totale di azioni di un'azienda in questa borsa
-     * 
-     * @param azienda l'azienda di cui si vuole ottenere il numero di azioni
-     * 
-     * @return il numero di azioni dell'azienda richiesta o 0 se sono terminate
-     */
-    private int getNumeroAzioni(Azienda azienda){
-        if(quotazioni.containsKey(azienda) && azioni.containsKey(azienda)){
-            return azioni.get(azienda);
-        }
-        return 0;
-    }
-
-    /**
-     * Metodo per confermare o negare la transazione di azioni se non ci sono abbastanza azioni disponibili
-     * 
-     * @param azienda l'azienda di cui acquistare le azioni
-     * @param quantita la quantità di azioni da acquistare
-     * 
-     * @return true se l'acquisto andrà a buon fine, false altrimenti
-     */
-    public boolean compraAzione(Azienda azienda, int quantita){
-        if(quotazioni.containsKey(azienda)){
-            if(azioni.containsKey(azienda) && getNumeroAzioni(azienda)<quantita){
-                return false;
-            }
-
-            azioni.put(azienda, azioni.getOrDefault(azienda, 0) + quantita);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Metodo per reimmettere le azioni di un'azienda in circolazione dopo la vendita
-     * 
-     * @param azienda l'azienda di cui reimmettere le azioni
-     * @param quantita la quantità di azioni da reimmettere
-     * 
-     * @return true se le azioni sono state reimmesse, false altrimenti (l'azienda non è quotata in questa borsa)
-     */
-    public boolean reimmettiAzione(Azienda azienda, int quantita){
-        if(quotazioni.containsKey(azienda)){
-            azioni.put(azienda, azioni.get(azienda) + quantita);
-            return true;
-        }
-        return false;
-    }
-
 
     @Override
     public int compareTo(Borsa borsa){

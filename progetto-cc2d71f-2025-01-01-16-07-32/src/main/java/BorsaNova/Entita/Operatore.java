@@ -33,6 +33,7 @@ public class Operatore implements Comparable<Operatore>{
      * Metodo per costruire un operatore
      * 
      * @param nome il nome dell'operatore
+     * @param budget il budget dell'operatore
      * 
      * @return l'operatore costruito
      * 
@@ -115,7 +116,7 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @param azienda l'azienda a cui appartengono le azioni da acquistare
      * @param borsa la borsa dove acquistare le azioni
-     * @param quantita la quantità di azioni da acquistare
+     * @param prezzoTot il prezzo totale delle azioni da acquistare
      * 
      * @return la quantità di azioni acquistate
      * 
@@ -137,10 +138,6 @@ public class Operatore implements Comparable<Operatore>{
 
         int costoPerAzione = azienda.getQuotazione(borsa).getPrezzoCorrente();
         int quantita = prezzoTot / costoPerAzione;
-
-        if(!borsa.compraAzione(azienda, quantita)){
-            throw new IllegalArgumentException("Le azioni da acquistare non devono essere maggiori di quelle disponibili");
-        }
 
         int costo = costoPerAzione * quantita;
 
@@ -181,13 +178,11 @@ public class Operatore implements Comparable<Operatore>{
             throw new IllegalArgumentException("L'operatore non possiede abbastanza azioni di questa azienda");
         }
 
-        if(!borsa.reimmettiAzione(azienda, quantita)){
-            throw new IllegalArgumentException("L'azienda non è quoatata nella borsa: " + borsa.getNome());
-        }
 
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
         borsa.modificaAzioni(azienda, -quantita);
+
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.get(azienda.getNome()) - quantita);
         if(portafoglioAzionario.get(azienda.getNome())==0){
             portafoglioAzionario.remove(azienda.getNome());
@@ -202,12 +197,7 @@ public class Operatore implements Comparable<Operatore>{
      */
     public int getBudgetTotale(){
         int valorePortafoglio=0;
-        /*for(Map.Entry<String, Integer> azione : portafoglioAzionario.entrySet()){ //rifalla con Iterator
-            Azienda azienda = Azienda.getAzienda(azione.getKey());
-            for(Borsa borsa : Borsa.getBorse()){
-                valorePortafoglio += azienda.getQuotazione(borsa).getPrezzoCorrente() * azione.getValue();
-            }
-        }*/
+        
         Iterator<Map.Entry<String, Integer>> iterator = portafoglioAzionario.entrySet().iterator();
         
         while (iterator.hasNext()) {

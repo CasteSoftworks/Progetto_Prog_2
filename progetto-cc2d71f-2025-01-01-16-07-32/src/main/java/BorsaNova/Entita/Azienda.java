@@ -30,7 +30,6 @@ public class Azienda implements Comparable<Azienda>{
      * Metodo per costruire un'azienda
      * 
      * @param nome il nome dell'azienda
-     * @param numeroAzioni il numero di azioni dell'azienda
      *  
      * @return l'azienda costruita
      * 
@@ -48,7 +47,6 @@ public class Azienda implements Comparable<Azienda>{
      * Metodo per creare un'azienda
      * 
      * @param nome il nome dell'azienda da ottenere
-     * @param numeroAzioni il numero di azioni dell'azienda da creare
      */
     private Azienda(String nome){
         this.nome = nome;
