@@ -1,6 +1,7 @@
 package BorsaNova.Entita;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -182,9 +183,18 @@ public class Operatore implements Comparable<Operatore>{
      */
     public int getBudgetTotale(){
         int valorePortafoglio=0;
-        for(Map.Entry<String, Integer> azione : portafoglioAzionario.entrySet()){ //rifalla con Iterator
+        /*for(Map.Entry<String, Integer> azione : portafoglioAzionario.entrySet()){ //rifalla con Iterator
             Azienda azienda = Azienda.getAzienda(azione.getKey());
             for(Borsa borsa : Borsa.getBorse()){
+                valorePortafoglio += azienda.getQuotazione(borsa).getPrezzoCorrente() * azione.getValue();
+            }
+        }*/
+        Iterator<Map.Entry<String, Integer>> iterator = portafoglioAzionario.entrySet().iterator();
+        
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> azione = iterator.next();
+            Azienda azienda = Azienda.getAzienda(azione.getKey());
+            for (Borsa borsa : Borsa.getBorse()) {
                 valorePortafoglio += azienda.getQuotazione(borsa).getPrezzoCorrente() * azione.getValue();
             }
         }
