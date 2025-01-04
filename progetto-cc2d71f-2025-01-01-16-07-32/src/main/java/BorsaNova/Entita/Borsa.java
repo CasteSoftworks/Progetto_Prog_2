@@ -97,10 +97,9 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @param azienda l'azienda di cui si vuole ottenere la quotazione
      * 
-     * @return la quotazione dell'azienda richiesta
+     * @return la quotazione dell'azienda richiesta o null se non esiste
      * 
      * @throws NullPointerException se l'azienda richiesta è nulla o ha un nome nullo o vuoto
-     * @throws IllegalArgumentException se l'azienda richiesta non è quotata in questa borsa
      */
     public Quotazione getQuotazioneAzienda(Azienda azienda){
 
@@ -111,7 +110,7 @@ public class Borsa implements Comparable<Borsa>{
         if(quotazioni.containsKey(azienda)){
             return quotazioni.get(azienda);
         }
-        throw new IllegalArgumentException("L'azienda richiesta non è quotata in questa borsa");
+        return null;
     }
 
     /**
