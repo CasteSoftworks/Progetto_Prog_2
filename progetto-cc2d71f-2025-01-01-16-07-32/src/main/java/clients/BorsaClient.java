@@ -117,7 +117,7 @@ public class BorsaClient {
       Azienda a= Azienda.factoryAzienda(nomeAzienda);
       
       
-      /*int test=*/b.quotaAzienda(a, prezzoUnitario);
+      b.quotaAzienda(a, prezzoUnitario);
       
       
       b.modificaAzioni(a, numero);
@@ -144,7 +144,7 @@ public class BorsaClient {
       String nomeOperatore = tokens[0];
       int budgetIniziale = Integer.parseInt(tokens[1]);
 
-      /*Operatore o= */Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+      Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
       
     }
 
