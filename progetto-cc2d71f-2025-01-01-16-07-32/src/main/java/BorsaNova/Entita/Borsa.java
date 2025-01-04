@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-//import java.util.stream.Collectors;
 
 /**
  * Classe per rappresentare una <p>borsa</p>
  */
 
- //DEVO TENERE TRACCIA DELLE AZIONI CHE POSSIEDE UN OPERATORE
 public class Borsa implements Comparable<Borsa>{
     /**
      * AF:
