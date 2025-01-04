@@ -75,9 +75,9 @@ public class Borsa implements Comparable<Borsa>{
      * Metodo per ottenere una borsa specifica
      * 
      * @param nome il nome della borsa da ottenere
-     * @return la borsa richiesta
+     * @return la borsa richiesta o null se non esiste
      * 
-     * @throws IllegalArgumentException se il nome è nullo o composto da soli spazi bianchi o se la borsa richiesta non esiste
+     * @throws IllegalArgumentException se il nome è nullo o composto da soli spazi bianchi
      */
     public static Borsa getBorsa(String nome){
         if(nome==null || nome.isBlank()){
@@ -89,7 +89,7 @@ public class Borsa implements Comparable<Borsa>{
                 return b;
             }
         }
-        throw new IllegalArgumentException("La borsa richiesta non esiste");
+        return null;
     }
 
     /**
@@ -99,9 +99,15 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return la quotazione dell'azienda richiesta
      * 
+     * @throws NullPointerException se l'azienda richiesta è nulla o ha un nome nullo o vuoto
      * @throws IllegalArgumentException se l'azienda richiesta non è quotata in questa borsa
      */
     public Quotazione getQuotazioneAzienda(Azienda azienda){
+
+        if(azienda==null||azienda.getNome().isBlank()){
+            throw new NullPointerException("L'azienda richiesta non può essere nulla o avere un nome nullo o vuoto");
+        }
+
         if(quotazioni.containsKey(azienda)){
             return quotazioni.get(azienda);
         }
@@ -117,7 +123,7 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'azienda da quotare è nulla
      * @throws IllegalArgumentException se il prezzo di quotazione è minore o uguale a 0
      */
-    public void quotaAzienda(Azienda azienda, int prezzo){
+    public void quotaAzienda(Azienda azienda, int prezzo) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda da quotare non può essere nulla");
         }
