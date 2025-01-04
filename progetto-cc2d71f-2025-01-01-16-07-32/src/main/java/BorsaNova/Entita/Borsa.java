@@ -72,6 +72,27 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
+     * Metodo per ottenere una borsa specifica
+     * 
+     * @param nome il nome della borsa da ottenere
+     * @return la borsa richiesta
+     * 
+     * @throws IllegalArgumentException se il nome è nullo o composto da soli spazi bianchi o se la borsa richiesta non esiste
+     */
+    public static Borsa getBorsa(String nome){
+        if(nome==null || nome.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
+        }
+
+        for(Borsa b : borse){
+            if(b.getNome().equals(nome)){
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("La borsa richiesta non esiste");
+    }
+
+    /**
      * Metodo per ottenere la quotazione di un'azienda
      * 
      * @param azienda l'azienda di cui si vuole ottenere la quotazione
