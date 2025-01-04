@@ -26,7 +26,7 @@ public class Operatore implements Comparable<Operatore>{
     private static final Map<String, Operatore> operatori = new HashMap<>();
     /** Il budget dell'operatore */
     private int budget;
-    /** Mappa delle azioni possedute dall'operatore (key= nome azienda, value= quantità) */
+    /** Mappa delle azioni possedute dall'operatore (key= "nome_azienda nome_borsa", value= quantità) */
     private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
     
     /**
@@ -143,7 +143,9 @@ public class Operatore implements Comparable<Operatore>{
 
         budget -= costo;
         borsa.modificaAzioni(azienda, quantita);
-        portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.getOrDefault(azienda.getNome(), 0) + quantita);
+
+        String key=azienda.getNome()+" "+borsa.getNome();
+        portafoglioAzionario.put(key, portafoglioAzionario.getOrDefault(key, 0) + quantita);
 
         return quantita;
     }
@@ -163,18 +165,24 @@ public class Operatore implements Comparable<Operatore>{
      */
     public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
-            throw new NullPointerException("L'azienda non pèuò essere nulla");
+            throw new NullPointerException("L'azienda non può essere nulla");
+        }
+
+        if(borsa==null){
+            throw new NullPointerException("La borsa non può essere nulla");
         }
 
         if(quantita<=0){
             throw new IllegalArgumentException("La quantità di azioni da vendere non può essere negativa o nulla");
         }
 
-        if(!portafoglioAzionario.containsKey(azienda.getNome())){
+        String key=azienda.getNome()+" "+borsa.getNome();
+
+        if(!portafoglioAzionario.containsKey(key)){
             throw new IllegalArgumentException("L'operatore non possiede azioni di questa azienda");
         }
 
-        if(portafoglioAzionario.get(azienda.getNome())<quantita){
+        if(portafoglioAzionario.get(key)<quantita){
             throw new IllegalArgumentException("L'operatore non possiede abbastanza azioni di questa azienda");
         }
 
@@ -183,9 +191,9 @@ public class Operatore implements Comparable<Operatore>{
         budget += guadagno;
         borsa.modificaAzioni(azienda, -quantita);
 
-        portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.get(azienda.getNome()) - quantita);
-        if(portafoglioAzionario.get(azienda.getNome())==0){
-            portafoglioAzionario.remove(azienda.getNome());
+        portafoglioAzionario.put(key, portafoglioAzionario.get(key) - quantita);
+        if(portafoglioAzionario.get(key)==0){
+            portafoglioAzionario.remove(key);
         }
         return true;
     }
@@ -197,15 +205,13 @@ public class Operatore implements Comparable<Operatore>{
      */
     public int getValorePortafoglio(){
         int valorePortafoglio=0;
-        
-        Iterator<Map.Entry<String, Integer>> iterator = portafoglioAzionario.entrySet().iterator();
-        
-        while (iterator.hasNext()) {
-            Map.Entry<String, Integer> azione = iterator.next();
-            Azienda azienda = Azienda.getAzienda(azione.getKey());
-            for (Borsa borsa : Borsa.getBorse()) {
-                valorePortafoglio += azienda.getQuotazione(borsa).getPrezzoCorrente() * azione.getValue();
-            }
+        Iterator<Map.Entry<String, Integer>> it = portafoglioAzionario.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Integer> entry = it.next();
+            String[] tokens = entry.getKey().split(" ");
+            Azienda a = Azienda.getAzienda(tokens[0]);
+            Borsa b = Borsa.getBorsa(tokens[1]);
+            valorePortafoglio += a.getQuotazione(b).getPrezzoCorrente() * entry.getValue();
         }
 
         return valorePortafoglio;
