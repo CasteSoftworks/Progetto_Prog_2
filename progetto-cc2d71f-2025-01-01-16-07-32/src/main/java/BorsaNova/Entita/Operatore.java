@@ -113,7 +113,7 @@ public class Operatore {
      * @param quantita la quantità di azioni da acquistare
      * 
      * @throws NullPointerException se l'azienda è nulla
-     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa
+     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata
      */
     public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
@@ -124,6 +124,10 @@ public class Operatore {
             throw new IllegalArgumentException("La quantità di azioni da acquistare non può essere negativa");
         }
 
+        if(!borsa.compraAzione(azienda, quantita)){
+            throw new IllegalArgumentException("Le azioni da acquistare non devono essere maggiori di quelle disponibili");
+        }
+
         int costo = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
 
         budget -= costo;
@@ -131,7 +135,8 @@ public class Operatore {
     }
 
     /**
-     * Metodo per vendere azioni di un'azienda
+     * Metodo per vendere azioni di un'azienda (se l'operatore possiede abbastanza azioni)
+     * L'entry sulla mappa rimane solo se dopo l'operazione rimangono delle azioni in possesso dell'operatore, altrimenti viene rimossa
      * 
      * @param azienda l'azienda a cui appartengono le azioni da vendere
      * @param borsa la borsa dove vendere le azioni
@@ -157,9 +162,17 @@ public class Operatore {
             throw new IllegalArgumentException("L'operatore non possiede abbastanza azioni di questa azienda");
         }
 
+        if(!borsa.reimmettiAzione(azienda, quantita)){
+            throw new IllegalArgumentException("L'azienda non è quoatata nella borsa: " + borsa.getNome());
+        }
+
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
+        
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.get(azienda.getNome()) - quantita);
+        if(portafoglioAzionario.get(azienda.getNome())==0){
+            portafoglioAzionario.remove(azienda.getNome());
+        }
     }
 
     /**
