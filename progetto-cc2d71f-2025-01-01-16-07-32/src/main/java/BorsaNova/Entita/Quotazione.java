@@ -1,7 +1,7 @@
 package BorsaNova.Entita;
 
 /**
- * Classe per rappresentare una <p>quotazione</p>
+ * Classe per rappresentare una Quotazione
  */
 public class Quotazione {
     /**

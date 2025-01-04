@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Classe per rappresentare una <p>borsa</p>
+ * Classe per rappresentare una Borsa
  */
 
 public class Borsa implements Comparable<Borsa>{
