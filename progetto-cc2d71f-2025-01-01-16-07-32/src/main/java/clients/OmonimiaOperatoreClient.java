@@ -21,6 +21,12 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.Operatore;
+
 /** Client di test per alcune funzionalità relative alle <strong>aziende</strong>. */
 public class OmonimiaOperatoreClient {
 
@@ -33,5 +39,22 @@ public class OmonimiaOperatoreClient {
    * emette nel flusso d'uscita l'elenco di tali nomi di operatore in ordine
    * alfabetico e senza ripetizioni.
    */
+
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    Set<Operatore> operatoriTree = new TreeSet<>(); //FA SCHIFO
+    
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+      
+      Operatore op=Operatore.factoryOperatore(line,0);
+      operatoriTree.add(op);
+    }
+    scanner.close();
+
+    for (Operatore o : operatoriTree) {
+      System.out.println(o.getNome());
+    }
+  }
 
 }

@@ -64,6 +64,8 @@ public class Quotazione {
      * Metodo per aggiornare il prezzo corrente della quotazione
      * 
      * @param var la variazione del prezzo corrente
+     * 
+     * modifies this.prezzoCorrente
      */
     public void aggiornaPrezzo(int var){ //rifalla che non è chiara
         if(var<0 && prezzoCorrente<Math.abs(var)){

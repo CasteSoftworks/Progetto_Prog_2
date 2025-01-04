@@ -1,12 +1,13 @@
 package BorsaNova.Entita;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Classe per rappresentare un <p>operatore</p>
  */
-public class Operatore {
+public class Operatore implements Comparable<Operatore>{
     /**
      * AF:
      * AF(nome, budget) = Un operatore rappresentato da:
@@ -32,26 +33,31 @@ public class Operatore {
      * Metodo per costruire un operatore
      * 
      * @param nome il nome dell'operatore
+     * @param budget il budget dell'operatore
      * 
      * @return l'operatore costruito
      * 
-     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi
+     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se il budget dell'operatore è negativo
      */
-    public static Operatore factoryOperatore(String nome){
+    public static Operatore factoryOperatore(String nome, int budget) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
         }
-        return operatori.computeIfAbsent(nome, op -> new Operatore(nome));
+        if(budget<0){
+            throw new IllegalArgumentException("Il budget dell'operatore deve essere maggiore o uguale a 0");
+        }
+        return operatori.computeIfAbsent(nome, op -> new Operatore(nome, budget));
     }
 
     /**
      * Metodo per ottenere un operatore
      * 
      * @param nome il nome dell'operatore da ottenere
+     * @param budget il budget dell'operatore da ottenere
      */
-    private Operatore(String nome) {
+    private Operatore(String nome, int budget){
         this.nome = nome;
-        this.budget = 0;
+        this.budget = budget;
     }
 
     /**
@@ -79,7 +85,7 @@ public class Operatore {
      * 
      * @throws IllegalArgumentException se l'importo del deposito è negativo
      */
-    public void depositaInBudget(int deposito){
+    public void depositaInBudget(int deposito) throws IllegalArgumentException{
         if(deposito<=0){
             throw new IllegalArgumentException("Il deposito di denaro non può essere negativo");
         }
@@ -93,7 +99,7 @@ public class Operatore {
      * 
      * @throws IllegalArgumentException se l'importo del prelievo è negativo, se l'importo del prelievo è maggiore del budget
      */
-    public void prelievoDalBudget(int prelievo){
+    public void prelievoDalBudget(int prelievo) throws IllegalArgumentException{
         if(prelievo<=0){
             throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo");
         }
@@ -110,37 +116,52 @@ public class Operatore {
      * 
      * @param azienda l'azienda a cui appartengono le azioni da acquistare
      * @param borsa la borsa dove acquistare le azioni
-     * @param quantita la quantità di azioni da acquistare
+     * @param prezzoTot il prezzo totale delle azioni da acquistare
+     * 
+     * @return la quantità di azioni acquistate
      * 
      * @throws NullPointerException se l'azienda è nulla
-     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa
+     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata
      */
-    public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita){
+    public int acquistaAzione(Azienda azienda, Borsa borsa, int prezzoTot) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
 
-        if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da acquistare non può essere negativa");
+        if(azienda.getQuotazione(borsa)==null){
+            throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + borsa.getNome());
         }
 
-        int costo = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
+        if(prezzoTot<=0){
+            throw new IllegalArgumentException("Il denaro spendibile per le azioni non può essere negativo o pari a 0");
+        }
+
+        int costoPerAzione = azienda.getQuotazione(borsa).getPrezzoCorrente();
+        int quantita = prezzoTot / costoPerAzione;
+
+        int costo = costoPerAzione * quantita;
 
         budget -= costo;
+        borsa.modificaAzioni(azienda, quantita);
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.getOrDefault(azienda.getNome(), 0) + quantita);
+
+        return quantita;
     }
 
     /**
-     * Metodo per vendere azioni di un'azienda
+     * Metodo per vendere azioni di un'azienda (se l'operatore possiede abbastanza azioni)
+     * L'entry sulla mappa rimane solo se dopo l'operazione rimangono delle azioni in possesso dell'operatore, altrimenti viene rimossa
      * 
      * @param azienda l'azienda a cui appartengono le azioni da vendere
      * @param borsa la borsa dove vendere le azioni
      * @param quantita la quantità di azioni da vendere
      * 
+     * @return true se l'operazione è andata a buon fine, false altrimenti
+     * 
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    public void vendeAzione(Azienda azienda, Borsa borsa, int quantita){
+    public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
@@ -157,9 +178,16 @@ public class Operatore {
             throw new IllegalArgumentException("L'operatore non possiede abbastanza azioni di questa azienda");
         }
 
+
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
+        borsa.modificaAzioni(azienda, -quantita);
+
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.get(azienda.getNome()) - quantita);
+        if(portafoglioAzionario.get(azienda.getNome())==0){
+            portafoglioAzionario.remove(azienda.getNome());
+        }
+        return true;
     }
 
     /**
@@ -169,14 +197,41 @@ public class Operatore {
      */
     public int getBudgetTotale(){
         int valorePortafoglio=0;
-        for(Map.Entry<String, Integer> azione : portafoglioAzionario.entrySet()){ //rifalla con Iterator
+        
+        Iterator<Map.Entry<String, Integer>> iterator = portafoglioAzionario.entrySet().iterator();
+        
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> azione = iterator.next();
             Azienda azienda = Azienda.getAzienda(azione.getKey());
-            for(Borsa borsa : Borsa.getBorse()){
+            for (Borsa borsa : Borsa.getBorse()) {
                 valorePortafoglio += azienda.getQuotazione(borsa).getPrezzoCorrente() * azione.getValue();
             }
         }
 
         return budget + valorePortafoglio;
+    }
+
+    /**
+     * Metodo per ottenere un operatore
+     * 
+     * @param nome il nome dell'operatore da ottenere
+     * @return l'operatore richiesto
+     * 
+     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se l'operatore richiesto non esiste
+     */
+    public static Operatore getOperatore(String nome) throws IllegalArgumentException{
+        if(nome==null || nome.isBlank()){
+            throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
+        }
+        if(!operatori.containsKey(nome)){
+            throw new IllegalArgumentException("L'operatore richiesto non esiste");
+        }
+        return operatori.get(nome);
+    }
+
+    @Override
+    public int compareTo(Operatore o) {
+        return this.getNome().compareTo(o.getNome());
     }
 
 

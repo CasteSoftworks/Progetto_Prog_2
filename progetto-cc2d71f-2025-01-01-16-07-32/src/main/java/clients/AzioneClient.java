@@ -56,7 +56,7 @@ public class AzioneClient {
       String nome = scanner.next();
       int numero = scanner.nextInt();
       int prezzo = scanner.nextInt();
-      Azienda a = Azienda.factoryAzienda(nome, numero);
+      Azienda a = Azienda.factoryAzienda(nome);
       Borsa b = new Borsa(args[0]);
       b.quotaAzienda(a, prezzo);
       b.modificaAzioni(a, numero);

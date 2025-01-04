@@ -22,7 +22,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package clients;
 
 import java.util.Scanner;
-//import java.util.Set;
+import java.util.Set;
+import java.util.TreeSet;
 
 import BorsaNova.Entita.Borsa;
 
@@ -41,18 +42,20 @@ public class OmonimiaBorsaClient {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
-    //Set<String> borseTree = new TreeSet<>(); //FA SCHIFO
+    Set<Borsa> borseTree = new TreeSet<>(); //FA SCHIFO
     
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       
       Borsa b = new Borsa(line);
-      //borseTree.add(line);
-      b.aggiungiAllaLista();
+      b.aggiungiAllaLista(); //metto comunque nella lista delle borse le nuove borse che creo, per dimostrare che esse sono mantenute, ma poi le ordino in un'altra struttura per delegare al client la gestione
+
+      borseTree.add(b);
+      
     }
     scanner.close();
 
-    for (Borsa b : Borsa.getBorse()) {
+    for (Borsa b : borseTree) {
       System.out.println(b.getNome());
     }
   }
