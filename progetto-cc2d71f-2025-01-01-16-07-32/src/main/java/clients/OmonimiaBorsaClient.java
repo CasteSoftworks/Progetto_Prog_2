@@ -48,6 +48,8 @@ public class OmonimiaBorsaClient {
       String line = scanner.nextLine();
       
       Borsa b = new Borsa(line);
+      b.aggiungiAllaLista(); //metto comunque nella lista delle borse le nuove borse che creo, per dimostrare che esse sono mantenute, ma poi le ordino in un'altra struttura per delegare al client la gestione
+
       borseTree.add(b);
       
     }
