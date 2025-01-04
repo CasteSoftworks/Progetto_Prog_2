@@ -30,11 +30,7 @@ public class Borsa implements Comparable<Borsa>{
     private static ArrayList<Borsa> borse = new ArrayList<>();
     /** Mappa delle azioni totali(key= azienda, value= quantità di azioni) */
     private Map<Azienda, Integer> azioni = new HashMap<>();
-    /** Mappa delle azioni di ogni azienda allocate agli operatori (key= azienda, value= mappa di (key=operatori, value=quantità di azioni))
-     *  - la differenza tra azioni e azioniAziendaDiOperatori è la qunatità di azioni libere e acquistabili
-    */
-    private Map<Azienda, Map<Operatore, Integer>> azioniAziendaDiOperatori = new HashMap<>();
-    
+       
 
     /**
      * Metodo per costruire una borsa
