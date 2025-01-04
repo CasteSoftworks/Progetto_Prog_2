@@ -159,10 +159,12 @@ public class Operatore implements Comparable<Operatore>{
      * @param borsa la borsa dove vendere le azioni
      * @param quantita la quantità di azioni da vendere
      * 
+     * @return true se l'operazione è andata a buon fine, false altrimenti
+     * 
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    public void vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
+    public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
@@ -190,6 +192,7 @@ public class Operatore implements Comparable<Operatore>{
         if(portafoglioAzionario.get(azienda.getNome())==0){
             portafoglioAzionario.remove(azienda.getNome());
         }
+        return true;
     }
 
     /**
