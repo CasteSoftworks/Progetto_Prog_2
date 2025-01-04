@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Classe per rappresentare una <p>azienda</p>
+ * Classe per rappresentare una Azienda
  */
 
 public class Azienda implements Comparable<Azienda>{

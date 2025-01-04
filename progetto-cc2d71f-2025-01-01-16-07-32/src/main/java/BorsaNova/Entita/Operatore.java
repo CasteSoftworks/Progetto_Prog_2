@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Classe per rappresentare un <p>operatore</p>
+ * Classe per rappresentare un Operatore
  */
 public class Operatore implements Comparable<Operatore>{
     /**
