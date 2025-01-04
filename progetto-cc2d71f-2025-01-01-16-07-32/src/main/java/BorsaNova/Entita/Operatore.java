@@ -120,20 +120,27 @@ public class Operatore implements Comparable<Operatore>{
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata
      */
-    public void acquistaAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
+    public void acquistaAzione(Azienda azienda, Borsa borsa, int prezzoTot) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
 
-        if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da acquistare non può essere negativa");
+        if(azienda.getQuotazione(borsa)==null){
+            throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + borsa.getNome());
         }
+
+        if(prezzoTot<=0){
+            throw new IllegalArgumentException("Il denaro spendibile per le azioni non può essere negativo o pari a 0");
+        }
+
+        int costoPerAzione = azienda.getQuotazione(borsa).getPrezzoCorrente();
+        int quantita = prezzoTot / costoPerAzione;
 
         if(!borsa.compraAzione(azienda, quantita)){
             throw new IllegalArgumentException("Le azioni da acquistare non devono essere maggiori di quelle disponibili");
         }
 
-        int costo = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
+        int costo = costoPerAzione * quantita;
 
         budget -= costo;
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.getOrDefault(azienda.getNome(), 0) + quantita);
@@ -204,6 +211,24 @@ public class Operatore implements Comparable<Operatore>{
         }
 
         return budget + valorePortafoglio;
+    }
+
+    /**
+     * Metodo per ottenere un operatore
+     * 
+     * @param nome il nome dell'operatore da ottenere
+     * @return l'operatore richiesto
+     * 
+     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se l'operatore richiesto non esiste
+     */
+    public static Operatore getOperatore(String nome) throws IllegalArgumentException{
+        if(nome==null || nome.isBlank()){
+            throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
+        }
+        if(!operatori.containsKey(nome)){
+            throw new IllegalArgumentException("L'operatore richiesto non esiste");
+        }
+        return operatori.get(nome);
     }
 
     @Override
