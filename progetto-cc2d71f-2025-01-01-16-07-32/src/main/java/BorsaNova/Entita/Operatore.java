@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Classe per rappresentare un <p>operatore</p>
  */
-public class Operatore {
+public class Operatore implements Comparable<Operatore>{
     /**
      * AF:
      * AF(nome, budget) = Un operatore rappresentato da:
@@ -190,6 +190,11 @@ public class Operatore {
         }
 
         return budget + valorePortafoglio;
+    }
+
+    @Override
+    public int compareTo(Operatore o) {
+        return this.getNome().compareTo(o.getNome());
     }
 
 
