@@ -65,8 +65,10 @@ public class QuotazioneClient {
       Borsa borsa = borseMap.computeIfAbsent(input[1], Borsa::new);
       borsa.aggiungiAllaLista();
 
-      Azienda az = Azienda.factoryAzienda(input[0], Integer.parseInt(input[2]));
+      Azienda az = Azienda.factoryAzienda(input[0]);
       aziendeMap.putIfAbsent(input[0], az);
+
+      borsa.modificaAzioni(az, Integer.parseInt(input[2]));
 
       borsa.quotaAzienda(az, Integer.parseInt(input[3]));
     }

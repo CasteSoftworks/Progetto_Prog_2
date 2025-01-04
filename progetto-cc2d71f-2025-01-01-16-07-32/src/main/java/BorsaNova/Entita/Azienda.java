@@ -13,20 +13,16 @@ import java.util.TreeMap;
 public class Azienda implements Comparable<Azienda>{
     /**
      * AF:
-     * AF(nome, numeroAzioni) = Un'azienda rappresentata da:
+     * AF(nome) = Un'azienda rappresentata da:
      * - nome: è il nome dell'azienda
-     * - numeroAzioni: è il numero di azioni dell'azienda
      *
      * RI:
-     * RI(nome, numeroAzioni) = L'oggetto azienda rispetta le seguenti condizioni:
+     * RI(nome,) = L'oggetto azienda rispetta le seguenti condizioni:
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
-     * - numeroAzioni è maggiore di 0
      */
 
     /** Il [@code nome} dell'azienda */
     public final String nome;
-    /** Il [@code numeroAzioni} dell'azienda */
-    private int numeroAzioni;
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Map<String, Azienda> aziende = new TreeMap<>();
 
@@ -38,19 +34,15 @@ public class Azienda implements Comparable<Azienda>{
      *  
      * @return l'azienda costruita
      * 
-     * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto, se il numero di azioni è minore o uguale a 0, se il prezzo unitario delle azioni è minore o uguale a 0
+     * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
-    public static Azienda factoryAzienda(String nome, int numeroAzioni){
+    public static Azienda factoryAzienda(String nome){
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
-        
-        if(numeroAzioni<=0){
-            throw new IllegalArgumentException("Il numero di azioni deve essere maggiore di 0");
-        }
 
         if(!aziende.containsKey(nome)){
-            Azienda az = new Azienda(nome, numeroAzioni);
+            Azienda az = new Azienda(nome);
             aziende.put(nome, az);
         }
         return getAzienda(nome);
@@ -62,9 +54,8 @@ public class Azienda implements Comparable<Azienda>{
      * @param nome il nome dell'azienda da ottenere
      * @param numeroAzioni il numero di azioni dell'azienda da creare
      */
-    private Azienda(String nome, int numeroAzioni){
+    private Azienda(String nome){
         this.nome = nome;
-        this.numeroAzioni = numeroAzioni;
     }
 
     /**
@@ -76,14 +67,7 @@ public class Azienda implements Comparable<Azienda>{
         return nome;
     }
 
-    /**
-     * Metodo per ottenere il numero di azioni dell'azienda
-     * 
-     * @return il numero di azioni dell'azienda
-     */
-    public int getNumeroAzioni(){
-        return numeroAzioni;
-    }
+    
 
     /**
      * Metodo per ottenere l'azienda dal nome

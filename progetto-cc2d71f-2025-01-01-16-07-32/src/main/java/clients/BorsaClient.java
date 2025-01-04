@@ -21,6 +21,11 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class BorsaClient {
 
@@ -64,4 +69,27 @@ public class BorsaClient {
    * prefissate da -), e per ognuna di esse i nomi degli operatori e delle
    * quantità che ne possiedono (in ordine alfabetico, prefissati da =). 
    */
+
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+
+      if (line.equals("--")) {
+        break;
+      }
+
+      String[] tokens = line.split(" ");
+      String nomeAzienda = tokens[0];
+      String nomeBorsa = tokens[1];
+      int numero = Integer.parseInt(tokens[2]);
+      int prezzoUnitario = Integer.parseInt(tokens[3]);
+
+      Borsa b= new Borsa(nomeBorsa);
+      Azienda a= Azienda.factoryAzienda(nomeBorsa);
+      b.quotaAzienda(null, prezzoUnitario);
+      
+    }
+  }
 }

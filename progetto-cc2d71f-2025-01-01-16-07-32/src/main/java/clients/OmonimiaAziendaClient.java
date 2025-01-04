@@ -47,7 +47,7 @@ public class OmonimiaAziendaClient {
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       
-      Azienda az=Azienda.factoryAzienda(line,1);
+      Azienda az=Azienda.factoryAzienda(line);
       aziendeTree.add(az);
     }
     scanner.close();
