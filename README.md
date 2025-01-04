@@ -21,4 +21,5 @@ Le azioni seguono una politica di prezzo (abbastanza astrusa e a costante) che f
   * roba del santini
 
 ## Percentaule di completamento
+* 4/01 - **80%** mancano due test e passa tutto poi incubo di documentazione
 * 3/01 - **50%** ma probabilmente molta roba è da buttare e rifare a causa di non uso di ISTANCES
