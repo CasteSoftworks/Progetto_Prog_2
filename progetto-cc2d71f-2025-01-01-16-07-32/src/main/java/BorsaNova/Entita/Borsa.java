@@ -189,8 +189,10 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @param azienda l'azienda di cui acquistare le azioni
      * @param quantita la quantità di azioni da acquistare
+     * 
+     * @return true se l'acquisto andrà a buon fine, false altrimenti
      */
-    public boolean compraAzione(Azienda azienda, int quantita) throws IllegalArgumentException{
+    public boolean compraAzione(Azienda azienda, int quantita){
         if(quotazioni.containsKey(azienda)){
             if(azioni.containsKey(azienda) && getNumeroAzioni(azienda)<quantita){
                 return false;
