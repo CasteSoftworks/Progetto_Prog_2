@@ -120,6 +120,7 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
      */
+    //PROBABILMENTE POSSO ELIMINARE COMPRAAZIONE E REIMMETTIAZIONE
     public void modificaAzioni(Azienda azienda, int quantita){
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
