@@ -1,5 +1,8 @@
 package BorsaNova.PoliticaPrezzo;
 
+/**
+ * Interfaccia per rappresentare una <p>politica</p> che viene poi espansa dalle classi presenti nella stesso package
+ */
 public interface Politica {
     /**
      * Metodo per calcolare il prezzo di una quotazione

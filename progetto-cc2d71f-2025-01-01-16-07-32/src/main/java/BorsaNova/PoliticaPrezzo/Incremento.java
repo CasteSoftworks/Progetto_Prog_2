@@ -1,6 +1,10 @@
 package BorsaNova.PoliticaPrezzo;
 
+/**
+ * Classe per rappresentare una <p>politica di incremento</p>
+ */
 public class Incremento implements Politica {
+    /** L'incremento da applicare al prezzo */
     private final int incremento;
 
     /**
