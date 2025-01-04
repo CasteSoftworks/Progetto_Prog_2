@@ -95,7 +95,6 @@ public class BorsaClient {
       String line = scanner.nextLine();
 
       if(line.equals("--")){
-        System.err.println("--------FINE PRIMO BLOCCO");
         break;
       }
 
@@ -112,17 +111,11 @@ public class BorsaClient {
       }else{
         b=Borsa.getBorsa(nomeBorsa);
       }
-      
-          
+       
       Azienda a= Azienda.factoryAzienda(nomeAzienda);
       
-      
       b.quotaAzienda(a, prezzoUnitario);
-      
-      
       b.modificaAzioni(a, numero);
-      
-
       b.aggiungiAllaLista();
       borse.add(b);
       
@@ -149,7 +142,6 @@ public class BorsaClient {
     }
 
     
-    debugBorseAziende();
     /*
      * Terzo blocco:
      * - se l'operazione è di acquisto:
@@ -164,7 +156,6 @@ public class BorsaClient {
       String line = scanner.nextLine();
 
       if(line.equals("--")){
-        System.err.println("--------FINE TERZO BLOCCO");
         break;
       }
 
@@ -183,50 +174,25 @@ public class BorsaClient {
       String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
 
       if(tipoOperazione.equals("b")){
-        System.err.println("\t\tAcquisto");
-
         int prezzoTotale = Integer.parseInt(tokens[4]);
-        System.err.println("\t\t"+o.getNome()+"\t - Acquisto di azioni di "+az.getNome()+" nella borsa "+b.getNome()+" con prezzo totale "+prezzoTotale);
         
         String key2=b.getNome()+" "+az.getNome();
-        System.err.println("\t\t\tNumero azioni pre acquisto: "+aziende.get(key2));
 
         int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
         aziende.put(key2, aziende.get(key2)-numAzioni);
-
-        System.err.println("\t\tAcquisto effettuato\n\t\t\tNumero azioni acquistate: "+numAzioni);
-        System.err.println("\t\t\tNumero azioni post acquisto: "+aziende.get(key2));
-        
         
         if(mappaAziendaOperatoreAzioni.containsKey(key)){
-
           numAzioni+=mappaAziendaOperatoreAzioni.get(key);
         }
-
         mappaAziendaOperatoreAzioni.put(key, numAzioni);
 
       }else if(tipoOperazione.equals("s")){
-
-        System.err.println("\t\tVendita");
-
         int numeroAzioni = Integer.parseInt(tokens[4]);
 
-        System.err.println("\t\t"+o.getNome()+"\t - Vendita di "+numeroAzioni+" azioni di "+az.getNome()+" nella borsa "+b.getNome());
-
         if(o.vendeAzione(az, b, numeroAzioni)){
-
-          System.err.println("\t\tVendita effettuata");
           String key2=b.getNome()+" "+az.getNome();
-
-          System.err.println("\t\tAggiunta di "+numeroAzioni+" azioni dalla mappa con chiave: "+key2+"\n\t\t\tIn totale, pre aggiunta, ci sono: "+aziende.get(key2)+" azioni");
-
           aziende.put(key2, aziende.get(key2)+numeroAzioni);
-
-          System.err.println("\t\t\tIn totale, post aggiunta, ci sono: "+aziende.get(key2)+" azioni");
-
           mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
-
-          System.err.println("\t\tRimozione di "+numeroAzioni+" azioni dalla mappa con chiave: "+key);
         }        
       }
     }
@@ -246,17 +212,5 @@ public class BorsaClient {
         }
       }
     }
-  }
-
-  private static void debugBorseAziende(){
-    System.err.println("------");
-    for (Borsa borsa : Borsa.getBorse()) {
-      System.err.println("Borsa: " + borsa.getNome());
-      for (Azienda azienda : borsa.getAziendeQuotate()) {
-          Quotazione quotazione = borsa.getQuotazioneAzienda(azienda);
-          System.err.println("\tAzienda: " + azienda.getNome() + ", Prezzo: " + quotazione.getPrezzoCorrente());
-      }
-    }
-    System.err.println("------");
   }
 }
