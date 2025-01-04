@@ -174,6 +174,56 @@ public class Borsa implements Comparable<Borsa>{
         return new ArrayList<>(Collections.unmodifiableSet(quotazioni.keySet()));
     }
 
+    /**
+     * Metodo per ottenere il numero totale di azioni di un'azienda in questa borsa
+     * 
+     * @param azienda l'azienda di cui si vuole ottenere il numero di azioni
+     * 
+     * @return il numero di azioni dell'azienda richiesta o 0 se sono terminate
+     */
+    private int getNumeroAzioni(Azienda azienda){
+        if(quotazioni.containsKey(azienda) && azioni.containsKey(azienda)){
+            return azioni.get(azienda);
+        }
+        return 0;
+    }
+
+    /**
+     * Metodo per confermare o negare la transazione di azioni se non ci sono abbastanza azioni disponibili
+     * 
+     * @param azienda l'azienda di cui acquistare le azioni
+     * @param quantita la quantità di azioni da acquistare
+     */
+    public boolean compraAzione(Azienda azienda, int quantita) throws IllegalArgumentException{
+        if(quotazioni.containsKey(azienda)){
+            if(azioni.containsKey(azienda) && getNumeroAzioni(azienda)<quantita){
+                return false;
+            }
+
+            azioni.put(azienda, azioni.getOrDefault(azienda, 0) + quantita);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Metodo per reimmettere le azioni di un'azienda in circolazione dopo la vendita
+     * 
+     * @param azienda l'azienda di cui reimmettere le azioni
+     * @param quantita la quantità di azioni da reimmettere
+     * 
+     * @return true se le azioni sono state reimmesse, false altrimenti (l'azienda non è quotata in questa borsa)
+     */
+    public boolean reimmettiAzione(Azienda azienda, int quantita){
+        if(quotazioni.containsKey(azienda)){
+            azioni.put(azienda, azioni.get(azienda) + quantita);
+            return true;
+        }
+        return false;
+    }
+
+
     @Override
     public int compareTo(Borsa borsa){
         return this.getNome().compareTo(borsa.getNome());
