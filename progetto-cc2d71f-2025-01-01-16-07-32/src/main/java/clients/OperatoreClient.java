@@ -21,6 +21,16 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+import BorsaNova.Entita.Operatore;
+
 /** Client di test per alcune funzionalità relative agli <strong>operatori</strong>. */
 public class OperatoreClient {
 
@@ -75,8 +85,130 @@ public class OperatoreClient {
    */
 
    //b: buy, s: sell, d: deposit, w: withdraw
-  /*public static void main(String[] args) {
-    // TODO
-  }*/
+  public static void main(String[] args) {
+    Set<Borsa> borse = new TreeSet<>();
+    Set<Operatore> operatori = new TreeSet<>();
+
+    Map<String, Integer> aziende = new TreeMap<>();
+    Map<String, Integer> mappaAziendaOperatoreAzioni = new TreeMap<>();
+
+    Scanner scanner = new Scanner(System.in);
+    
+    /*
+     * Legge il primo blocco di input.
+     */
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeAzienda = tokens[0];
+      String nomeBorsa = tokens[1];
+      int numero = Integer.parseInt(tokens[2]);
+      int prezzoUnitario = Integer.parseInt(tokens[3]);
+
+      Borsa b=null;
+
+      if(Borsa.getBorsa(nomeBorsa)==null){
+        b= new Borsa(nomeBorsa);
+      }else{
+        b=Borsa.getBorsa(nomeBorsa);
+      }
+      
+      Azienda a= Azienda.factoryAzienda(nomeAzienda);
+  
+      b.quotaAzienda(a, prezzoUnitario);
+      b.modificaAzioni(a, numero);
+      b.aggiungiAllaLista();
+      borse.add(b);
+      
+      aziende.put(b.getNome()+" "+a.getNome(), numero);
+    }
+    /*
+     * Legge il secondo blocco di input.
+     */
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeOperatore = tokens[0];
+      int budgetIniziale = Integer.parseInt(tokens[1]);
+
+      Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+      operatori.add(Operatore.getOperatore(nomeOperatore));
+    }
+    /*
+     * Legge il terzo blocco di input.
+     */
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeOperatore = tokens[0];
+      String operazione = tokens[1];
+
+      Operatore o= Operatore.getOperatore(nomeOperatore);
+      
+      if(operazione.equals("b")){
+        String nomeBorsa = tokens[2];
+        String nomeAzienda = tokens[3];
+
+        Azienda az = Azienda.getAzienda(nomeAzienda);
+        Borsa b = Borsa.getBorsa(nomeBorsa);
+
+        String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
+        String key2=b.getNome()+" "+az.getNome();
+
+        int prezzoTotale = Integer.parseInt(tokens[4]);
+
+        int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
+        aziende.put(key2, aziende.get(key2)-numAzioni);
+
+        if(mappaAziendaOperatoreAzioni.containsKey(key)){
+          numAzioni+=mappaAziendaOperatoreAzioni.get(key);
+        }
+        mappaAziendaOperatoreAzioni.put(key, numAzioni);
+
+      }else if(operazione.equals("s")){
+        String nomeBorsa = tokens[2];
+        String nomeAzienda = tokens[3];
+
+        int numeroAzioni = Integer.parseInt(tokens[4]);
+
+        Azienda az = Azienda.getAzienda(nomeAzienda);
+        Borsa b = Borsa.getBorsa(nomeBorsa);
+
+        String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
+        String key2=b.getNome()+" "+az.getNome();
+
+        if(o.vendeAzione(az, b, numeroAzioni)){
+          aziende.put(key2, aziende.get(key2)+numeroAzioni);
+          mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
+        }
+      }else if(operazione.equals("d")){
+        int valore = Integer.parseInt(tokens[2]);
+        o.depositaInBudget(valore);
+      }else if(operazione.equals("w")){
+        int valore = Integer.parseInt(tokens[2]);
+        o.prelievoDalBudget(valore);
+      }
+    }
+    scanner.close();
+
+    for (Operatore o : operatori) {
+      System.out.println(o.getNome() + ", " + o.getBudget() + ", " + o.getValorePortafoglio());
+      for (Map.Entry<String, Integer> entry : mappaAziendaOperatoreAzioni.entrySet()) {
+        String[] tokens = entry.getKey().split(" ");
+        if (tokens[2].equals(o.getNome())&&entry.getValue()>0) {
+          System.out.println("- " + tokens[0] + ", " + tokens[1] + ", " + entry.getValue());
+        }
+      }
+    }
+  }
 
 }
