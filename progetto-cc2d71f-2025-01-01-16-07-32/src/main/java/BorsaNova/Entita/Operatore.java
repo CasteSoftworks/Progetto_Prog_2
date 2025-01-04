@@ -36,23 +36,27 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @return l'operatore costruito
      * 
-     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi
+     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se il budget dell'operatore è negativo
      */
-    public static Operatore factoryOperatore(String nome){
+    public static Operatore factoryOperatore(String nome, int budget) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
         }
-        return operatori.computeIfAbsent(nome, op -> new Operatore(nome));
+        if(budget<0){
+            throw new IllegalArgumentException("Il budget dell'operatore deve essere maggiore o uguale a 0");
+        }
+        return operatori.computeIfAbsent(nome, op -> new Operatore(nome, budget));
     }
 
     /**
      * Metodo per ottenere un operatore
      * 
      * @param nome il nome dell'operatore da ottenere
+     * @param budget il budget dell'operatore da ottenere
      */
-    private Operatore(String nome) {
+    private Operatore(String nome, int budget){
         this.nome = nome;
-        this.budget = 0;
+        this.budget = budget;
     }
 
     /**
