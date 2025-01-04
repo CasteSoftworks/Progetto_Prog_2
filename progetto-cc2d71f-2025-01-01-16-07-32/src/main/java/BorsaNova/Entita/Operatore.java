@@ -117,10 +117,12 @@ public class Operatore implements Comparable<Operatore>{
      * @param borsa la borsa dove acquistare le azioni
      * @param quantita la quantità di azioni da acquistare
      * 
+     * @return la quantità di azioni acquistate
+     * 
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata
      */
-    public void acquistaAzione(Azienda azienda, Borsa borsa, int prezzoTot) throws NullPointerException, IllegalArgumentException{
+    public int acquistaAzione(Azienda azienda, Borsa borsa, int prezzoTot) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
@@ -143,7 +145,10 @@ public class Operatore implements Comparable<Operatore>{
         int costo = costoPerAzione * quantita;
 
         budget -= costo;
+        borsa.modificaAzioni(azienda, quantita);
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.getOrDefault(azienda.getNome(), 0) + quantita);
+
+        return quantita;
     }
 
     /**
@@ -180,7 +185,7 @@ public class Operatore implements Comparable<Operatore>{
 
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
-        
+        borsa.modificaAzioni(azienda, -quantita);
         portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.get(azienda.getNome()) - quantita);
         if(portafoglioAzionario.get(azienda.getNome())==0){
             portafoglioAzionario.remove(azienda.getNome());
