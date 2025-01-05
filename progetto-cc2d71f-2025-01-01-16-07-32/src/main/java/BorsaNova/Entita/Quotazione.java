@@ -70,22 +70,4 @@ public class Quotazione {
     public void aggiornaPrezzo(int var){
         prezzoCorrente = var;
     }
-
-    /**
-     * Metodo per ottenere l'azienda della quotazione
-     * 
-     * @return l'azienda della quotazione
-     */
-    public Azienda getAzienda(){
-        return azienda;
-    }
-
-    /**
-     * Metodo per ottenere la borsa della quotazione
-     * 
-     * @return la borsa della quotazione
-     */
-    public Borsa getBorsa(){
-        return borsa;
-    }
 }
