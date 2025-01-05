@@ -80,19 +80,13 @@ public class PoliticaPrezzoClient {
     String nomeBorsa = args[0];
     int valore = Integer.parseInt(args[1]);
     int budgetIniziale = Integer.parseInt(args[2]);
-      System.err.println("voglio creare una borsa di nome "+nomeBorsa+"\ncon politica di prezzo "+valore+"\ne un budget iniziale di "+budgetIniziale);
-
 
     Borsa borsa = new Borsa(nomeBorsa);
-      System.err.println("\tcreata la borsa "+borsa.getNome());
     borsa.setPoliticaPrezzo(valore);
-      System.err.println("\t\tsettata la politica di prezzo "+valore+" nella borsa "+borsa.getNome());
 
     borsa.aggiungiAllaLista();
-      System.err.println("\t\taggiunta la borsa "+borsa.getNome()+" alla lista delle borse");
 
     Operatore operatore = Operatore.factoryOperatore("operatore", budgetIniziale);
-      System.err.println("\tcreato l'operatore "+operatore.getNome()+" con budget iniziale "+operatore.getBudget());
 
 
     /*
@@ -101,24 +95,18 @@ public class PoliticaPrezzoClient {
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       if (line.equals("--")) {
-          System.err.println("-----------------FINE PRIMO BLOCCO-----------------");
         break;
       }
       String[] tokens = line.split(" ");
       String nomeAzienda = tokens[0];
       int numero = Integer.parseInt(tokens[1]);
       int prezzoUnitario = Integer.parseInt(tokens[2]);
-        System.err.println("voglio creare un'azienda di nome "+nomeAzienda+"\ncon "+numero+" azioni a "+prezzoUnitario+" nella borsa "+borsa.getNome());
 
       Azienda az = Azienda.factoryAzienda(nomeAzienda);
-        System.err.println("\tcreata l'azienda "+az.getNome());
       azioni.add(az);
-        System.err.println("\t\taggiunta l'azienda "+az.getNome()+" all'insieme delle azioni delle aziende");
 
       borsa.quotaAzienda(az, prezzoUnitario);
-        System.err.println("\t\tquotata l'azienda "+az.getNome()+" a "+prezzoUnitario+" nella borsa "+borsa.getNome());
       borsa.modificaAzioni(az, numero);
-        System.err.println("\t\tErogate le "+numero+" azioni di "+az.getNome()+" nella borsa "+borsa.getNome());
     }
 
     /*
@@ -127,40 +115,27 @@ public class PoliticaPrezzoClient {
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       if (line.equals("--")) {
-          System.err.println("-----------------FINE SECONDO BLOCCO-----------------");
         break;
       }
       String[] tokens = line.split(" ");
       String nomeAzienda = tokens[1];
-      int prezzoTotale = Integer.parseInt(tokens[2]);
+      int num = Integer.parseInt(tokens[2]);
 
       Azienda az = Azienda.factoryAzienda(nomeAzienda);
 
       if(tokens[0].equals("b")) {
-          System.err.println("compro azioni");
-          System.err.println("\tcompro azioni di "+az.getNome()+" nella borsa "+borsa.getNome());
-          int prezzoPre=az.getQuotazione(borsa).getPrezzoCorrente();
-        int quanti=operatore.acquistaAzione(az, borsa, prezzoTotale);
-          System.err.println("\t\tcomprate "+quanti+" azioni di "+az.getNome()+" a "+prezzoTotale+" nella borsa "+borsa.getNome());
-          System.err.println("\t\tIl prezzo dovrebbe essere salito di "+valore+"\n\t\tprima era "+prezzoPre+" ora è "+az.getQuotazione(borsa).getPrezzoCorrente());
+        operatore.acquistaAzione(az, borsa, num);
       } else {
-          System.err.println("vendo azioni");
-        int numeroAzioni = Integer.parseInt(tokens[3]);
-          System.err.println("\tvendo "+numeroAzioni+" azioni di "+az.getNome()+" nella borsa "+borsa.getNome());
-        boolean ok=operatore.vendeAzione(az, borsa, numeroAzioni);
-        if(ok){
-            System.err.println("\t\tvendute "+numeroAzioni+" azioni di "+az.getNome()+" nella borsa "+borsa.getNome());
-        }
+        operatore.vendeAzione(az, borsa, num);
       }
     }
 
     scanner.close();
-      System.err.println("fine lettura");
 
     //output
     for (Azienda az : azioni) {
       System.out.println(az.getNome() + ", " + borsa.getQuotazioneAzienda(az).getPrezzoCorrente());
     }
-  }
 
+  }
 }
