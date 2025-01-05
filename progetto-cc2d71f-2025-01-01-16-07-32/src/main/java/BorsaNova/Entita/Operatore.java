@@ -83,13 +83,13 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @param deposito l'importo da depositare
      * 
-     * @throws IllegalArgumentException se l'importo del deposito è negativo
+     * @throws IllegalArgumentException se l'importo del deposito è negativo o pari a 0
      */
     public void depositaInBudget(int deposito) throws IllegalArgumentException{
         if(deposito<=0){
-            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo");
+            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo o pari a 0");
         }
-        budget += deposito;
+        this.budget += deposito;
     }
 
     /**
@@ -97,11 +97,11 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @param prelievo l'importo da prelevare
      * 
-     * @throws IllegalArgumentException se l'importo del prelievo è negativo, se l'importo del prelievo è maggiore del budget
+     * @throws IllegalArgumentException se l'importo del prelievo è negativo o pari a 0, se l'importo del prelievo è maggiore del budget
      */
     public void prelievoDalBudget(int prelievo) throws IllegalArgumentException{
         if(prelievo<=0){
-            throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo");
+            throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo o pari a 0");
         }
 
         if(prelievo>budget){
