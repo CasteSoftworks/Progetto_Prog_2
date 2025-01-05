@@ -91,6 +91,4 @@ public class Quotazione {
     public Borsa getBorsa(){
         return borsa;
     }
-
-
 }
