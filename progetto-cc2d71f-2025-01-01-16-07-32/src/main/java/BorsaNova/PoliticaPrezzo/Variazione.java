@@ -27,12 +27,15 @@ public class Variazione implements Politica{
      * @param prezzo il prezzo corrente della quotazione
      * @param acquisto true se si tratta di un acquisto, false se si tratta di una vendita
      * 
-     * @return il prezzo (se si tratta di un acquisto, il prezzo calcolato sarà maggiore di quello corrente di un valore variazione altrimenti minore di un valore variazione)
+     * @return il prezzo (se si tratta di un acquisto, il prezzo calcolato sarà maggiore di quello corrente di un valore variazione altrimenti minore di un valore variazione o 1)
      */
     @Override
     public int calcolaPrezzo(int prezzo, boolean acquisto) {
         if (acquisto) {
             return prezzo + variazione;
+        }
+        if(prezzo - variazione <= 0) {
+            return 1;
         }
         return prezzo - variazione;
     }

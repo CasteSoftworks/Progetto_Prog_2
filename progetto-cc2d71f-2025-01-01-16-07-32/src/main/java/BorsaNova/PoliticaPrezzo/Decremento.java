@@ -32,6 +32,9 @@ public class Decremento implements Politica {
     @Override
     public int calcolaPrezzo(int prezzo, boolean acquisto) {
         if (!acquisto) {
+            if(prezzo - decremento <= 0) {
+                return 1;
+            }
             return prezzo - decremento;
         }
 
