@@ -30,7 +30,7 @@ import java.util.TreeSet;
 import BorsaNova.Entita.Azienda;
 import BorsaNova.Entita.Borsa;
 import BorsaNova.Entita.Operatore;
-import BorsaNova.Entita.Quotazione;
+//import BorsaNova.Entita.Quotazione;
 
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class BorsaClient {
