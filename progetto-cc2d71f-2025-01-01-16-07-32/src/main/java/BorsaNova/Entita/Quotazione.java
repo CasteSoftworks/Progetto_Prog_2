@@ -71,7 +71,7 @@ public class Quotazione {
         if(var<0 && prezzoCorrente<Math.abs(var)){
             prezzoCorrente=0;
         }
-        prezzoCorrente+=var;
+        prezzoCorrente=var;
     }
 
     /**
