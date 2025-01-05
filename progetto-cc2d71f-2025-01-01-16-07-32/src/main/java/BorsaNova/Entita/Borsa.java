@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import BorsaNova.PoliticaPrezzo.Costante;
+import BorsaNova.PoliticaPrezzo.Decremento;
+import BorsaNova.PoliticaPrezzo.Incremento;
+import BorsaNova.PoliticaPrezzo.Politica;
+
 /**
  * Classe per rappresentare una Borsa
  */
@@ -28,6 +33,8 @@ public class Borsa implements Comparable<Borsa>{
     private static ArrayList<Borsa> borse = new ArrayList<>();
     /** Mappa delle azioni totali(key= azienda, value= quantità di azioni) */
     private Map<Azienda, Integer> azioni = new HashMap<>();
+    /** La politica di prezzo della borsa */
+    private Politica politica;
        
 
     /**
@@ -159,6 +166,9 @@ public class Borsa implements Comparable<Borsa>{
             if(quantita<=0 && azioni.get(azienda)<Math.abs(quantita)){
                 throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle disponibili");
             }
+            if(politica!=null){
+                quotazioni.get(azienda).aggiornaPrezzo(politica.calcolaPrezzo(quotazioni.get(azienda).getPrezzoCorrente(), quantita>0));
+            }
             azioni.put(azienda, azioni.get(azienda) + quantita);
             return true;
         } else {
@@ -177,6 +187,24 @@ public class Borsa implements Comparable<Borsa>{
      */
     public ArrayList<Azienda> getAziendeQuotate(){
         return new ArrayList<>(Collections.unmodifiableSet(quotazioni.keySet()));
+    }
+
+    /**
+     * Metodo per settare una politica di prezzo per la borsa
+     * - se il valore è positivo, la politica è ad incremento costante pari a tale valore
+     * - se il valore è negativo, la politica è a decremento cost
+     * - se il valore è 0, la politica è costante (non viene cambiato il prezzo)
+     * 
+     * @param valore il valore della politica di prezzo
+     */
+    public void setPoliticaPrezzo(int valore){
+        if(valore>0){
+            politica= new Incremento(valore);
+        }else if(valore<0){
+            politica= new Decremento(Math.abs(valore));
+        }else{
+            politica= new Costante(valore);
+        }
     }
 
     @Override
