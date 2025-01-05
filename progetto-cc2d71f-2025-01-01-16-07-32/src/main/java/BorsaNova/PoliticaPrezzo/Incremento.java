@@ -1,7 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
 /**
- * Classe per rappresentare una <p>politica di incremento</p>
+ * Classe per rappresentare una politica di incremento
  */
 public class Incremento implements Politica {
     /** L'incremento da applicare al prezzo */
@@ -14,7 +14,7 @@ public class Incremento implements Politica {
      * 
      * @throws IllegalArgumentException se l'incremento è minore di 0
      */
-    public Incremento(int incremento) {
+    public Incremento(int incremento) throws IllegalArgumentException {
         if(incremento < 0) {
             throw new IllegalArgumentException("L'incremento deve essere maggiore di 0");
         }

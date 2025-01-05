@@ -1,11 +1,11 @@
 package BorsaNova.PoliticaPrezzo;
 
 /**
- * Interfaccia per rappresentare una <p>politica</p> che viene poi espansa dalle classi presenti nella stesso package
+ * Interfaccia per rappresentare una politica di prezzo che viene poi espansa dalle classi presenti nella stesso package
  */
 public interface Politica {
     /**
-     * Metodo per calcolare il prezzo di una quotazione
+     * Metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della borsa
      * 
      * @param prezzo il prezzo corrente della quotazione
      * @param acquisto true se si tratta di un acquisto, false se si tratta di una vendita

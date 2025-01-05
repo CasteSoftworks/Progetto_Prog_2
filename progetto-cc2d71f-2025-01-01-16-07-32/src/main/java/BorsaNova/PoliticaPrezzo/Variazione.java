@@ -1,7 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
 /**
- * Classe per rappresentare una <p>politica di variazione</p> ad incremento-decremento
+ * Classe per rappresentare una politica di variazione ad incremento-decremento
  */
 public class Variazione implements Politica{
     /** La variazione da applicare al prezzo */
@@ -14,7 +14,7 @@ public class Variazione implements Politica{
      * 
      * @throws IllegalArgumentException se la variazione è minore di 0
      */
-    public Variazione(int variazione) {
+    public Variazione(int variazione) throws IllegalArgumentException {
         if(variazione < 0) {
             throw new IllegalArgumentException("La variazione deve essere maggiore di 0");
         }

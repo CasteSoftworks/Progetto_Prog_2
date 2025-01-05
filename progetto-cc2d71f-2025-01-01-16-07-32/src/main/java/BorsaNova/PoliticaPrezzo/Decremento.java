@@ -1,7 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
 /**
- * Classe per rappresentare una <p>politica di decremento</p>
+ * Classe per rappresentare una politica di decremento
  */
 public class Decremento implements Politica {
     /** Il decremento da applicare al prezzo */
@@ -14,7 +14,7 @@ public class Decremento implements Politica {
      * 
      * @throws IllegalArgumentException se il decremento è minore di 0
      */
-    public Decremento(int decremento) {
+    public Decremento(int decremento) throws IllegalArgumentException {
         if(decremento < 0) {
             throw new IllegalArgumentException("Il decremento deve essere maggiore di 0");
         }
