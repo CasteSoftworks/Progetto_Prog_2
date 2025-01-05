@@ -35,7 +35,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
-    public static Azienda factoryAzienda(String nome){
+    public static Azienda factoryAzienda(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
@@ -72,7 +72,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto, se l'azienda richiesta non esiste
      */
-    public static Azienda getAzienda(String nome){
+    public static Azienda getAzienda(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
