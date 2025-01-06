@@ -123,8 +123,8 @@ public class OperatoreClient {
       String nomeOperatore = tokens[0];
       int budgetIniziale = Integer.parseInt(tokens[1]);
 
-      Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
-      operatori.add(Operatore.getOperatore(nomeOperatore));
+      Operatore op=Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+      operatori.add(op);
     }
     /*
      * Legge il terzo blocco di input.
