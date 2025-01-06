@@ -128,19 +128,15 @@ public class Azienda implements Comparable<Azienda>{
         return Collections.unmodifiableMap(aziende);
     }
 
+    /**
+     * Metodo override per confrontare due aziende in base al loro nome
+     * 
+     * @param a l'azienda con cui confrontare
+     * 
+     * @return 0 se le aziende sono uguali, un numero negativo se l'azienda è minore di a, un numero positivo altrimenti
+     */
     @Override
     public int compareTo(Azienda a){
         return this.getNome().compareTo(a.nome);
     }
-
-    /*@Override
-    public int hashCode() {
-        return this.getNome().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Azienda other)) return false;
-        return this.getNome().equals(other.getNome());
-    }*/
 }
