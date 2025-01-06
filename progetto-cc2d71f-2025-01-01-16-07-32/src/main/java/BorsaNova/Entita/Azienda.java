@@ -64,7 +64,7 @@ public class Azienda implements Comparable<Azienda>{
     
 
     /**
-     * Metodo per ottenere l'azienda dal nome
+     * Metodo per ottenere una azienda dal nome
      * 
      * @param nome il nome dell'azienda da ottenere
      * 
@@ -82,6 +82,31 @@ public class Azienda implements Comparable<Azienda>{
         }
 
         return aziende.get(nome);
+    }
+
+    /**
+     * Metodo attraverso il quale una azieda si quotata in una borsa
+     * 
+     * @param borsa la borsa in cui quotarsi
+     * @param prezzo il prezzo di quotazione
+     * 
+     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto, se il prezzo è minore o uguale a 0
+     * @throws NullPointerException se la borsa richiesta non esiste
+     */
+    public final void quotatiInBorsa(String borsa, int prezzo) throws IllegalArgumentException, NullPointerException{
+        if(borsa==null || borsa.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
+        }
+
+        if(prezzo<=0){
+            throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+        }
+
+        Borsa b = Borsa.getBorsa(borsa);
+        if(b==null){
+            throw new NullPointerException("La borsa richiesta non esiste");
+        }
+        b.quotaAzienda(this, prezzo);
     }
 
     /**
@@ -108,7 +133,7 @@ public class Azienda implements Comparable<Azienda>{
         return this.getNome().compareTo(a.nome);
     }
 
-    @Override
+    /*@Override
     public int hashCode() {
         return this.getNome().hashCode();
     }
@@ -117,5 +142,5 @@ public class Azienda implements Comparable<Azienda>{
     public boolean equals(Object obj) {
         if (!(obj instanceof Azienda other)) return false;
         return this.getNome().equals(other.getNome());
-    }
+    }*/
 }
