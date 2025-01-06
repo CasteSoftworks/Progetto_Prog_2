@@ -2,8 +2,26 @@ package BorsaNova.PoliticaPrezzo;
 
 /**
  * Classe per rappresentare una politica di decremento
+ * <br>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot -GTP4.0</li>
+ * <li>Chat GTP4.o</li>
+ * <li>StackOverflow</li>
+ * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * </ul>
  */
 public class Decremento implements Politica {
+    /**
+     * AF
+     * AF(decremento) = Una politica di decremento rappresentata da:
+     * - decremento: è il decremento da applicare al prezzo
+     * 
+     * RI
+     * RI(decremento) = L'oggetto politica di decremento rispetta la seguente condizione:
+     * - decremento è maggiore o uguale a 0
+     */
     /** Il decremento da applicare al prezzo */
     private final int decremento;
 

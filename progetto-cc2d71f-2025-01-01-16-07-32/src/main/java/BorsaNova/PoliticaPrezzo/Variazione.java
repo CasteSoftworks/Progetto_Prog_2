@@ -2,8 +2,26 @@ package BorsaNova.PoliticaPrezzo;
 
 /**
  * Classe per rappresentare una politica di variazione ad incremento-decremento
+ * <br>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot -GTP4.0</li>
+ * <li>Chat GTP4.o</li>
+ * <li>StackOverflow</li>
+ * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * </ul>
  */
 public class Variazione implements Politica{
+    /**
+     * AF
+     * AF(variazione) = Una politica di variazione rappresentata da:
+     * - variazione: è la variazione da applicare al prezzo
+     * 
+     * RI
+     * RI(variazione) = L'oggetto politica di variazione rispetta la seguente condizione:
+     * - variazione è maggiore o uguale a 0
+     */
     /** La variazione da applicare al prezzo */
     private final int variazione;
 
