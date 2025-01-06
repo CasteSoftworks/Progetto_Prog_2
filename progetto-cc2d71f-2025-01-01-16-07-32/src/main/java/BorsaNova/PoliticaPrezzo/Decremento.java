@@ -1,9 +1,27 @@
 package BorsaNova.PoliticaPrezzo;
 
 /**
- * Classe per rappresentare una <p>politica di decremento</p>
+ * Classe per rappresentare una politica di decremento
+ * <br>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot -GTP4.0</li>
+ * <li>Chat GTP4.o</li>
+ * <li>StackOverflow</li>
+ * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * </ul>
  */
 public class Decremento implements Politica {
+    /**
+     * AF
+     * AF(decremento) = Una politica di decremento rappresentata da:
+     * - decremento: è il decremento da applicare al prezzo
+     * 
+     * RI
+     * RI(decremento) = L'oggetto politica di decremento rispetta la seguente condizione:
+     * - decremento è maggiore o uguale a 0
+     */
     /** Il decremento da applicare al prezzo */
     private final int decremento;
 
@@ -14,7 +32,7 @@ public class Decremento implements Politica {
      * 
      * @throws IllegalArgumentException se il decremento è minore di 0
      */
-    public Decremento(int decremento) {
+    public Decremento(int decremento) throws IllegalArgumentException {
         if(decremento < 0) {
             throw new IllegalArgumentException("Il decremento deve essere maggiore di 0");
         }
@@ -32,6 +50,9 @@ public class Decremento implements Politica {
     @Override
     public int calcolaPrezzo(int prezzo, boolean acquisto) {
         if (!acquisto) {
+            if(prezzo - decremento <= 0) {
+                return 1;
+            }
             return prezzo - decremento;
         }
 

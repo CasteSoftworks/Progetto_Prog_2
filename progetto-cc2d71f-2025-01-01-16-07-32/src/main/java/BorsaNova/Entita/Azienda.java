@@ -8,6 +8,16 @@ import java.util.TreeMap;
 
 /**
  * Classe per rappresentare una Azienda
+ * <br>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot -GTP4.0</li>
+ * <li>Chat GTP4.o</li>
+ * <li>StackOverflow</li>
+ * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * </ul>
  */
 
 public class Azienda implements Comparable<Azienda>{
@@ -17,7 +27,7 @@ public class Azienda implements Comparable<Azienda>{
      * - nome: è il nome dell'azienda
      *
      * RI:
-     * RI(nome,) = L'oggetto azienda rispetta le seguenti condizioni:
+     * RI(nome) = L'oggetto azienda rispetta le seguenti condizioni:
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
      */
 
@@ -35,7 +45,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
-    public static Azienda factoryAzienda(String nome){
+    public static Azienda factoryAzienda(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
@@ -64,7 +74,7 @@ public class Azienda implements Comparable<Azienda>{
     
 
     /**
-     * Metodo per ottenere l'azienda dal nome
+     * Metodo per ottenere una azienda dal nome
      * 
      * @param nome il nome dell'azienda da ottenere
      * 
@@ -72,7 +82,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto, se l'azienda richiesta non esiste
      */
-    public static Azienda getAzienda(String nome){
+    public static Azienda getAzienda(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
@@ -82,6 +92,31 @@ public class Azienda implements Comparable<Azienda>{
         }
 
         return aziende.get(nome);
+    }
+
+    /**
+     * Metodo attraverso il quale una azieda si quotata in una borsa
+     * 
+     * @param borsa la borsa in cui quotarsi
+     * @param prezzo il prezzo di quotazione
+     * 
+     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto, se il prezzo è minore o uguale a 0
+     * @throws NullPointerException se la borsa richiesta non esiste
+     */
+    public final void quotatiInBorsa(String borsa, int prezzo) throws IllegalArgumentException, NullPointerException{
+        if(borsa==null || borsa.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
+        }
+
+        if(prezzo<=0){
+            throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+        }
+
+        Borsa b = Borsa.getBorsa(borsa);
+        if(b==null){
+            throw new NullPointerException("La borsa richiesta non esiste");
+        }
+        b.quotaAzienda(this, prezzo);
     }
 
     /**
@@ -103,19 +138,15 @@ public class Azienda implements Comparable<Azienda>{
         return Collections.unmodifiableMap(aziende);
     }
 
+    /**
+     * Metodo override per confrontare due aziende in base al loro nome
+     * 
+     * @param a l'azienda con cui confrontare
+     * 
+     * @return 0 se le aziende sono uguali, un numero negativo se l'azienda è minore di a, un numero positivo altrimenti
+     */
     @Override
     public int compareTo(Azienda a){
         return this.getNome().compareTo(a.nome);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.getNome().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Azienda other)) return false;
-        return this.getNome().equals(other.getNome());
     }
 }

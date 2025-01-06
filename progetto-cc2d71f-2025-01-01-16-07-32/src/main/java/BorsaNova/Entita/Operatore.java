@@ -6,6 +6,16 @@ import java.util.Map;
 
 /**
  * Classe per rappresentare un Operatore
+ * <br>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot -GTP4.0</li>
+ * <li>Chat GTP4.o</li>
+ * <li>StackOverflow</li>
+ * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * </ul>
  */
 public class Operatore implements Comparable<Operatore>{
     /**
@@ -26,7 +36,7 @@ public class Operatore implements Comparable<Operatore>{
     private static final Map<String, Operatore> operatori = new HashMap<>();
     /** Il budget dell'operatore */
     private int budget;
-    /** Mappa delle azioni possedute dall'operatore (key= nome azienda, value= quantità) */
+    /** Mappa delle azioni possedute dall'operatore (key= "nome_azienda nome_borsa", value= quantità) */
     private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
     
     /**
@@ -83,13 +93,13 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @param deposito l'importo da depositare
      * 
-     * @throws IllegalArgumentException se l'importo del deposito è negativo
+     * @throws IllegalArgumentException se l'importo del deposito è negativo o pari a 0
      */
     public void depositaInBudget(int deposito) throws IllegalArgumentException{
         if(deposito<=0){
-            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo");
+            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo o pari a 0");
         }
-        budget += deposito;
+        this.budget += deposito;
     }
 
     /**
@@ -97,11 +107,11 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @param prelievo l'importo da prelevare
      * 
-     * @throws IllegalArgumentException se l'importo del prelievo è negativo, se l'importo del prelievo è maggiore del budget
+     * @throws IllegalArgumentException se l'importo del prelievo è negativo o pari a 0, se l'importo del prelievo è maggiore del budget
      */
     public void prelievoDalBudget(int prelievo) throws IllegalArgumentException{
         if(prelievo<=0){
-            throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo");
+            throw new IllegalArgumentException("Il prelievo di denaro non può essere negativo o pari a 0");
         }
 
         if(prelievo>budget){
@@ -142,8 +152,11 @@ public class Operatore implements Comparable<Operatore>{
         int costo = costoPerAzione * quantita;
 
         budget -= costo;
-        borsa.modificaAzioni(azienda, quantita);
-        portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.getOrDefault(azienda.getNome(), 0) + quantita);
+        borsa.modificaAzioni(azienda, -quantita);
+        borsa.allocaAzione(nome, azienda.getNome(), quantita);
+
+        String key=azienda.getNome()+" "+borsa.getNome();
+        portafoglioAzionario.put(key, portafoglioAzionario.getOrDefault(key, 0) + quantita);
 
         return quantita;
     }
@@ -163,52 +176,66 @@ public class Operatore implements Comparable<Operatore>{
      */
     public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
-            throw new NullPointerException("L'azienda non pèuò essere nulla");
+            throw new NullPointerException("L'azienda non può essere nulla");
+        }
+
+        if(borsa==null){
+            throw new NullPointerException("La borsa non può essere nulla");
         }
 
         if(quantita<=0){
             throw new IllegalArgumentException("La quantità di azioni da vendere non può essere negativa o nulla");
         }
 
-        if(!portafoglioAzionario.containsKey(azienda.getNome())){
+        String key=azienda.getNome()+" "+borsa.getNome();
+
+        if(!portafoglioAzionario.containsKey(key)){
             throw new IllegalArgumentException("L'operatore non possiede azioni di questa azienda");
         }
 
-        if(portafoglioAzionario.get(azienda.getNome())<quantita){
+        if(portafoglioAzionario.get(key)<quantita){
             throw new IllegalArgumentException("L'operatore non possiede abbastanza azioni di questa azienda");
         }
 
 
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
-        borsa.modificaAzioni(azienda, -quantita);
+        borsa.modificaAzioni(azienda, +quantita);
+        borsa.allocaAzione(nome, azienda.getNome(), -quantita);
 
-        portafoglioAzionario.put(azienda.getNome(), portafoglioAzionario.get(azienda.getNome()) - quantita);
-        if(portafoglioAzionario.get(azienda.getNome())==0){
-            portafoglioAzionario.remove(azienda.getNome());
+        portafoglioAzionario.put(key, portafoglioAzionario.get(key) - quantita);
+        if(portafoglioAzionario.get(key)==0){
+            portafoglioAzionario.remove(key);
         }
         return true;
     }
 
     /**
-     * Metodo per ottenere il valore totale del portafoglio dell'operatore (budget + valore delle azioni possedute)
+     * Metodo per ottenere il valore totale del portafoglio dell'operatore (valore delle azioni possedute)
      * 
      * @return il valore totale del portafoglio dell'operatore
      */
-    public int getBudgetTotale(){
+    public int getValorePortafoglio(){
         int valorePortafoglio=0;
-        
-        Iterator<Map.Entry<String, Integer>> iterator = portafoglioAzionario.entrySet().iterator();
-        
-        while (iterator.hasNext()) {
-            Map.Entry<String, Integer> azione = iterator.next();
-            Azienda azienda = Azienda.getAzienda(azione.getKey());
-            for (Borsa borsa : Borsa.getBorse()) {
-                valorePortafoglio += azienda.getQuotazione(borsa).getPrezzoCorrente() * azione.getValue();
-            }
+        Iterator<Map.Entry<String, Integer>> it = portafoglioAzionario.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, Integer> entry = it.next();
+            String[] tokens = entry.getKey().split(" ");
+            Azienda a = Azienda.getAzienda(tokens[0]);
+            Borsa b = Borsa.getBorsa(tokens[1]);
+            valorePortafoglio += a.getQuotazione(b).getPrezzoCorrente() * entry.getValue();
         }
 
-        return budget + valorePortafoglio;
+        return valorePortafoglio;
+    }
+
+    /**
+     * Metodo per ottenere il patrimonio dell'operatore (budget + valore del portafoglio)
+     * 
+     * @return la somma del budget e del valore del portafoglio dell'operatore
+     */
+    public int getCapitaleTotale(){
+        return budget + getValorePortafoglio();
     }
 
     /**
@@ -229,6 +256,13 @@ public class Operatore implements Comparable<Operatore>{
         return operatori.get(nome);
     }
 
+    /**
+     * Metodo override per confrontare due operatori in base al nome
+     * 
+     * @param o l'operatore con cui confrontare
+     * 
+     * @return 0 se i due operatori sono uguali, un numero negativo se l'operatore è minore di o, un numero positivo altrimenti
+     */
     @Override
     public int compareTo(Operatore o) {
         return this.getNome().compareTo(o.getNome());

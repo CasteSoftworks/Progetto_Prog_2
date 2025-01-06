@@ -21,6 +21,14 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+import BorsaNova.Entita.Operatore;
+
 /** Client di test per alcune funzionalità relative agli <strong>operatori</strong>. */
 public class OperatoreClient {
 
@@ -74,9 +82,108 @@ public class OperatoreClient {
    * da virgole).
    */
 
-   //b: buy, s: sell, d: deposit, w: withdraw
-  /*public static void main(String[] args) {
-    // TODO
-  }*/
+  public static void main(String[] args) {
+    Set<Borsa> borse = new TreeSet<>();
+    Set<Operatore> operatori = new TreeSet<>();
+
+    Scanner scanner = new Scanner(System.in);
+    
+    /*
+     * Legge il primo blocco di input.
+     */
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeAzienda = tokens[0];
+      String nomeBorsa = tokens[1];
+      int numero = Integer.parseInt(tokens[2]);
+      int prezzoUnitario = Integer.parseInt(tokens[3]);
+
+      Borsa b=Borsa.factoryBorsa(nomeBorsa);
+      
+      Azienda a= Azienda.factoryAzienda(nomeAzienda);
+  
+      b.quotaAzienda(a, prezzoUnitario);
+      b.modificaAzioni(a, numero);
+      borse.add(b);
+      
+    }
+    /*
+     * Legge il secondo blocco di input.
+     */
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeOperatore = tokens[0];
+      int budgetIniziale = Integer.parseInt(tokens[1]);
+
+      Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+      operatori.add(Operatore.getOperatore(nomeOperatore));
+    }
+    /*
+     * Legge il terzo blocco di input.
+     */
+    while (scanner.hasNext()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeOperatore = tokens[0];
+      String operazione = tokens[1];
+
+      Operatore o= Operatore.getOperatore(nomeOperatore);
+      
+      if(operazione.equals("b")){
+        String nomeBorsa = tokens[2];
+        String nomeAzienda = tokens[3];
+
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
+        Borsa b = Borsa.factoryBorsa(nomeBorsa);
+        int prezzoTotale = Integer.parseInt(tokens[4]);
+
+        o.acquistaAzione(az, b, prezzoTotale);
+
+      }else if(operazione.equals("s")){
+        String nomeBorsa = tokens[2];
+        String nomeAzienda = tokens[3];
+
+        int numeroAzioni = Integer.parseInt(tokens[4]);
+
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
+        Borsa b = Borsa.factoryBorsa(nomeBorsa);
+
+        o.vendeAzione(az, b, numeroAzioni);
+
+      }else if(operazione.equals("d")){
+        int valore = Integer.parseInt(tokens[2]);
+        o.depositaInBudget(valore);
+      }else if(operazione.equals("w")){
+        int valore = Integer.parseInt(tokens[2]);
+        o.prelievoDalBudget(valore);
+      }
+    }
+    scanner.close();
+
+    for(Operatore o : operatori){
+      System.out.println(o.getNome() + ", " + o.getBudget() + ", " + o.getValorePortafoglio());
+      for(Borsa b : borse){
+        for(String key : b.getAllocazioni().keySet()){
+          String[] tokens = key.split(" ");
+          Azienda a = Azienda.getAzienda(tokens[1]);
+          if(o.getNome().equals(tokens[0])){
+            System.out.println("- " + b.getNome() + ", " + a.getNome() + ", " + b.getAllocazioni().get(key));
+          }
+        }
+      }
+    }
+  }
+
 
 }

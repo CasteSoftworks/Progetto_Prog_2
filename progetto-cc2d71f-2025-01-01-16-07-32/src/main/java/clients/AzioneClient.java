@@ -21,8 +21,6 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 import BorsaNova.Entita.Azienda;
@@ -49,23 +47,31 @@ public class AzioneClient {
    */
 
    public static void main(String[] args) {
+    String nomeB=args[0];
+    Borsa b = Borsa.factoryBorsa(nomeB);
+
     Scanner scanner = new Scanner(System.in);
-    ArrayList<String> out=new ArrayList<>();
         
     while(scanner.hasNext()){
       String nome = scanner.next();
       int numero = scanner.nextInt();
       int prezzo = scanner.nextInt();
+      
       Azienda a = Azienda.factoryAzienda(nome);
-      Borsa b = new Borsa(args[0]);
-      b.quotaAzienda(a, prezzo);
+      
+      
+      a.quotatiInBorsa(nomeB, prezzo);
       b.modificaAzioni(a, numero);
-      out.add(nome+", "+prezzo+", "+numero);
     }
     scanner.close();
-    Collections.sort(out);
-    for(String s: out){
-      System.out.println(s);
+    
+
+    for(Azienda a : b.getAziendeQuotate()){
+      int prezzo = b.getQuotazioneAzienda(a).getPrezzoCorrente();
+      Integer numero = b.getNumeroAzioni(a);
+      if(numero!=null){
+        System.out.println(a.getNome()+", "+prezzo+", "+numero);
+      }
     }
   }
 }

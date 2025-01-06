@@ -21,6 +21,12 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+import BorsaNova.Entita.Operatore;
+
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class PoliticaPrezzoClient {
 
@@ -65,4 +71,66 @@ public class PoliticaPrezzoClient {
    * virgola).
    */
 
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+
+    String nomeBorsa = args[0];
+    int valore = Integer.parseInt(args[1]);
+    int budgetIniziale = Integer.parseInt(args[2]);
+
+    Borsa borsa = Borsa.factoryBorsa(nomeBorsa);
+    borsa.setPoliticaPrezzo(valore);
+
+
+    Operatore operatore = Operatore.factoryOperatore("operatore", budgetIniziale);
+
+
+    /*
+     * primo blocco
+     */
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeAzienda = tokens[0];
+      int numero = Integer.parseInt(tokens[1]);
+      int prezzoUnitario = Integer.parseInt(tokens[2]);
+
+      Azienda az = Azienda.factoryAzienda(nomeAzienda);
+      az.quotatiInBorsa(nomeBorsa, prezzoUnitario);
+
+      borsa.modificaAzioni(az, numero);
+    }
+
+    /*
+     * secondo blocco
+     */
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+      if (line.equals("--")) {
+        break;
+      }
+      String[] tokens = line.split(" ");
+      String nomeAzienda = tokens[1];
+      int num = Integer.parseInt(tokens[2]);
+
+      Azienda az = Azienda.factoryAzienda(nomeAzienda);
+
+      if(tokens[0].equals("b")) {
+        operatore.acquistaAzione(az, borsa, num);
+      } else {
+        operatore.vendeAzione(az, borsa, num);
+      }
+    }
+
+    scanner.close();
+
+    //output
+    for(Azienda az : borsa.getAziendeQuotate()){
+      System.out.println(az.getNome()+", "+borsa.getQuotazioneAzienda(az).getPrezzoCorrente());
+    }
+
+  }
 }

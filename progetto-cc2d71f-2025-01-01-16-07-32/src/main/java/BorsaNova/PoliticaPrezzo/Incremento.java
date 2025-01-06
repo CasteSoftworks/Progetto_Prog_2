@@ -1,9 +1,27 @@
 package BorsaNova.PoliticaPrezzo;
 
 /**
- * Classe per rappresentare una <p>politica di incremento</p>
+ * Classe per rappresentare una politica di incremento
+ * <br>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot -GTP4.0</li>
+ * <li>Chat GTP4.o</li>
+ * <li>StackOverflow</li>
+ * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * </ul>
  */
 public class Incremento implements Politica {
+    /**
+     * AF
+     * AF(incremento) = Una politica di incremento rappresentata da:
+     * - incremento: è l'incremento da applicare al prezzo
+     * 
+     * RI
+     * RI(incremento) = L'oggetto politica di incremento rispetta la seguente condizione:
+     * - incremento è maggiore o uguale a 0
+     */
     /** L'incremento da applicare al prezzo */
     private final int incremento;
 
@@ -14,7 +32,7 @@ public class Incremento implements Politica {
      * 
      * @throws IllegalArgumentException se l'incremento è minore di 0
      */
-    public Incremento(int incremento) {
+    public Incremento(int incremento) throws IllegalArgumentException {
         if(incremento < 0) {
             throw new IllegalArgumentException("L'incremento deve essere maggiore di 0");
         }
