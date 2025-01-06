@@ -1,9 +1,12 @@
 package BorsaNova.Entita;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import BorsaNova.PoliticaPrezzo.*;
 
@@ -71,8 +74,8 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return le borse non modificabili
      */
-    public static ArrayList<Borsa> getBorse(){
-        return new ArrayList<>(Collections.unmodifiableList(borse));
+    public static /*ArrayList<Borsa>*/List<Borsa> getBorse(){
+        return /*new ArrayList<>*/(Collections.unmodifiableList(borse));
     }
 
     /**
@@ -186,8 +189,8 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return lista non modificabile delle aziende quotate in questa borsa
      */
-    public ArrayList<Azienda> getAziendeQuotate(){
-        return new ArrayList<>(Collections.unmodifiableSet(quotazioni.keySet()));
+    public /*ArrayList<Azienda>*/ Set<Azienda> getAziendeQuotate(){
+        return /*new ArrayList<>*/(Collections.unmodifiableSet(quotazioni.keySet()));
     }
 
     /**
