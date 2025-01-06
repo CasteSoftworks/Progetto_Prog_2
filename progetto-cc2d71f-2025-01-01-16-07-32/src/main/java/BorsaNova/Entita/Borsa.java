@@ -28,7 +28,6 @@ public class Borsa implements Comparable<Borsa>{
     /** Mappa delle quotazioni (key= azienda, value= quotazione) */
     private final Map<Azienda, Quotazione> quotazioni = new TreeMap<>();
     /** Lista delle borse */
-    // private static ArrayList<Borsa> borse = new ArrayList<>();
     private static Map<String, Borsa> borse = new TreeMap<>();
     /** Mappa delle azioni totali(key= azienda, value= quantità di azioni) */
     private Map<Azienda, Integer> azioni = new /*HashMap*/TreeMap<>();
@@ -37,7 +36,16 @@ public class Borsa implements Comparable<Borsa>{
     /** Mappa delle allocazioni delle azioni agli operatori (key=nome_operatore+" "+nome_azienda value= quantità allocata)*/
     private Map<String, Integer> allocazioni = new TreeMap<>();
        
-    public static Borsa factoryBorsa(String nome){
+    /**
+     * Metodo per costruire una borsa
+     * 
+     * @param nome il nome della borsa
+     * 
+     * @return la borsa costruita
+     * 
+     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto
+     */
+    public static Borsa factoryBorsa(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
@@ -45,11 +53,9 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per costruire una borsa
+     * Metodo per creare una borsa
      * 
      * @param nome il nome della borsa
-     *  
-     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto
      */
     private Borsa(String nome){
         this.nome = nome;
@@ -71,7 +77,6 @@ public class Borsa implements Comparable<Borsa>{
      */
     public static Set<Borsa> getBorse(){
         return Collections.unmodifiableSet(new TreeSet<>(borse.values()));
-        //return Collections.unmodifiableList(borse.entrySet());
     }
 
     /**
@@ -186,6 +191,11 @@ public class Borsa implements Comparable<Borsa>{
         }
     }
 
+    /**
+     * Metodo per ottenere le allocazioni delle azioni agli operatori
+     * 
+     * @return la mappa delle allocazioni delle azioni agli operatori
+     */
     public final Map<String, Integer> getAllocazioni(){
         return Collections.unmodifiableMap(allocazioni);
     }
