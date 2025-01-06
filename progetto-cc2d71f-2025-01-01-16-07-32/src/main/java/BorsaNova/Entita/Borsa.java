@@ -1,11 +1,10 @@
 package BorsaNova.Entita;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import BorsaNova.PoliticaPrezzo.*;
 
@@ -27,14 +26,23 @@ public class Borsa implements Comparable<Borsa>{
     /** Il nome della borsa */
     private final String nome;
     /** Mappa delle quotazioni (key= azienda, value= quotazione) */
-    private final Map<Azienda, Quotazione> quotazioni = new HashMap<>();
+    private final Map<Azienda, Quotazione> quotazioni = new TreeMap<>();
     /** Lista delle borse */
-    private static ArrayList<Borsa> borse = new ArrayList<>();
+    // private static ArrayList<Borsa> borse = new ArrayList<>();
+    private static Map<String, Borsa> borse = new TreeMap<>();
     /** Mappa delle azioni totali(key= azienda, value= quantità di azioni) */
-    private Map<Azienda, Integer> azioni = new HashMap<>();
+    private Map<Azienda, Integer> azioni = new /*HashMap*/TreeMap<>();
     /** La politica di prezzo della borsa */
     private Politica politica;
+    /** Mappa delle allocazioni delle azioni agli operatori (key=nome_operatore+" "+nome_azienda value= quantità allocata)*/
+    private Map<String, Integer> allocazioni = new TreeMap<>();
        
+    public static Borsa factoryBorsa(String nome){
+        if(nome==null || nome.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
+        }
+        return borse.computeIfAbsent(nome, n -> new Borsa(nome));
+    }
 
     /**
      * Metodo per costruire una borsa
@@ -43,20 +51,8 @@ public class Borsa implements Comparable<Borsa>{
      *  
      * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto
      */
-    public Borsa(String nome){
-        if(nome==null || nome.isBlank()){
-            throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
-        }
+    private Borsa(String nome){
         this.nome = nome;
-    }
-
-    /**
-     * Metodo per aggiungere la borsa alla lista delle borse se non è già presente
-     */
-    public final void aggiungiAllaLista() {
-        if(!borse.contains(this)){
-            borse.add(this);
-        }
     }
 
     /**
@@ -73,8 +69,9 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return le borse non modificabili
      */
-    public static List<Borsa> getBorse(){
-        return Collections.unmodifiableList(borse);
+    public static Set<Borsa> getBorse(){
+        return Collections.unmodifiableSet(new TreeSet<>(borse.values()));
+        //return Collections.unmodifiableList(borse.entrySet());
     }
 
     /**
@@ -90,12 +87,7 @@ public class Borsa implements Comparable<Borsa>{
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
 
-        for(Borsa b : borse){
-            if(b.getNome().equals(nome)){
-                return b;
-            }
-        }
-        return null;
+        return borse.get(nome);
     }
 
     /**
@@ -126,23 +118,20 @@ public class Borsa implements Comparable<Borsa>{
      * @param prezzo il prezzo di quotazione dell'azienda
      * 
      * modifies la quotazione della azienda
-     * 
-     * @throws NullPointerException se l'azienda da quotare è nulla
-     * @throws IllegalArgumentException se il prezzo di quotazione è minore o uguale a 0
      */
-    public final void quotaAzienda(Azienda azienda, int prezzo) throws NullPointerException, IllegalArgumentException{
-        if(azienda==null){
-            throw new NullPointerException("L'azienda da quotare non può essere nulla");
-        }
-
-        if(quotazioni.containsKey(azienda)){
-            if(prezzo<=0){
-                throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
-            }
+    public final void quotaAzienda(Azienda azienda, int prezzo){
+        if(quotazioni.containsKey(azienda)){ 
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {
-            quotazioni.put(azienda, new Quotazione(azienda, this, prezzo));
+            quotazioni.put(azienda, new Quotazione(/*azienda, this, */prezzo));
         }
+    }
+
+    public final Integer getNumeroAzioni(Azienda azienda){
+        if(azioni.containsKey(azienda)){
+            return azioni.get(azienda);
+        }
+        return null;
     }
 
     /**
@@ -187,10 +176,52 @@ public class Borsa implements Comparable<Borsa>{
         }
     }
 
+    public final Map<String, Integer> getAllocazioni(){
+        return Collections.unmodifiableMap(allocazioni);
+    }
+
+    /**
+     * Metodo per allocare ad un operatore un certo numero di azioni di un'azienda
+     * 
+     * @param operatore il nome dell'operatore a cui allocare le azioni
+     * @param azienda il nome dell'azienda di cui allocare le azioni
+     * @param quantita la quantità di azioni da allocare (anche rimuovere se l'operatore sta vendendo)
+     * 
+     * @throws IllegalArgumentException se l'azienda non è quotata in questa borsa, se l'operatore è nullo o vuoto, se l'azienda è nulla o vuota, se la quantità è 0 o se la quantità da rimuovere è maggiore delle azioni possedute
+     */
+    public final void allocaAzione(String operatore, String azienda, int quantita) throws IllegalArgumentException{
+        if(!quotazioni.containsKey(Azienda.factoryAzienda(azienda))){
+            throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
+        }
+
+        if(operatore==null||operatore.isBlank()){
+            throw new IllegalArgumentException("L'operatore non può essere nullo o vuoto");
+        }
+
+        if(azienda==null||azienda.isBlank()){
+            throw new IllegalArgumentException("L'azienda non può essere nulla o vuota");
+        }
+
+        if(quantita==0){
+            throw new IllegalArgumentException("La quantità di azioni da allocare non può essere 0");
+        }
+
+        String key=operatore+" "+azienda;
+
+        if(quantita<0 && allocazioni.get(key)<Math.abs(quantita)){
+            throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle possedute");
+        }
+
+        allocazioni.put(key, allocazioni.getOrDefault(key, 0) + quantita);
+        if(allocazioni.get(key)==0){
+            allocazioni.remove(key);
+        }
+    }
+
     /**
      * Metodo per ottenere le aziende quotate in questa borsa
      * 
-     * @return lista non modificabile delle aziende quotate in questa borsa
+     * @return set non modificabile delle aziende quotate in questa borsa
      */
     public Set<Azienda> getAziendeQuotate(){
         return Collections.unmodifiableSet(quotazioni.keySet());
@@ -199,12 +230,14 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per settare una politica di prezzo per la borsa
      * - se il valore è positivo, la politica è ad incremento costante pari a tale valore
-     * - se il valore è negativo, la politica è a decremento cost
-     * - se il valore è 0, la politica è di variazione
+     * - se il valore è negativo, la politica è a decremento costante pari al valore assoluto di valore
+     * - se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di valore
      * 
      * @param valore il valore della politica di prezzo
+     * 
+     * @throws IllegalArgumentException se la creazione della politica fallisce
      */
-    public final void setPoliticaPrezzo(int valore){
+    public final void setPoliticaPrezzo(int valore) throws IllegalArgumentException{
         if(valore>0){
             politica= new Incremento(valore);
         }else if(valore<0){
