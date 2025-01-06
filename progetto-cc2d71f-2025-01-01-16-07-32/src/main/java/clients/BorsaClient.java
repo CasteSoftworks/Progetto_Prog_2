@@ -30,7 +30,6 @@ import java.util.TreeSet;
 import BorsaNova.Entita.Azienda;
 import BorsaNova.Entita.Borsa;
 import BorsaNova.Entita.Operatore;
-//import BorsaNova.Entita.Quotazione;
 
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class BorsaClient {
@@ -77,6 +76,7 @@ public class BorsaClient {
    */
 
   public static void main(String[] args){
+    //inizializzo le strutture dati utili alla correttezza del test
     Set<Borsa> borse = new TreeSet<>();
     Map<String, Integer> mappaAziendaOperatoreAzioni = new TreeMap<>();
     
@@ -186,6 +186,7 @@ public class BorsaClient {
     scanner.close();
 
     //output
+    //loopo su tutte le borse e ognuna la confronto con le borse del test, se il nome è uguale procedo
     for(Borsa b : Borsa.getBorse()){
       for(Borsa b2 : borse){
         if(b.getNome().equals(b2.getNome())){
