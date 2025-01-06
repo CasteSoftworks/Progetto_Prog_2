@@ -152,7 +152,7 @@ public class Borsa implements Comparable<Borsa>{
      * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
      *  
      * @throws NullPointerException se l'azienda è nulla, se le azioni sono nulle o se le quotazioni sono nulle
-     * @throws IllegalArgumentException se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
+     * @throws IllegalArgumentException se quantità è pari a 0, se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
      */
     public final void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
@@ -167,8 +167,12 @@ public class Borsa implements Comparable<Borsa>{
             throw new NullPointerException("Le quotazioni non possono essere nulle");
         }
 
+        if(quantita==0){
+            throw new IllegalArgumentException("La quantità di azioni da aggiungere/rimuovere non può essere 0");
+        }
+
         if(azioni.containsKey(azienda)){
-            if(quantita<=0 && azioni.get(azienda)<Math.abs(quantita)){
+            if(quantita<0 && azioni.get(azienda)<Math.abs(quantita)){
                 throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle disponibili");
             }
             if(politica!=null){
@@ -176,7 +180,7 @@ public class Borsa implements Comparable<Borsa>{
             }
             azioni.put(azienda, azioni.get(azienda) + quantita);
         } else {
-            if(quantita<=0){
+            if(quantita<0){
                 throw new IllegalArgumentException("Le azioni non possono essere rimosse se non esistono");
             }
             azioni.put(azienda, quantita);
