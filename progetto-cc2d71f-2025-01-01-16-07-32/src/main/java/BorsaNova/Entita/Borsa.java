@@ -5,10 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import BorsaNova.PoliticaPrezzo.Costante;
-import BorsaNova.PoliticaPrezzo.Decremento;
-import BorsaNova.PoliticaPrezzo.Incremento;
-import BorsaNova.PoliticaPrezzo.Politica;
+import BorsaNova.PoliticaPrezzo.*;
 
 /**
  * Classe per rappresentare una Borsa
@@ -197,7 +194,7 @@ public class Borsa implements Comparable<Borsa>{
      * Metodo per settare una politica di prezzo per la borsa
      * - se il valore è positivo, la politica è ad incremento costante pari a tale valore
      * - se il valore è negativo, la politica è a decremento cost
-     * - se il valore è 0, la politica è costante (non viene cambiato il prezzo)
+     * - se il valore è 0, la politica è di variazione
      * 
      * @param valore il valore della politica di prezzo
      */
@@ -207,7 +204,7 @@ public class Borsa implements Comparable<Borsa>{
         }else if(valore<0){
             politica= new Decremento(Math.abs(valore));
         }else{
-            politica= new Costante(valore);
+            politica= new Variazione(valore);
         }
     }
 
