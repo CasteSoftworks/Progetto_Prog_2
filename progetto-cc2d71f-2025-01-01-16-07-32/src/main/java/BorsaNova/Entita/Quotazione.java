@@ -19,9 +19,9 @@ public class Quotazione {
      */
 
     /** L'azienda della quotazione */
-    private final Azienda azienda;
+    //private final Azienda azienda;
     /** La borsa della quotazione */
-    private final Borsa borsa;
+    //private final Borsa borsa;
     /** Il prezzo corrente della quotazione */
     private int prezzoCorrente;
 
@@ -35,19 +35,19 @@ public class Quotazione {
      * @throws NullPointerException se l'azienda o la borsa sono nulle
      * @throws IllegalArgumentException se l'azienda o la borsa sono stringhe vuote o composte solo da spazi bianchi e se il prezzo è minore di 0 o nullo
      */
-    public Quotazione(Azienda azienda, Borsa borsa, Integer prezzo){
-        if(azienda==null || borsa==null){
+    public Quotazione(/*Azienda azienda, Borsa borsa, */int prezzo) throws NullPointerException, IllegalArgumentException{
+        /*if(azienda==null || borsa==null){
             throw new NullPointerException("L'azienda e/o la borsa della quotazione non possono essere nulli");
         }
         if(azienda.getNome().isBlank() || borsa.getNome().isBlank()){
             throw new IllegalArgumentException("L'azienda e/o la borsa della quotazione non possono essere stringhe vuote o composte solo da spazi bianchi");
-        }
-        if(prezzo<0||prezzo==null){
+        }*/
+        /*if(prezzo<0){
             throw new IllegalArgumentException("Il prezzo della quotazione non può essere negativo o nullo");
-        }
+        }*/
         
-        this.azienda = azienda;
-        this.borsa = borsa;
+        //this.azienda = azienda;
+        //this.borsa = borsa;
         this.prezzoCorrente = prezzo;
     }
 
