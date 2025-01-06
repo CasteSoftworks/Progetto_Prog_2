@@ -6,48 +6,28 @@ package BorsaNova.Entita;
 public class Quotazione {
     /**
      * AF:
-     * AF(azienda, borsa, prezzoCorrente) = Una quotazione rappresentata da:
-     * - azienda: è l'azienda della quotazione
-     * - borsa: è la borsa della quotazione
+     * AF(prezzoCorrente) = Una quotazione rappresentata da:
      * - prezzoCorrente: è il prezzo corrente della quotazione
      *
      * RI:
-     * RI(azienda, borsa, prezzoCorrente) = L'oggetto quotazione rispetta le seguenti condizioni:
-     * - azienda non è null e non è una stringa vuota o composta solo da spazi bianchi
-     * - borsa non è null e non è una stringa vuota o composta solo da spazi bianchi
+     * RI(prezzoCorrente) = L'oggetto quotazione rispetta la seguente condizione:
      * - prezzoCorrente è maggiore o uguale a 0
      */
 
-    /** L'azienda della quotazione */
-    //private final Azienda azienda;
-    /** La borsa della quotazione */
-    //private final Borsa borsa;
     /** Il prezzo corrente della quotazione */
     private int prezzoCorrente;
 
     /**
      * Metodo per costruire una quotazione
      * 
-     * @param azienda l'azienda della quotazione
-     * @param borsa la borsa della quotazione
      * @param prezzo il prezzo corrente della quotazione
      * 
-     * @throws NullPointerException se l'azienda o la borsa sono nulle
-     * @throws IllegalArgumentException se l'azienda o la borsa sono stringhe vuote o composte solo da spazi bianchi e se il prezzo è minore di 0 o nullo
+     * @throws IllegalArgumentException se il prezzo corrente della quotazione è minore o uguale a 0 
      */
-    public Quotazione(/*Azienda azienda, Borsa borsa, */int prezzo) throws NullPointerException, IllegalArgumentException{
-        /*if(azienda==null || borsa==null){
-            throw new NullPointerException("L'azienda e/o la borsa della quotazione non possono essere nulli");
+    public Quotazione(int prezzo) throws IllegalArgumentException{
+        if(prezzo<=0){
+            throw new IllegalArgumentException("Il prezzo corrente della quotazione deve essere maggiore di 0");
         }
-        if(azienda.getNome().isBlank() || borsa.getNome().isBlank()){
-            throw new IllegalArgumentException("L'azienda e/o la borsa della quotazione non possono essere stringhe vuote o composte solo da spazi bianchi");
-        }*/
-        /*if(prezzo<0){
-            throw new IllegalArgumentException("Il prezzo della quotazione non può essere negativo o nullo");
-        }*/
-        
-        //this.azienda = azienda;
-        //this.borsa = borsa;
         this.prezzoCorrente = prezzo;
     }
 
