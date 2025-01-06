@@ -246,6 +246,13 @@ public class Operatore implements Comparable<Operatore>{
         return operatori.get(nome);
     }
 
+    /**
+     * Metodo override per confrontare due operatori in base al nome
+     * 
+     * @param o l'operatore con cui confrontare
+     * 
+     * @return 0 se i due operatori sono uguali, un numero negativo se l'operatore è minore di o, un numero positivo altrimenti
+     */
     @Override
     public int compareTo(Operatore o) {
         return this.getNome().compareTo(o.getNome());
