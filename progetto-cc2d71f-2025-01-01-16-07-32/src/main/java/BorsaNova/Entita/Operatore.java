@@ -143,6 +143,7 @@ public class Operatore implements Comparable<Operatore>{
 
         budget -= costo;
         borsa.modificaAzioni(azienda, quantita);
+        borsa.allocaAzione(nome, azienda.getNome(), quantita);
 
         String key=azienda.getNome()+" "+borsa.getNome();
         portafoglioAzionario.put(key, portafoglioAzionario.getOrDefault(key, 0) + quantita);
@@ -190,6 +191,7 @@ public class Operatore implements Comparable<Operatore>{
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
         borsa.modificaAzioni(azienda, -quantita);
+        borsa.allocaAzione(nome, azienda.getNome(), -quantita);
 
         portafoglioAzionario.put(key, portafoglioAzionario.get(key) - quantita);
         if(portafoglioAzionario.get(key)==0){
@@ -215,6 +217,15 @@ public class Operatore implements Comparable<Operatore>{
         }
 
         return valorePortafoglio;
+    }
+
+    /**
+     * Metodo per ottenere il patrimonio dell'operatore (budget + valore del portafoglio)
+     * 
+     * @return la somma del budget e del valore del portafoglio dell'operatore
+     */
+    public int getCapitaleTotale(){
+        return budget + getValorePortafoglio();
     }
 
     /**
