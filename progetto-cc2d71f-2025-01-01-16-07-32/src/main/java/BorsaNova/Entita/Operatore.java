@@ -142,7 +142,7 @@ public class Operatore implements Comparable<Operatore>{
         int costo = costoPerAzione * quantita;
 
         budget -= costo;
-        borsa.modificaAzioni(azienda, quantita);
+        borsa.modificaAzioni(azienda, -quantita);
         borsa.allocaAzione(nome, azienda.getNome(), quantita);
 
         String key=azienda.getNome()+" "+borsa.getNome();
@@ -190,7 +190,7 @@ public class Operatore implements Comparable<Operatore>{
 
         int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
         budget += guadagno;
-        borsa.modificaAzioni(azienda, -quantita);
+        borsa.modificaAzioni(azienda, +quantita);
         borsa.allocaAzione(nome, azienda.getNome(), -quantita);
 
         portafoglioAzionario.put(key, portafoglioAzionario.get(key) - quantita);
