@@ -1,7 +1,6 @@
 package BorsaNova.Entita;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +53,7 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per aggiungere la borsa alla lista delle borse se non è già presente
      */
-    public void aggiungiAllaLista() {
+    public final void aggiungiAllaLista() {
         if(!borse.contains(this)){
             borse.add(this);
         }
@@ -131,7 +130,7 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'azienda da quotare è nulla
      * @throws IllegalArgumentException se il prezzo di quotazione è minore o uguale a 0
      */
-    public void quotaAzienda(Azienda azienda, int prezzo) throws NullPointerException, IllegalArgumentException{
+    public final void quotaAzienda(Azienda azienda, int prezzo) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda da quotare non può essere nulla");
         }
@@ -155,7 +154,7 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'azienda è nulla, se le azioni sono nulle o se le quotazioni sono nulle
      * @throws IllegalArgumentException se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
      */
-    public void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+    public final void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }
@@ -201,7 +200,7 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @param valore il valore della politica di prezzo
      */
-    public void setPoliticaPrezzo(int valore){
+    public final void setPoliticaPrezzo(int valore){
         if(valore>0){
             politica= new Incremento(valore);
         }else if(valore<0){
