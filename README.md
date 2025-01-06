@@ -21,6 +21,7 @@ Le azioni seguono una politica di prezzo (abbastanza astrusa e a costante) che f
   * roba del santini
 
 ## Resa in sicurezza e conforme alla etica della programmazione ad oggetti
+* 6/01 - **60%** Ristrutturata, forse migliorabile, javadoc migliorato come migliorata leggibilità generale. Aggiunti riconoscimenti (parziali, vuole segnalato cosa fatto con cosa)
 * 5/01 - **20%** Appena iniziato, probabilmente molto insicuro
 
 ## Percentaule di completamento base
