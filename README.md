@@ -20,6 +20,11 @@ Le azioni seguono una politica di prezzo (abbastanza astrusa e a costante) che f
 * **clients**
   * roba del santini
 
-## Percentaule di completamento
+## Resa in sicurezza e conforme alla etica della programmazione ad oggetti
+* 6/01 - **60%** Ristrutturata, forse migliorabile, javadoc migliorato come migliorata leggibilità generale. Aggiunti riconoscimenti (parziali, vuole segnalato cosa fatto con cosa)
+* 5/01 - **20%** Appena iniziato, probabilmente molto insicuro
+
+## Percentaule di completamento base
+* 5/01 - **100%** FINITI I TEST
 * 4/01 - **80%** mancano due test e passa tutto poi incubo di documentazione
 * 3/01 - **50%** ma probabilmente molta roba è da buttare e rifare a causa di non uso di ISTANCES
