@@ -73,8 +73,8 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return le borse non modificabili
      */
-    public static /*ArrayList<Borsa>*/List<Borsa> getBorse(){
-        return /*new ArrayList<>*/(Collections.unmodifiableList(borse));
+    public static List<Borsa> getBorse(){
+        return Collections.unmodifiableList(borse);
     }
 
     /**
@@ -188,8 +188,8 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return lista non modificabile delle aziende quotate in questa borsa
      */
-    public /*ArrayList<Azienda>*/ Set<Azienda> getAziendeQuotate(){
-        return /*new ArrayList<>*/(Collections.unmodifiableSet(quotazioni.keySet()));
+    public Set<Azienda> getAziendeQuotate(){
+        return Collections.unmodifiableSet(quotazioni.keySet());
     }
 
     /**
