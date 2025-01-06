@@ -12,7 +12,7 @@ public interface Politica {
      * 
      * @return il prezzo calcolato
      * 
-     * @throws IllegalArgumentException se il valore che deve modificare prezzo è minore di 0
+     * @throws IllegalArgumentException se il valore che deve modificare prezzo è minore di 0 nelle classi che implementano l'interfaccia
      */
     public abstract int calcolaPrezzo(int prezzo, boolean acquisto) throws IllegalArgumentException;
     
