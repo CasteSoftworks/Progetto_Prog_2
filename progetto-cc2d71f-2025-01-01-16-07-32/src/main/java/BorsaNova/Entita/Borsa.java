@@ -165,7 +165,8 @@ public class Borsa implements Comparable<Borsa>{
                 throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle disponibili");
             }
             if(politica!=null){
-                quotazioni.get(azienda).aggiornaPrezzo(politica.calcolaPrezzo(quotazioni.get(azienda).getPrezzoCorrente(), quantita>0));
+                //se compro azioni sto sottraendo quantità, se vendo sto aggiungendo, quindi per fare in modo che quando compro arrivi <code>true</code> e quando vendo <code>false</code> inverto il check di quantità per tare true qwuando <0 e false altrimenti
+                quotazioni.get(azienda).aggiornaPrezzo(politica.calcolaPrezzo(quotazioni.get(azienda).getPrezzoCorrente(), quantita<0));
             }
             azioni.put(azienda, azioni.get(azienda) + quantita);
         } else {
