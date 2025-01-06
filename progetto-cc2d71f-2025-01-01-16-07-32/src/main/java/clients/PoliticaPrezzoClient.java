@@ -22,8 +22,6 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package clients;
 
 import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
 
 import BorsaNova.Entita.Azienda;
 import BorsaNova.Entita.Borsa;
@@ -74,17 +72,15 @@ public class PoliticaPrezzoClient {
    */
 
   public static void main(String[] args) {
-    Set<Azienda> azioni = new TreeSet<>();
     Scanner scanner = new Scanner(System.in);
 
     String nomeBorsa = args[0];
     int valore = Integer.parseInt(args[1]);
     int budgetIniziale = Integer.parseInt(args[2]);
 
-    Borsa borsa = new Borsa(nomeBorsa);
+    Borsa borsa = Borsa.factoryBorsa(nomeBorsa);
     borsa.setPoliticaPrezzo(valore);
 
-    borsa.aggiungiAllaLista();
 
     Operatore operatore = Operatore.factoryOperatore("operatore", budgetIniziale);
 
@@ -103,9 +99,8 @@ public class PoliticaPrezzoClient {
       int prezzoUnitario = Integer.parseInt(tokens[2]);
 
       Azienda az = Azienda.factoryAzienda(nomeAzienda);
-      azioni.add(az);
+      az.quotatiInBorsa(nomeBorsa, prezzoUnitario);
 
-      borsa.quotaAzienda(az, prezzoUnitario);
       borsa.modificaAzioni(az, numero);
     }
 
@@ -133,8 +128,8 @@ public class PoliticaPrezzoClient {
     scanner.close();
 
     //output
-    for (Azienda az : azioni) {
-      System.out.println(az.getNome() + ", " + borsa.getQuotazioneAzienda(az).getPrezzoCorrente());
+    for(Azienda az : borsa.getAziendeQuotate()){
+      System.out.println(az.getNome()+", "+borsa.getQuotazioneAzienda(az).getPrezzoCorrente());
     }
 
   }

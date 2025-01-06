@@ -21,10 +21,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import BorsaNova.Entita.Azienda;
@@ -84,13 +82,9 @@ public class OperatoreClient {
    * da virgole).
    */
 
-   //b: buy, s: sell, d: deposit, w: withdraw
   public static void main(String[] args) {
     Set<Borsa> borse = new TreeSet<>();
     Set<Operatore> operatori = new TreeSet<>();
-
-    Map<String, Integer> aziende = new TreeMap<>();
-    Map<String, Integer> mappaAziendaOperatoreAzioni = new TreeMap<>();
 
     Scanner scanner = new Scanner(System.in);
     
@@ -108,22 +102,14 @@ public class OperatoreClient {
       int numero = Integer.parseInt(tokens[2]);
       int prezzoUnitario = Integer.parseInt(tokens[3]);
 
-      Borsa b=null;
-
-      if(Borsa.getBorsa(nomeBorsa)==null){
-        b= new Borsa(nomeBorsa);
-      }else{
-        b=Borsa.getBorsa(nomeBorsa);
-      }
+      Borsa b=Borsa.factoryBorsa(nomeBorsa);
       
       Azienda a= Azienda.factoryAzienda(nomeAzienda);
   
       b.quotaAzienda(a, prezzoUnitario);
       b.modificaAzioni(a, numero);
-      b.aggiungiAllaLista();
       borse.add(b);
       
-      aziende.put(b.getNome()+" "+a.getNome(), numero);
     }
     /*
      * Legge il secondo blocco di input.
@@ -158,21 +144,11 @@ public class OperatoreClient {
         String nomeBorsa = tokens[2];
         String nomeAzienda = tokens[3];
 
-        Azienda az = Azienda.getAzienda(nomeAzienda);
-        Borsa b = Borsa.getBorsa(nomeBorsa);
-
-        String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
-        String key2=b.getNome()+" "+az.getNome();
-
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
+        Borsa b = Borsa.factoryBorsa(nomeBorsa);
         int prezzoTotale = Integer.parseInt(tokens[4]);
 
-        int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
-        aziende.put(key2, aziende.get(key2)-numAzioni);
-
-        if(mappaAziendaOperatoreAzioni.containsKey(key)){
-          numAzioni+=mappaAziendaOperatoreAzioni.get(key);
-        }
-        mappaAziendaOperatoreAzioni.put(key, numAzioni);
+        o.acquistaAzione(az, b, prezzoTotale);
 
       }else if(operazione.equals("s")){
         String nomeBorsa = tokens[2];
@@ -180,16 +156,11 @@ public class OperatoreClient {
 
         int numeroAzioni = Integer.parseInt(tokens[4]);
 
-        Azienda az = Azienda.getAzienda(nomeAzienda);
-        Borsa b = Borsa.getBorsa(nomeBorsa);
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
+        Borsa b = Borsa.factoryBorsa(nomeBorsa);
 
-        String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
-        String key2=b.getNome()+" "+az.getNome();
+        o.vendeAzione(az, b, numeroAzioni);
 
-        if(o.vendeAzione(az, b, numeroAzioni)){
-          aziende.put(key2, aziende.get(key2)+numeroAzioni);
-          mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
-        }
       }else if(operazione.equals("d")){
         int valore = Integer.parseInt(tokens[2]);
         o.depositaInBudget(valore);
@@ -200,15 +171,19 @@ public class OperatoreClient {
     }
     scanner.close();
 
-    for (Operatore o : operatori) {
+    for(Operatore o : operatori){
       System.out.println(o.getNome() + ", " + o.getBudget() + ", " + o.getValorePortafoglio());
-      for (Map.Entry<String, Integer> entry : mappaAziendaOperatoreAzioni.entrySet()) {
-        String[] tokens = entry.getKey().split(" ");
-        if (tokens[2].equals(o.getNome())&&entry.getValue()>0) {
-          System.out.println("- " + tokens[0] + ", " + tokens[1] + ", " + entry.getValue());
+      for(Borsa b : borse){
+        for(String key : b.getAllocazioni().keySet()){
+          String[] tokens = key.split(" ");
+          Azienda a = Azienda.getAzienda(tokens[1]);
+          if(o.getNome().equals(tokens[0])){
+            System.out.println("- " + b.getNome() + ", " + a.getNome() + ", " + b.getAllocazioni().get(key));
+          }
         }
       }
     }
   }
+
 
 }

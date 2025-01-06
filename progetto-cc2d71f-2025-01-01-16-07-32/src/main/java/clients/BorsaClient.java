@@ -91,7 +91,7 @@ public class BorsaClient {
      * - quotazione dell'azienda nella borsa con prezzo unitario
      * - aggiunta delle azioni dell'azienda nella borsa con numero
      */
-    while(scanner.hasNextLine()){
+   while(scanner.hasNextLine()){
       String line = scanner.nextLine();
 
       if(line.equals("--")){
@@ -106,17 +106,18 @@ public class BorsaClient {
 
       Borsa b=null;
 
-      if(Borsa.getBorsa(nomeBorsa)==null){
+      /*if(Borsa.getBorsa(nomeBorsa)==null){
         b= new Borsa(nomeBorsa);
       }else{
         b=Borsa.getBorsa(nomeBorsa);
-      }
+      }*/
+      b=Borsa.factoryBorsa(nomeBorsa);
        
       Azienda a= Azienda.factoryAzienda(nomeAzienda);
       
       b.quotaAzienda(a, prezzoUnitario);
       b.modificaAzioni(a, numero);
-      b.aggiungiAllaLista();
+      //b.aggiungiAllaLista();
       borse.add(b);
       
       aziende.put(b.getNome()+" "+a.getNome(), numero);
@@ -212,5 +213,6 @@ public class BorsaClient {
         }
       }
     }
+    
   }
 }
