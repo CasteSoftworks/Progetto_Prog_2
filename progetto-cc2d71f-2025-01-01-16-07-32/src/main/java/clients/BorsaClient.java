@@ -78,7 +78,6 @@ public class BorsaClient {
 
   public static void main(String[] args){
     Set<Borsa> borse = new TreeSet<>();
-    Map<String, Integer> aziende = new TreeMap<>();
     Map<String, Integer> mappaAziendaOperatoreAzioni = new TreeMap<>();
     
     Scanner scanner = new Scanner(System.in);
@@ -106,22 +105,13 @@ public class BorsaClient {
 
       Borsa b=null;
 
-      /*if(Borsa.getBorsa(nomeBorsa)==null){
-        b= new Borsa(nomeBorsa);
-      }else{
-        b=Borsa.getBorsa(nomeBorsa);
-      }*/
       b=Borsa.factoryBorsa(nomeBorsa);
        
       Azienda a= Azienda.factoryAzienda(nomeAzienda);
       
-      b.quotaAzienda(a, prezzoUnitario);
+      a.quotatiInBorsa(nomeBorsa, prezzoUnitario);
       b.modificaAzioni(a, numero);
-      //b.aggiungiAllaLista();
-      borse.add(b);
-      
-      aziende.put(b.getNome()+" "+a.getNome(), numero);
-      
+      borse.add(b);      
     }
     /*
      * Secondo blocco:
@@ -177,10 +167,8 @@ public class BorsaClient {
       if(tipoOperazione.equals("b")){
         int prezzoTotale = Integer.parseInt(tokens[4]);
         
-        String key2=b.getNome()+" "+az.getNome();
 
         int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
-        aziende.put(key2, aziende.get(key2)-numAzioni);
         
         if(mappaAziendaOperatoreAzioni.containsKey(key)){
           numAzioni+=mappaAziendaOperatoreAzioni.get(key);
@@ -191,8 +179,6 @@ public class BorsaClient {
         int numeroAzioni = Integer.parseInt(tokens[4]);
 
         if(o.vendeAzione(az, b, numeroAzioni)){
-          String key2=b.getNome()+" "+az.getNome();
-          aziende.put(key2, aziende.get(key2)+numeroAzioni);
           mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
         }        
       }
@@ -200,14 +186,16 @@ public class BorsaClient {
     scanner.close();
 
     //output
-    for(Borsa b : borse){
-      System.out.println(b.getNome());
-      for(Map.Entry<String, Integer> entry : aziende.entrySet()){
-        if(entry.getKey().contains(b.getNome())){
-          System.out.println("- "+entry.getKey().split(" ")[1]+" "+entry.getValue());
-          for(Map.Entry<String, Integer> entry2 : mappaAziendaOperatoreAzioni.entrySet()){
-            if(entry2.getKey().contains(entry.getKey())&&entry2.getValue()!=0){
-              System.out.println("= "+entry2.getKey().split(" ")[2]+" "+entry2.getValue());
+    for(Borsa b : Borsa.getBorse()){
+      for(Borsa b2 : borse){
+        if(b.getNome().equals(b2.getNome())){
+          System.out.println(b.getNome());
+          for(Azienda a : b2.getAziendeQuotate()){
+            System.out.println("- "+a.getNome()+" "+b2.getNumeroAzioni(a));
+            for(String key : mappaAziendaOperatoreAzioni.keySet()){
+              if(key.contains(b2.getNome()+" "+a.getNome())&&mappaAziendaOperatoreAzioni.get(key)!=0){
+                System.out.println("= "+key.split(" ")[2]+" "+mappaAziendaOperatoreAzioni.get(key));
+              }
             }
           }
         }
