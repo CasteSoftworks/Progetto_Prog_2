@@ -41,18 +41,19 @@ public class OmonimiaBorsaClient {
    */
 
   public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
+    
     Set<Borsa> borseTree = new TreeSet<>(); //FA SCHIFO ma non so come fare altrimenti
     
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
+    try(Scanner scanner = new Scanner(System.in)){
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
 
-      Borsa b = Borsa.factoryBorsa(line);
-      
-      borseTree.add(b);
-      
+        Borsa b = Borsa.factoryBorsa(line);
+        
+        borseTree.add(b);
+        
+      }
     }
-    scanner.close();
 
     //dimostro che le borse sono comunque presenti, nonostante il TreeSet
     for (Borsa b : Borsa.getBorse()) {

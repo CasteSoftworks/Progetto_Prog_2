@@ -72,8 +72,6 @@ public class PoliticaPrezzoClient {
    */
 
   public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
-
     String nomeBorsa = args[0];
     int valore = Integer.parseInt(args[1]);
     int budgetIniziale = Integer.parseInt(args[2]);
@@ -84,48 +82,47 @@ public class PoliticaPrezzoClient {
 
     Operatore operatore = Operatore.factoryOperatore("operatore", budgetIniziale);
 
+    try(Scanner scanner = new Scanner(System.in)){
+      /*
+      * primo blocco
+      */
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if (line.equals("--")) {
+          break;
+        }
+        String[] tokens = line.split(" ");
+        String nomeAzienda = tokens[0];
+        int numero = Integer.parseInt(tokens[1]);
+        int prezzoUnitario = Integer.parseInt(tokens[2]);
 
-    /*
-     * primo blocco
-     */
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      if (line.equals("--")) {
-        break;
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
+        az.quotatiInBorsa(nomeBorsa, prezzoUnitario);
+
+        borsa.modificaAzioni(az, numero);
       }
-      String[] tokens = line.split(" ");
-      String nomeAzienda = tokens[0];
-      int numero = Integer.parseInt(tokens[1]);
-      int prezzoUnitario = Integer.parseInt(tokens[2]);
 
-      Azienda az = Azienda.factoryAzienda(nomeAzienda);
-      az.quotatiInBorsa(nomeBorsa, prezzoUnitario);
+      /*
+      * secondo blocco
+      */
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if (line.equals("--")) {
+          break;
+        }
+        String[] tokens = line.split(" ");
+        String nomeAzienda = tokens[1];
+        int num = Integer.parseInt(tokens[2]);
 
-      borsa.modificaAzioni(az, numero);
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
+
+        if(tokens[0].equals("b")) {
+          operatore.acquistaAzione(az, borsa, num);
+        } else {
+          operatore.vendeAzione(az, borsa, num);
+        }
+      }
     }
-
-    /*
-     * secondo blocco
-     */
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      if (line.equals("--")) {
-        break;
-      }
-      String[] tokens = line.split(" ");
-      String nomeAzienda = tokens[1];
-      int num = Integer.parseInt(tokens[2]);
-
-      Azienda az = Azienda.factoryAzienda(nomeAzienda);
-
-      if(tokens[0].equals("b")) {
-        operatore.acquistaAzione(az, borsa, num);
-      } else {
-        operatore.vendeAzione(az, borsa, num);
-      }
-    }
-
-    scanner.close();
 
     //output
     for(Azienda az : borsa.getAziendeQuotate()){
