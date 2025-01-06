@@ -118,15 +118,24 @@ public class Borsa implements Comparable<Borsa>{
      * @param prezzo il prezzo di quotazione dell'azienda
      * 
      * modifies la quotazione della azienda
+     * 
+     * @throws IllegalArgumentException se il prezzo passato a Quotazione è minore o uguale a 0
      */
-    public final void quotaAzienda(Azienda azienda, int prezzo){
+    public final void quotaAzienda(Azienda azienda, int prezzo) throws IllegalArgumentException{
         if(quotazioni.containsKey(azienda)){ 
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {
-            quotazioni.put(azienda, new Quotazione(/*azienda, this, */prezzo));
+            quotazioni.put(azienda, new Quotazione(prezzo));
         }
     }
 
+    /**
+     * Metodo per ottenere il numero di azioni di un'azienda
+     * 
+     * @param azienda l'azienda di cui si vuole ottenere il numero di azioni
+     * 
+     * @return il numero di azioni dell'azienda richiesta o null se non esiste
+     */
     public final Integer getNumeroAzioni(Azienda azienda){
         if(azioni.containsKey(azienda)){
             return azioni.get(azienda);
@@ -248,6 +257,13 @@ public class Borsa implements Comparable<Borsa>{
         }
     }
 
+    /**
+     * Metodo per confrontare due borse in base al loro nome
+     * 
+     * @param borsa la borsa con cui confrontare
+     * 
+     * @return 0 se le borse sono uguali, un numero negativo se la borsa è minore di borsa, un numero positivo altrimenti
+     */
     @Override
     public int compareTo(Borsa borsa){
         return this.getNome().compareTo(borsa.getNome());
