@@ -42,7 +42,7 @@ public class OmonimiaBorsaClient {
 
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
-    Set<Borsa> borseTree = new TreeSet<>(); //FA SCHIFO
+    Set<Borsa> borseTree = new TreeSet<>(); //FA SCHIFO ma non so come fare altrimenti
     
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
@@ -54,6 +54,7 @@ public class OmonimiaBorsaClient {
     }
     scanner.close();
 
+    //dimostro che le borse sono comunque presenti, nonostante il TreeSet
     for (Borsa b : Borsa.getBorse()) {
       for(Borsa b2 : borseTree) {
         if(b.getNome().equals(b2.getNome())) {
