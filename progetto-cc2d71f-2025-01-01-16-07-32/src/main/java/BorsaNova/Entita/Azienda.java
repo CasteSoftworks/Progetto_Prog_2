@@ -8,7 +8,12 @@ import java.util.TreeMap;
 
 /**
  * Classe per rappresentare una Azienda
- * <br>
+ * 
+ * <p>
+ * Una Azienda ha un nome, che la identifica univocamente.
+ * Una Azienda può quotarsi in una Borsa, farsi erogare delle azioni e ottenere la quotazione in una Borsa.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
  * <li>Github Copilot - GTP4.0</li>
@@ -117,6 +122,26 @@ public class Azienda implements Comparable<Azienda>{
             throw new NullPointerException("La borsa richiesta non esiste");
         }
         b.quotaAzienda(this, prezzo);
+    }
+
+    /**
+     * Metodo per farsi erogare un determinato numero di azioni in una borsa
+     * 
+     * @param borsa il nome della borsa in cui erogare le azioni
+     * @param numeroAzioni il numero di azioni da farsi erogare
+     * 
+     * @throws NullPointerException se la borsa richiesta non esiste e se modificaAzioni incorre in una NullPointerException
+     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto e se modificaAzioni incorre in una IllegalArgumentException
+     */
+    public final void erogaAzione(String borsa, int numeroAzioni) throws NullPointerException, IllegalArgumentException{
+        if(borsa==null || borsa.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
+        }
+        Borsa b = Borsa.getBorsa(borsa);
+        if(b==null){
+            throw new NullPointerException("La borsa richiesta non esiste");
+        }
+        b.modificaAzioni(this, numeroAzioni);
     }
 
     /**
