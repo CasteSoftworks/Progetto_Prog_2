@@ -39,8 +39,8 @@ public class Borsa implements Comparable<Borsa>{
     private final Map<Azienda, Quotazione> quotazioni = new TreeMap<>();
     /** Lista delle borse */
     private static Map<String, Borsa> borse = new TreeMap<>();
-    /** Mappa delle azioni totali(key= azienda, value= quantità di azioni) */
-    private Map<Azienda, Integer> azioni = new /*HashMap*/TreeMap<>();
+    /** Mappa delle azioni disponibili(key= azienda, value= quantità di azioni) */
+    private Map<Azienda, Integer> azioni = new TreeMap<>();
     /** La politica di prezzo della borsa */
     private Politica politica;
     /** Mappa delle allocazioni delle azioni agli operatori (key=nome_operatore+" "+nome_azienda value= quantità allocata)*/
