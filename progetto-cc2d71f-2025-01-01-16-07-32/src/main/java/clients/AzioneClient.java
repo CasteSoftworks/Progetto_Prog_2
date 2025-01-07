@@ -61,7 +61,7 @@ public class AzioneClient {
         
         
         a.quotatiInBorsa(nomeB, prezzo);
-        b.modificaAzioni(a, numero);
+        a.erogaAzione(nomeB, numero);
       }
     }
 

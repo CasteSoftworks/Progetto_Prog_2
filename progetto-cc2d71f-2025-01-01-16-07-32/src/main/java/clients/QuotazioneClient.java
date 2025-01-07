@@ -66,10 +66,11 @@ public class QuotazioneClient {
 
         Azienda az = Azienda.factoryAzienda(input[0]);
         az.quotatiInBorsa(input[1], Integer.parseInt(input[3]));
+        az.erogaAzione(input[1], Integer.parseInt(input[2]));
         aziende.add(az);
 
 
-        borsa.modificaAzioni(az, Integer.parseInt(input[2]));
+        
       }
     }
 

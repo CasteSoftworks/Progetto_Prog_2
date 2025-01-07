@@ -98,9 +98,8 @@ public class PoliticaPrezzoClient {
 
         Azienda az = Azienda.factoryAzienda(nomeAzienda);
         az.quotatiInBorsa(nomeBorsa, prezzoUnitario);
-
-        borsa.modificaAzioni(az, numero);
-      }
+        az.erogaAzione(nomeBorsa, numero);
+        }
 
       /*
       * secondo blocco

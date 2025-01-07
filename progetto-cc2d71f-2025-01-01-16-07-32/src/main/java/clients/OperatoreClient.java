@@ -107,7 +107,7 @@ public class OperatoreClient {
         Azienda a= Azienda.factoryAzienda(nomeAzienda);
     
         a.quotatiInBorsa(nomeBorsa, prezzoUnitario);
-        b.modificaAzioni(a, numero);
+        a.erogaAzione(nomeBorsa, numero);
         borse.add(b);
         
       }
