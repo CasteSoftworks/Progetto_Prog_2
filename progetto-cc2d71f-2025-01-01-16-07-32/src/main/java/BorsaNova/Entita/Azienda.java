@@ -11,8 +11,8 @@ import java.util.TreeMap;
  * <br>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
+ * <li>Github Copilot - GTP4.0</li>
+ * <li>ChatGTP 4.o</li>
  * <li>StackOverflow</li>
  * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
@@ -27,7 +27,7 @@ public class Azienda implements Comparable<Azienda>{
      * - nome: è il nome dell'azienda
      *
      * RI:
-     * RI(nome) = L'oggetto azienda rispetta le seguenti condizioni:
+     * RI(nome) = L'oggetto Azienda rispetta le seguenti condizioni:
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
      */
 
