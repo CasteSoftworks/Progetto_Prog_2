@@ -10,7 +10,11 @@ import BorsaNova.PoliticaPrezzo.*;
 
 /**
  * Classe per rappresentare una Borsa
- * <br>
+ * 
+ * <p>
+ * Una Borsa ha un nome (che la identifica univocamente) delle quotazioni, delle azioni, una politica di prezzo e delle allocazioni di azioni agli operatori
+ * Una Borsa può quotare un'azienda (per procura di quest'ultima), aggiungere/rimuovere/creare azioni di un'azienda, allocare azioni ad un operatore e settare una politica di prezzo
+ * <p> 
  * Fatto con l'aiuto di:
  * <ul>
  * <li>Github Copilot - GTP4.0</li>
@@ -22,8 +26,6 @@ import BorsaNova.PoliticaPrezzo.*;
  * <li>Fernando Gavezzotti (compagno di corso, suggerimento di usare protected)</li>
  * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected e di stile documentativo)</li>
  * </ul>
- * 
- * 
  */
 
 public class Borsa implements Comparable<Borsa>{
@@ -132,6 +134,7 @@ public class Borsa implements Comparable<Borsa>{
 
     /**
      * Metodo per quotare un'azienda
+     * Protected per evitare che venga chiamato da classi esterne a Entita
      * 
      * @param azienda l'azienda da quotare
      * @param prezzo il prezzo di quotazione dell'azienda
@@ -164,6 +167,7 @@ public class Borsa implements Comparable<Borsa>{
 
     /**
      * Metodo per aggiungere/rimuovere o (se non presenti) emettere le azioni di un'azienda
+     * Protected per evitare che venga chiamato da classi esterne a Entita
      * 
      * @param azienda l'azienda di cui si vogliono modificare/aggiungere le azioni
      * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
@@ -171,7 +175,7 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'azienda è nulla, se le azioni sono nulle o se le quotazioni sono nulle
      * @throws IllegalArgumentException se quantità è pari a 0, se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
      */
-    public final void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+    protected final void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }
