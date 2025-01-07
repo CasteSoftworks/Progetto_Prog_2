@@ -19,7 +19,11 @@ import BorsaNova.PoliticaPrezzo.*;
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * <li>Fernando Gavezzotti (compagno di corso, suggerimento di usare protected)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected e di stile documentativo)</li>
  * </ul>
+ * 
+ * 
  */
 
 public class Borsa implements Comparable<Borsa>{
@@ -136,7 +140,7 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @throws IllegalArgumentException se il prezzo passato a Quotazione è minore o uguale a 0
      */
-    public final void quotaAzienda(Azienda azienda, int prezzo) throws IllegalArgumentException{
+    protected final void quotaAzienda(Azienda azienda, int prezzo) throws IllegalArgumentException{
         if(quotazioni.containsKey(azienda)){ 
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {
