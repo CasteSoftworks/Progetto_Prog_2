@@ -2,7 +2,12 @@ package BorsaNova.Entita;
 
 /**
  * Classe per rappresentare una Quotazione
- * <br>
+ * 
+ * <p>
+ * Una Quotazione ha un prezzo corrente.
+ * Una Quotazione può essere aggiornata.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
  * <li>Github Copilot - GTP4.0</li>

@@ -6,7 +6,12 @@ import java.util.Map;
 
 /**
  * Classe per rappresentare un Operatore
- * <br>
+ * 
+ * <p>
+ * Un Operatore ha un nome, che lo identifica univocamente, e un budget.
+ * Un Operatore può depositare denaro nel budget, prelevare denaro dal budget, acquistare azioni di un'azienda, vendere azioni di un'azienda, ottenere il valore del portafoglio azionario e il patrimonio totale.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
  * <li>Github Copilot - GTP4.0</li>
