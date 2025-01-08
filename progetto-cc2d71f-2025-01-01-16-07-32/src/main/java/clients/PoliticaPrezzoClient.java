@@ -77,7 +77,7 @@ public class PoliticaPrezzoClient {
     int budgetIniziale = Integer.parseInt(args[2]);
 
     Borsa borsa = Borsa.factoryBorsa(nomeBorsa);
-    borsa.setPoliticaPrezzo(valore);
+    borsa.setPoliticaPrezzo(valore,0,0);
 
 
     Operatore operatore = Operatore.factoryOperatore("operatore", budgetIniziale);
