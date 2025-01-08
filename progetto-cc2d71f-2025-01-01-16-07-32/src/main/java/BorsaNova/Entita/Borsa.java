@@ -267,10 +267,12 @@ public class Borsa implements Comparable<Borsa>{
 
     /**
      * Metodo per settare una politica di prezzo per la borsa
-     * - se il valore è positivo, la politica è ad incremento costante pari a tale valore
-     * - se il valore è negativo, la politica è a decremento costante pari al valore assoluto di valore
-     * - se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di valoreSu e valoreGiu. Questa opzione nei test passa due 0 perché non testata la Politica di Variazione
-     *   
+     * 
+     * <ul>
+     * <li> se il valore è positivo, la politica è ad incremento costante pari a tale valore</li>
+     * <li> se il valore è negativo, la politica è a decremento costante pari al valore assoluto di valore</li>
+     * <li> se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di valoreSu e valoreGiu. Questa opzione nei test passa due 0 perché non testata la Politica di Variazione</li>
+     * </ul>
      * 
      * @param valore il valore della politica di prezzo
      * 
