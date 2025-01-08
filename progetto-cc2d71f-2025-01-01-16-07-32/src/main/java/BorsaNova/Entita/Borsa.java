@@ -275,6 +275,8 @@ public class Borsa implements Comparable<Borsa>{
      * </ul>
      * 
      * @param valore il valore della politica di prezzo
+     * @param vSu il valore di variazione in caso di acquisto
+     * @param vGiu il valore di variazione in caso di vendita
      * 
      * @throws IllegalArgumentException se la creazione della politica fallisce
      */
