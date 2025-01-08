@@ -2,7 +2,9 @@ package BorsaNova.Entita;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Classe per rappresentare una Azienda
@@ -36,6 +38,8 @@ public class Azienda implements Comparable<Azienda>{
 
     /** Il [@code nome} dell'azienda */
     public final String nome;
+    /** La set dei nomi dell borse dove l'azienda è quotata */
+    private final Set<String> borse = new TreeSet<>();
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Map<String, Azienda> aziende = new TreeMap<>();
 
@@ -101,6 +105,15 @@ public class Azienda implements Comparable<Azienda>{
     }
 
     /**
+     * Metodo per ottenere il set dei nomi delle borse dove l'azienda è quotata
+     * 
+     * @return set non modificabile dei nomi delle borse dove l'azienda è quotata
+     */
+    public Set<String> getBorseDoveQuotata(){
+        return Collections.unmodifiableSet(borse);
+    }
+
+    /**
      * Metodo attraverso il quale una azieda si quotata in una borsa
      * 
      * @param borsa la borsa in cui quotarsi
@@ -122,6 +135,7 @@ public class Azienda implements Comparable<Azienda>{
         if(b==null){
             throw new NullPointerException("La borsa richiesta non esiste");
         }
+        borse.add(borsa);
         b.quotaAzienda(this, prezzo);
     }
 
