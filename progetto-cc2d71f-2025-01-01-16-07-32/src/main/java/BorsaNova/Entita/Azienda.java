@@ -38,7 +38,7 @@ public class Azienda implements Comparable<Azienda>{
 
     /** Il [@code nome} dell'azienda */
     public final String nome;
-    /** La set dei nomi dell borse dove l'azienda è quotata */
+    /** La set dei nomi delle borse dove l'azienda è quotata */
     private final Set<String> borse = new TreeSet<>();
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Map<String, Azienda> aziende = new TreeMap<>();
