@@ -5,7 +5,7 @@ package BorsaNova.PoliticaPrezzo;
  * 
  * <p>
  * Una politica di variazione ha un valore da aggiungere al prezzo in caso di acquisto e uno da sottrarre in caso di vendita.
- * Una politica di variazione può calcolare il prezzo di una quotazione in base a se si tratta di un acquisto o di una vendita (facendo attenzione a non rendere il prezzo <=0).
+ * Una politica di variazione può calcolare il prezzo di una quotazione in base a se si tratta di un acquisto o di una vendita (facendo attenzione a non rendere il prezzo minore o uguale a 0).
  * 
  * <p>
  * Fatto con l'aiuto di:
