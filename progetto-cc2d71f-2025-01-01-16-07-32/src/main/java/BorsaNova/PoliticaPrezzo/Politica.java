@@ -2,16 +2,19 @@ package BorsaNova.PoliticaPrezzo;
 
 /**
  * Interfaccia per rappresentare una politica di prezzo che viene poi espansa dalle classi presenti nella stesso package
- * <br>
+ * 
+ * <p>
+ * Una politica di prezzo ha un metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della borsa e da un valore booleano che indica se si tratta di un acquisto o di una vendita.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
- * <li>StackOverflow</li>
- * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Piero Chobanyan (compagno di corso, discussione sull'uso della interfaccia)</li>
+ * <li>Matteo Mascherpa (compagno di corso, aiuto sulla formalità della documentazione)</li>
  * </ul>
- * 
  */
 public interface Politica {
     /**

@@ -1,20 +1,23 @@
 package BorsaNova.Entita;
 
-//import java.util.ArrayList;
 import java.util.Collections;
-//import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * Classe per rappresentare una Azienda
- * <br>
+ * 
+ * <p>
+ * Una Azienda ha un nome, che la identifica univocamente.
+ * Una Azienda può quotarsi in una Borsa, farsi erogare delle azioni e ottenere la quotazione in una Borsa.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
- * <li>StackOverflow</li>
- * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>ChatGTP 4.o (correzione errori e problemi)</li>
+ * <li>StackOverflow (correzione errori e problemi)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * </ul>
@@ -27,7 +30,7 @@ public class Azienda implements Comparable<Azienda>{
      * - nome: è il nome dell'azienda
      *
      * RI:
-     * RI(nome) = L'oggetto azienda rispetta le seguenti condizioni:
+     * RI(nome) = L'oggetto Azienda rispetta le seguenti condizioni:
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
      */
 
@@ -50,7 +53,10 @@ public class Azienda implements Comparable<Azienda>{
             throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
         }
 
-        return aziende.computeIfAbsent(nome, Azienda::new);
+        if(!aziende.containsKey(nome)){
+            aziende.put(nome, new Azienda(nome));
+        }
+        return getAzienda(nome);
     }
 
     /**
@@ -117,6 +123,26 @@ public class Azienda implements Comparable<Azienda>{
             throw new NullPointerException("La borsa richiesta non esiste");
         }
         b.quotaAzienda(this, prezzo);
+    }
+
+    /**
+     * Metodo per farsi erogare un determinato numero di azioni in una borsa
+     * 
+     * @param borsa il nome della borsa in cui erogare le azioni
+     * @param numeroAzioni il numero di azioni da farsi erogare
+     * 
+     * @throws NullPointerException se la borsa richiesta non esiste e se modificaAzioni incorre in una NullPointerException
+     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto e se modificaAzioni incorre in una IllegalArgumentException
+     */
+    public final void erogaAzione(String borsa, int numeroAzioni) throws NullPointerException, IllegalArgumentException{
+        if(borsa==null || borsa.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
+        }
+        Borsa b = Borsa.getBorsa(borsa);
+        if(b==null){
+            throw new NullPointerException("La borsa richiesta non esiste");
+        }
+        b.modificaAzioni(this, numeroAzioni);
     }
 
     /**

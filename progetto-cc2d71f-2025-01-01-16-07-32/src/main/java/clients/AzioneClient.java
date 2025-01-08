@@ -50,21 +50,20 @@ public class AzioneClient {
     String nomeB=args[0];
     Borsa b = Borsa.factoryBorsa(nomeB);
 
-    Scanner scanner = new Scanner(System.in);
+    try(Scanner scanner = new Scanner(System.in)){
         
-    while(scanner.hasNext()){
-      String nome = scanner.next();
-      int numero = scanner.nextInt();
-      int prezzo = scanner.nextInt();
-      
-      Azienda a = Azienda.factoryAzienda(nome);
-      
-      
-      a.quotatiInBorsa(nomeB, prezzo);
-      b.modificaAzioni(a, numero);
+      while(scanner.hasNext()){
+        String nome = scanner.next();
+        int numero = scanner.nextInt();
+        int prezzo = scanner.nextInt();
+        
+        Azienda a = Azienda.factoryAzienda(nome);
+        
+        
+        a.quotatiInBorsa(nomeB, prezzo);
+        a.erogaAzione(nomeB, numero);
+      }
     }
-    scanner.close();
-    
 
     for(Azienda a : b.getAziendeQuotate()){
       int prezzo = b.getQuotazioneAzienda(a).getPrezzoCorrente();

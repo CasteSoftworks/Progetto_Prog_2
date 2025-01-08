@@ -86,90 +86,90 @@ public class OperatoreClient {
     Set<Borsa> borse = new TreeSet<>();
     Set<Operatore> operatori = new TreeSet<>();
 
-    Scanner scanner = new Scanner(System.in);
+    try(Scanner scanner = new Scanner(System.in)){
     
-    /*
-     * Legge il primo blocco di input.
-     */
-    while (scanner.hasNext()) {
-      String line = scanner.nextLine();
-      if (line.equals("--")) {
-        break;
-      }
-      String[] tokens = line.split(" ");
-      String nomeAzienda = tokens[0];
-      String nomeBorsa = tokens[1];
-      int numero = Integer.parseInt(tokens[2]);
-      int prezzoUnitario = Integer.parseInt(tokens[3]);
+      /*
+      * Legge il primo blocco di input.
+      */
+      while (scanner.hasNext()) {
+        String line = scanner.nextLine();
+        if (line.equals("--")) {
+          break;
+        }
+        String[] tokens = line.split(" ");
+        String nomeAzienda = tokens[0];
+        String nomeBorsa = tokens[1];
+        int numero = Integer.parseInt(tokens[2]);
+        int prezzoUnitario = Integer.parseInt(tokens[3]);
 
-      Borsa b=Borsa.factoryBorsa(nomeBorsa);
-      
-      Azienda a= Azienda.factoryAzienda(nomeAzienda);
-  
-      b.quotaAzienda(a, prezzoUnitario);
-      b.modificaAzioni(a, numero);
-      borse.add(b);
-      
+        Borsa b=Borsa.factoryBorsa(nomeBorsa);
+        
+        Azienda a= Azienda.factoryAzienda(nomeAzienda);
+    
+        a.quotatiInBorsa(nomeBorsa, prezzoUnitario);
+        a.erogaAzione(nomeBorsa, numero);
+        borse.add(b);
+        
+      }
+      /*
+      * Legge il secondo blocco di input.
+      */
+      while (scanner.hasNext()) {
+        String line = scanner.nextLine();
+        if (line.equals("--")) {
+          break;
+        }
+        String[] tokens = line.split(" ");
+        String nomeOperatore = tokens[0];
+        int budgetIniziale = Integer.parseInt(tokens[1]);
+
+        Operatore op=Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+        operatori.add(op);
+      }
+      /*
+      * Legge il terzo blocco di input.
+      */
+      while (scanner.hasNext()) {
+        String line = scanner.nextLine();
+        if (line.equals("--")) {
+          break;
+        }
+        String[] tokens = line.split(" ");
+        String nomeOperatore = tokens[0];
+        String operazione = tokens[1];
+
+        Operatore o= Operatore.getOperatore(nomeOperatore);
+        
+        if(operazione.equals("b")){
+          String nomeBorsa = tokens[2];
+          String nomeAzienda = tokens[3];
+
+          Azienda az = Azienda.factoryAzienda(nomeAzienda);
+          Borsa b = Borsa.factoryBorsa(nomeBorsa);
+          int prezzoTotale = Integer.parseInt(tokens[4]);
+
+          o.acquistaAzione(az, b, prezzoTotale);
+
+        }else if(operazione.equals("s")){
+          String nomeBorsa = tokens[2];
+          String nomeAzienda = tokens[3];
+
+          int numeroAzioni = Integer.parseInt(tokens[4]);
+
+          Azienda az = Azienda.factoryAzienda(nomeAzienda);
+          Borsa b = Borsa.factoryBorsa(nomeBorsa);
+
+          o.vendeAzione(az, b, numeroAzioni);
+
+        }else if(operazione.equals("d")){
+          int valore = Integer.parseInt(tokens[2]);
+          o.depositaInBudget(valore);
+        }else if(operazione.equals("w")){
+          int valore = Integer.parseInt(tokens[2]);
+          o.prelievoDalBudget(valore);
+        }
+      }
     }
-    /*
-     * Legge il secondo blocco di input.
-     */
-    while (scanner.hasNext()) {
-      String line = scanner.nextLine();
-      if (line.equals("--")) {
-        break;
-      }
-      String[] tokens = line.split(" ");
-      String nomeOperatore = tokens[0];
-      int budgetIniziale = Integer.parseInt(tokens[1]);
-
-      Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
-      operatori.add(Operatore.getOperatore(nomeOperatore));
-    }
-    /*
-     * Legge il terzo blocco di input.
-     */
-    while (scanner.hasNext()) {
-      String line = scanner.nextLine();
-      if (line.equals("--")) {
-        break;
-      }
-      String[] tokens = line.split(" ");
-      String nomeOperatore = tokens[0];
-      String operazione = tokens[1];
-
-      Operatore o= Operatore.getOperatore(nomeOperatore);
-      
-      if(operazione.equals("b")){
-        String nomeBorsa = tokens[2];
-        String nomeAzienda = tokens[3];
-
-        Azienda az = Azienda.factoryAzienda(nomeAzienda);
-        Borsa b = Borsa.factoryBorsa(nomeBorsa);
-        int prezzoTotale = Integer.parseInt(tokens[4]);
-
-        o.acquistaAzione(az, b, prezzoTotale);
-
-      }else if(operazione.equals("s")){
-        String nomeBorsa = tokens[2];
-        String nomeAzienda = tokens[3];
-
-        int numeroAzioni = Integer.parseInt(tokens[4]);
-
-        Azienda az = Azienda.factoryAzienda(nomeAzienda);
-        Borsa b = Borsa.factoryBorsa(nomeBorsa);
-
-        o.vendeAzione(az, b, numeroAzioni);
-
-      }else if(operazione.equals("d")){
-        int valore = Integer.parseInt(tokens[2]);
-        o.depositaInBudget(valore);
-      }else if(operazione.equals("w")){
-        int valore = Integer.parseInt(tokens[2]);
-        o.prelievoDalBudget(valore);
-      }
-    }
-    scanner.close();
 
     for(Operatore o : operatori){
       System.out.println(o.getNome() + ", " + o.getBudget() + ", " + o.getValorePortafoglio());

@@ -41,16 +41,17 @@ public class OmonimiaAziendaClient {
    */
 
   public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
+    
     Set<Azienda> aziendeTree = new TreeSet<>(); //FA SCHIFO
     
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      
-      Azienda az=Azienda.factoryAzienda(line);
-      aziendeTree.add(az);
+    try(Scanner scanner = new Scanner(System.in)){
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        
+        Azienda az=Azienda.factoryAzienda(line);
+        aziendeTree.add(az);
+      }
     }
-    scanner.close();
 
     for (Azienda a : aziendeTree) {
       System.out.println(a.getNome());

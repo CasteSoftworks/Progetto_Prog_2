@@ -57,23 +57,22 @@ public class QuotazioneClient {
     Set<Azienda> aziende = new TreeSet<>();
     Set<Borsa> borse = new TreeSet<>();
 
-    Scanner scanner = new Scanner(System.in);
+    try(Scanner scanner = new Scanner(System.in)){
+      while (scanner.hasNextLine()) {
+        String[] input = scanner.nextLine().split(" ");
 
-    while (scanner.hasNextLine()) {
-      String[] input = scanner.nextLine().split(" ");
+        Borsa borsa = Borsa.factoryBorsa(input[1]);
+        borse.add(borsa);
 
-      Borsa borsa = Borsa.factoryBorsa(input[1]);
-      borse.add(borsa);
-
-      Azienda az = Azienda.factoryAzienda(input[0]);
-      az.quotatiInBorsa(input[1], Integer.parseInt(input[3]));
-      aziende.add(az);
+        Azienda az = Azienda.factoryAzienda(input[0]);
+        az.quotatiInBorsa(input[1], Integer.parseInt(input[3]));
+        az.erogaAzione(input[1], Integer.parseInt(input[2]));
+        aziende.add(az);
 
 
-      borsa.modificaAzioni(az, Integer.parseInt(input[2]));
+        
+      }
     }
-
-    scanner.close();
 
     //per ogni azienda elenca le borse in cui è quotata
     for(Azienda a : Azienda.getAziende().values()){

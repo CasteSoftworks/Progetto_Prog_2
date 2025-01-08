@@ -6,13 +6,18 @@ import java.util.Map;
 
 /**
  * Classe per rappresentare un Operatore
- * <br>
+ * 
+ * <p>
+ * Un Operatore ha un nome, che lo identifica univocamente, e un budget.
+ * Un Operatore può depositare denaro nel budget, prelevare denaro dal budget, acquistare azioni di un'azienda, vendere azioni di un'azienda, ottenere il valore del portafoglio azionario e il patrimonio totale.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
- * <li>StackOverflow</li>
- * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>ChatGTP 4.o (correzione errori e problemi)</li>
+ * <li>StackOverflow (correzione errori e problemi)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * </ul>
@@ -56,7 +61,11 @@ public class Operatore implements Comparable<Operatore>{
         if(budget<0){
             throw new IllegalArgumentException("Il budget dell'operatore deve essere maggiore o uguale a 0");
         }
-        return operatori.computeIfAbsent(nome, op -> new Operatore(nome, budget));
+
+        if(!operatori.containsKey(nome)){
+            operatori.put(nome, new Operatore(nome, budget));
+        }
+        return getOperatore(nome);
     }
 
     /**
@@ -214,8 +223,10 @@ public class Operatore implements Comparable<Operatore>{
      * Metodo per ottenere il valore totale del portafoglio dell'operatore (valore delle azioni possedute)
      * 
      * @return il valore totale del portafoglio dell'operatore
+     * 
+     * @throws IllegalArgumentException se getAzienda o getBorsa incontrano problemi
      */
-    public int getValorePortafoglio(){
+    public int getValorePortafoglio() throws IllegalArgumentException{
         int valorePortafoglio=0;
         Iterator<Map.Entry<String, Integer>> it = portafoglioAzionario.entrySet().iterator();
         while(it.hasNext()){
@@ -233,8 +244,10 @@ public class Operatore implements Comparable<Operatore>{
      * Metodo per ottenere il patrimonio dell'operatore (budget + valore del portafoglio)
      * 
      * @return la somma del budget e del valore del portafoglio dell'operatore
+     * 
+     * @throws IllegalArgumentException se getValorePortafoglio incontra problemi
      */
-    public int getCapitaleTotale(){
+    public int getCapitaleTotale() throws IllegalArgumentException{
         return budget + getValorePortafoglio();
     }
 
@@ -242,6 +255,7 @@ public class Operatore implements Comparable<Operatore>{
      * Metodo per ottenere un operatore
      * 
      * @param nome il nome dell'operatore da ottenere
+     * 
      * @return l'operatore richiesto
      * 
      * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se l'operatore richiesto non esiste

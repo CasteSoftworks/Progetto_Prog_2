@@ -2,13 +2,18 @@ package BorsaNova.PoliticaPrezzo;
 
 /**
  * Classe per rappresentare una politica di decremento
- * <br>
+ * 
+ * <p>
+ * Una politica di decremento ha un valore da sottrarre al prezzo in caso di vendita.
+ * Una politica di decremento può calcolare il prezzo di una quotazione in base se si tratta di una vendita, facendo attenzione a non fardiventare il prezzo minore o uguale a 0.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
- * <li>StackOverflow</li>
- * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>ChatGTP 4.o (correzione errori e problemi)</li>
+ * <li>StackOverflow (correzione errori e problemi)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * </ul>
  */

@@ -79,111 +79,109 @@ public class BorsaClient {
     //inizializzo le strutture dati utili alla correttezza del test
     Set<Borsa> borse = new TreeSet<>();
     Map<String, Integer> mappaAziendaOperatoreAzioni = new TreeMap<>();
-    
-    Scanner scanner = new Scanner(System.in);
-    
-
-    /*
-     * Primo blocco:
-     * - creo una borsa con nome
-     * - creo un'azienda con nome
-     * - quotazione dell'azienda nella borsa con prezzo unitario
-     * - aggiunta delle azioni dell'azienda nella borsa con numero
-     */
-   while(scanner.hasNextLine()){
-      String line = scanner.nextLine();
-
-      if(line.equals("--")){
-        break;
-      }
-
-      String[] tokens = line.split(" ");
-      String nomeAzienda = tokens[0];
-      String nomeBorsa = tokens[1];
-      int numero = Integer.parseInt(tokens[2]);
-      int prezzoUnitario = Integer.parseInt(tokens[3]);
-
-      Borsa b=null;
-
-      b=Borsa.factoryBorsa(nomeBorsa);
-       
-      Azienda a= Azienda.factoryAzienda(nomeAzienda);
-      
-      a.quotatiInBorsa(nomeBorsa, prezzoUnitario);
-      b.modificaAzioni(a, numero);
-      borse.add(b);      
-    }
-    /*
-     * Secondo blocco:
-     * - creo un operatore con nome e budget
-     */
-    while(scanner.hasNextLine()){
-      String line = scanner.nextLine();
-
-      if(line.equals("--")){
-        break;
-      }
-
-      String[] tokens = line.split(" ");
-      String nomeOperatore = tokens[0];
-      int budgetIniziale = Integer.parseInt(tokens[1]);
-
-      Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
-      
-    }
-
-    
-    /*
-     * Terzo blocco:
-     * - se l'operazione è di acquisto:
-     *  - recupero un operatore per nome
-     *  - acquisto azioni dell'azienda nella borsa con prezzo totale
-     * - se l'operazione è di vendita:
-     *  - recupero un operatore per nome
-     *  - vendita azioni dell'azienda nella borsa con numero azioni
-     */
-
-    while(scanner.hasNextLine()){
-      String line = scanner.nextLine();
-
-      if(line.equals("--")){
-        break;
-      }
-
-      String[] tokens = line.split(" ");
-      String nomeOperatore = tokens[0];
-      String tipoOperazione = tokens[1];
-      String nomeBorsa = tokens[2];
-      String nomeAzienda = tokens[3];
-
-      Operatore o= Operatore.getOperatore(nomeOperatore);
-      
-      Azienda az = Azienda.getAzienda(nomeAzienda);
-      
-      Borsa b = Borsa.getBorsa(nomeBorsa);
-      
-      String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
-
-      if(tipoOperazione.equals("b")){
-        int prezzoTotale = Integer.parseInt(tokens[4]);
         
+    try(Scanner scanner = new Scanner(System.in)){
+      /*
+      * Primo blocco:
+      * - creo una borsa con nome
+      * - creo un'azienda con nome
+      * - quotazione dell'azienda nella borsa con prezzo unitario
+      * - aggiunta delle azioni dell'azienda nella borsa con numero
+      */
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
 
-        int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
-        
-        if(mappaAziendaOperatoreAzioni.containsKey(key)){
-          numAzioni+=mappaAziendaOperatoreAzioni.get(key);
+        if(line.equals("--")){
+          break;
         }
-        mappaAziendaOperatoreAzioni.put(key, numAzioni);
 
-      }else if(tipoOperazione.equals("s")){
-        int numeroAzioni = Integer.parseInt(tokens[4]);
+        String[] tokens = line.split(" ");
+        String nomeAzienda = tokens[0];
+        String nomeBorsa = tokens[1];
+        int numero = Integer.parseInt(tokens[2]);
+        int prezzoUnitario = Integer.parseInt(tokens[3]);
 
-        if(o.vendeAzione(az, b, numeroAzioni)){
-          mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
-        }        
+        Borsa b=null;
+
+        b=Borsa.factoryBorsa(nomeBorsa);
+        
+        Azienda a= Azienda.factoryAzienda(nomeAzienda);
+        
+        a.quotatiInBorsa(nomeBorsa, prezzoUnitario);
+        a.erogaAzione(nomeBorsa, numero);
+        borse.add(b);      
+      }
+      /*
+      * Secondo blocco:
+      * - creo un operatore con nome e budget
+      */
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+
+        if(line.equals("--")){
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+        String nomeOperatore = tokens[0];
+        int budgetIniziale = Integer.parseInt(tokens[1]);
+
+        Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+        
+      }
+
+      
+      /*
+      * Terzo blocco:
+      * - se l'operazione è di acquisto:
+      *  - recupero un operatore per nome
+      *  - acquisto azioni dell'azienda nella borsa con prezzo totale
+      * - se l'operazione è di vendita:
+      *  - recupero un operatore per nome
+      *  - vendita azioni dell'azienda nella borsa con numero azioni
+      */
+
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+
+        if(line.equals("--")){
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+        String nomeOperatore = tokens[0];
+        String tipoOperazione = tokens[1];
+        String nomeBorsa = tokens[2];
+        String nomeAzienda = tokens[3];
+
+        Operatore o= Operatore.getOperatore(nomeOperatore);
+        
+        Azienda az = Azienda.getAzienda(nomeAzienda);
+        
+        Borsa b = Borsa.getBorsa(nomeBorsa);
+        
+        String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
+
+        if(tipoOperazione.equals("b")){
+          int prezzoTotale = Integer.parseInt(tokens[4]);
+          
+
+          int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
+          
+          if(mappaAziendaOperatoreAzioni.containsKey(key)){
+            numAzioni+=mappaAziendaOperatoreAzioni.get(key);
+          }
+          mappaAziendaOperatoreAzioni.put(key, numAzioni);
+
+        }else if(tipoOperazione.equals("s")){
+          int numeroAzioni = Integer.parseInt(tokens[4]);
+
+          if(o.vendeAzione(az, b, numeroAzioni)){
+            mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
+          }        
+        }
       }
     }
-    scanner.close();
 
     //output
     //loopo su tutte le borse e ognuna la confronto con le borse del test, se il nome è uguale procedo

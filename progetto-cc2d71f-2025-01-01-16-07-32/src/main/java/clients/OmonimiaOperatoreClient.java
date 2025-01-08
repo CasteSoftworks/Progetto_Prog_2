@@ -41,16 +41,17 @@ public class OmonimiaOperatoreClient {
    */
 
   public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
+    
     Set<Operatore> operatoriTree = new TreeSet<>(); //FA SCHIFO
     
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      
-      Operatore op=Operatore.factoryOperatore(line,0);
-      operatoriTree.add(op);
+    try(Scanner scanner = new Scanner(System.in)){
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        
+        Operatore op=Operatore.factoryOperatore(line,0);
+        operatoriTree.add(op);
+      }
     }
-    scanner.close();
 
     for (Operatore o : operatoriTree) {
       System.out.println(o.getNome());

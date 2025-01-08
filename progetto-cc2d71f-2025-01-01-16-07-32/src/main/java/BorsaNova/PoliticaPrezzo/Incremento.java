@@ -2,14 +2,18 @@ package BorsaNova.PoliticaPrezzo;
 
 /**
  * Classe per rappresentare una politica di incremento
- * <br>
+ * 
+ * <p>
+ * Una politica di incremento ha un valore da aggiungere al prezzo in caso di acquisto.
+ * Una politica di incremento può calcolare il prezzo di una quotazione in base se si tratta di un acquisto.
+ * 
+ * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
- * <li>StackOverflow</li>
- * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Matteo Mascherpa (compagno di corso, aiuto sulla formalità della documentazione)</li>
  * </ul>
  */
 public class Incremento implements Politica {

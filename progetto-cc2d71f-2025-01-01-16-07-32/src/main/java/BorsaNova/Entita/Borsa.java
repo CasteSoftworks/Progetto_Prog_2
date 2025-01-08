@@ -10,15 +10,21 @@ import BorsaNova.PoliticaPrezzo.*;
 
 /**
  * Classe per rappresentare una Borsa
- * <br>
+ * 
+ * <p>
+ * Una Borsa ha un nome (che la identifica univocamente) delle quotazioni, delle azioni, una politica di prezzo e delle allocazioni di azioni agli operatori
+ * Una Borsa può quotare un'azienda (per procura di quest'ultima), aggiungere/rimuovere/creare azioni di un'azienda, allocare azioni ad un operatore e settare una politica di prezzo
+ * <p> 
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot -GTP4.0</li>
- * <li>Chat GTP4.o</li>
- * <li>StackOverflow</li>
- * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>ChatGTP 4.o (correzione errori e problemi)</li>
+ * <li>StackOverflow (correzione errori e problemi)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * <li>Fernando Gavezzotti (compagno di corso, suggerimento di usare protected)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected e di stile documentativo)</li>
  * </ul>
  */
 
@@ -39,8 +45,8 @@ public class Borsa implements Comparable<Borsa>{
     private final Map<Azienda, Quotazione> quotazioni = new TreeMap<>();
     /** Lista delle borse */
     private static Map<String, Borsa> borse = new TreeMap<>();
-    /** Mappa delle azioni totali(key= azienda, value= quantità di azioni) */
-    private Map<Azienda, Integer> azioni = new /*HashMap*/TreeMap<>();
+    /** Mappa delle azioni disponibili(key= azienda, value= quantità di azioni) */
+    private Map<Azienda, Integer> azioni = new TreeMap<>();
     /** La politica di prezzo della borsa */
     private Politica politica;
     /** Mappa delle allocazioni delle azioni agli operatori (key=nome_operatore+" "+nome_azienda value= quantità allocata)*/
@@ -59,7 +65,11 @@ public class Borsa implements Comparable<Borsa>{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
-        return borse.computeIfAbsent(nome, n -> new Borsa(nome));
+        
+        if(!borse.containsKey(nome)){
+            borse.put(nome, new Borsa(nome));
+        }
+        return getBorsa(nome);
     }
 
     /**
@@ -127,7 +137,10 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per quotare un'azienda
+     * Metodo per quotare un'azienda (svolto con l'aiuto di Copilot)
+     * 
+     * <p>
+     * Protected per evitare che venga chiamato da classi esterne a Entita
      * 
      * @param azienda l'azienda da quotare
      * @param prezzo il prezzo di quotazione dell'azienda
@@ -136,7 +149,7 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @throws IllegalArgumentException se il prezzo passato a Quotazione è minore o uguale a 0
      */
-    public final void quotaAzienda(Azienda azienda, int prezzo) throws IllegalArgumentException{
+    protected final void quotaAzienda(Azienda azienda, int prezzo) throws IllegalArgumentException{
         if(quotazioni.containsKey(azienda)){ 
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {
@@ -159,7 +172,10 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per aggiungere/rimuovere o (se non presenti) emettere le azioni di un'azienda
+     * Metodo per aggiungere/rimuovere o (se non presenti) emettere le azioni di un'azienda (svolto con l'aiuto di Copilot)
+     * 
+     * <p>
+     * Protected per evitare che venga chiamato da classi esterne a Entita
      * 
      * @param azienda l'azienda di cui si vogliono modificare/aggiungere le azioni
      * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
@@ -167,7 +183,7 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'azienda è nulla, se le azioni sono nulle o se le quotazioni sono nulle
      * @throws IllegalArgumentException se quantità è pari a 0, se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'azienda non possiede azioni in questa borsa
      */
-    public final void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+    protected final void modificaAzioni(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }
@@ -259,21 +275,30 @@ public class Borsa implements Comparable<Borsa>{
 
     /**
      * Metodo per settare una politica di prezzo per la borsa
-     * - se il valore è positivo, la politica è ad incremento costante pari a tale valore
-     * - se il valore è negativo, la politica è a decremento costante pari al valore assoluto di valore
-     * - se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di valore
+     * 
+     * <p>
+     * Valore serve solo a decidere se la politica è di incremento, decremento o variazione.
+     * Per decidere il valore di incremento e decremento si usano vSu e vGiu
+     * 
+     * <ul>
+     * <li> se il valore è positivo, la politica è ad incremento costante pari a vSu</li>
+     * <li> se il valore è negativo, la politica è a decremento costante pari al valore assoluto di vGiu</li>
+     * <li> se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di vSu e vGiu</li>
+     * </ul>
      * 
      * @param valore il valore della politica di prezzo
+     * @param vSu il valore di variazione in caso di acquisto
+     * @param vGiu il valore di variazione in caso di vendita
      * 
      * @throws IllegalArgumentException se la creazione della politica fallisce
      */
-    public final void setPoliticaPrezzo(int valore) throws IllegalArgumentException{
+    public final void setPoliticaPrezzo(int valore, int vSu, int vGiu) throws IllegalArgumentException{
         if(valore>0){
-            politica= new Incremento(valore);
+            politica= new Incremento(vSu);
         }else if(valore<0){
-            politica= new Decremento(Math.abs(valore));
+            politica= new Decremento(Math.abs(vGiu));
         }else{
-            politica= new Variazione(valore);
+            politica= new Variazione(vSu,vGiu);
         }
     }
 
