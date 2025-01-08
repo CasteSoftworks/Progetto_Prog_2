@@ -65,7 +65,11 @@ public class Borsa implements Comparable<Borsa>{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
-        return borse.computeIfAbsent(nome, n -> new Borsa(nome));
+        
+        if(!borse.containsKey(nome)){
+            borse.put(nome, new Borsa(nome));
+        }
+        return getBorsa(nome);
     }
 
     /**

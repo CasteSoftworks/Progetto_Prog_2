@@ -61,7 +61,11 @@ public class Operatore implements Comparable<Operatore>{
         if(budget<0){
             throw new IllegalArgumentException("Il budget dell'operatore deve essere maggiore o uguale a 0");
         }
-        return operatori.computeIfAbsent(nome, op -> new Operatore(nome, budget));
+
+        if(!operatori.containsKey(nome)){
+            operatori.put(nome, new Operatore(nome, budget));
+        }
+        return getOperatore(nome);
     }
 
     /**
