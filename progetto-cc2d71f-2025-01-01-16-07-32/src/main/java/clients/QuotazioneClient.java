@@ -67,10 +67,7 @@ public class QuotazioneClient {
         Azienda az = Azienda.factoryAzienda(input[0]);
         az.quotatiInBorsa(input[1], Integer.parseInt(input[3]));
         az.erogaAzione(input[1], Integer.parseInt(input[2]));
-        aziende.add(az);
-
-
-        
+        aziende.add(az);        
       }
     }
 
@@ -79,10 +76,8 @@ public class QuotazioneClient {
       for(Azienda a2 : aziende){
         if(a.getNome().equals(a2.getNome())){
           System.out.println(a.getNome());
-          for(Borsa b : Borsa.getBorse()){
-            if(b.getAziendeQuotate().contains(a)){
-              System.out.println("- "+b.getNome());
-            }
+          for(String b : a.getBorseDoveQuotata()){
+            System.out.println("- "+b);
           }
         }
       }
