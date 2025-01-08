@@ -133,7 +133,9 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per quotare un'azienda
+     * Metodo per quotare un'azienda (svolto con l'aiuto di Copilot)
+     * 
+     * <p>
      * Protected per evitare che venga chiamato da classi esterne a Entita
      * 
      * @param azienda l'azienda da quotare
@@ -166,7 +168,9 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per aggiungere/rimuovere o (se non presenti) emettere le azioni di un'azienda
+     * Metodo per aggiungere/rimuovere o (se non presenti) emettere le azioni di un'azienda (svolto con l'aiuto di Copilot)
+     * 
+     * <p>
      * Protected per evitare che venga chiamato da classi esterne a Entita
      * 
      * @param azienda l'azienda di cui si vogliono modificare/aggiungere le azioni
