@@ -268,10 +268,14 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per settare una politica di prezzo per la borsa
      * 
+     * <p>
+     * Valore serve solo a decidere se la politica è di incremento, decremento o variazione.
+     * Per decidere il valore di incremento e decremento si usano vSu e vGiu
+     * 
      * <ul>
-     * <li> se il valore è positivo, la politica è ad incremento costante pari a tale valore</li>
-     * <li> se il valore è negativo, la politica è a decremento costante pari al valore assoluto di valore</li>
-     * <li> se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di valoreSu e valoreGiu. Questa opzione nei test passa due 0 perché non testata la Politica di Variazione</li>
+     * <li> se il valore è positivo, la politica è ad incremento costante pari a vSu</li>
+     * <li> se il valore è negativo, la politica è a decremento costante pari al valore assoluto di vGiu</li>
+     * <li> se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di vSu e vGiu</li>
      * </ul>
      * 
      * @param valore il valore della politica di prezzo
@@ -282,9 +286,9 @@ public class Borsa implements Comparable<Borsa>{
      */
     public final void setPoliticaPrezzo(int valore, int vSu, int vGiu) throws IllegalArgumentException{
         if(valore>0){
-            politica= new Incremento(valore);
+            politica= new Incremento(vSu);
         }else if(valore<0){
-            politica= new Decremento(Math.abs(valore));
+            politica= new Decremento(Math.abs(vGiu));
         }else{
             politica= new Variazione(vSu,vGiu);
         }
