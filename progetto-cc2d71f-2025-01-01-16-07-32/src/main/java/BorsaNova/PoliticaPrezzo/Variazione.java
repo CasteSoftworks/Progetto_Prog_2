@@ -10,11 +10,10 @@ package BorsaNova.PoliticaPrezzo;
  * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0</li>
- * <li>ChatGTP 4.o</li>
- * <li>StackOverflow</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Matteo Mascherpa (compagno di corso, aiuto sulla formalità della documentazione)</li>
  * </ul>
  */
 public class Variazione implements Politica{

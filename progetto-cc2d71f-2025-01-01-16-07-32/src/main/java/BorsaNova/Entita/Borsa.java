@@ -17,9 +17,9 @@ import BorsaNova.PoliticaPrezzo.*;
  * <p> 
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0</li>
- * <li>ChatGTP 4.o</li>
- * <li>StackOverflow</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>ChatGTP 4.o (correzione errori e problemi)</li>
+ * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
