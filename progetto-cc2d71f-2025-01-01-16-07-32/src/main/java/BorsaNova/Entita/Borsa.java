@@ -14,7 +14,6 @@ import BorsaNova.PoliticaPrezzo.*;
  * <p>
  * Una Borsa ha un nome (che la identifica univocamente) delle quotazioni, delle azioni, una politica di prezzo e delle allocazioni di azioni agli operatori
  * Una Borsa può quotare un'azienda (per procura di quest'ultima), aggiungere/rimuovere/creare azioni di un'azienda, allocare azioni ad un operatore e settare una politica di prezzo
- * 
  * <p> 
  * Fatto con l'aiuto di:
  * <ul>
