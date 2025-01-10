@@ -44,11 +44,11 @@ public class Azienda implements Comparable<Azienda>{
     private static final Map<String, Azienda> aziende = new TreeMap<>();
 
     /**
-     * Metodo per costruire un'azienda
+     * Metodo per costruire un'azienda (aggiungendola alla lista delle aziende) o ottenere un'azienda già esistente
      * 
      * @param nome il nome dell'azienda
      *  
-     * @return l'azienda costruita
+     * @return l'azienda costruita o, se già esistente, l'azienda con quel nome
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
