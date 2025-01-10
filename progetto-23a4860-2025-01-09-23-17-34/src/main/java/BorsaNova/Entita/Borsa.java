@@ -17,7 +17,7 @@ import BorsaNova.PoliticaPrezzo.*;
  * <p> 
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>ChatGTP 4.o (correzione errori e problemi)</li>
  * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
@@ -39,7 +39,7 @@ public class Borsa implements Comparable<Borsa>{
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
      */
     
-    /** Il nome della borsa */
+    /** Il {@code nome} della borsa */
     private final String nome;
     /** Mappa delle quotazioni (key= azienda, value= quotazione) */
     private final Map<Azienda, Quotazione> quotazioni = new TreeMap<>();
@@ -233,13 +233,16 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per allocare ad un operatore un certo numero di azioni di un'azienda
      * 
+     * <p>
+     * Protected per evitare che venga chiamato da classi esterne a Entita
+     * 
      * @param operatore il nome dell'operatore a cui allocare le azioni
      * @param azienda il nome dell'azienda di cui allocare le azioni
      * @param quantita la quantità di azioni da allocare (anche rimuovere se l'operatore sta vendendo)
      * 
      * @throws IllegalArgumentException se l'azienda non è quotata in questa borsa, se l'operatore è nullo o vuoto, se l'azienda è nulla o vuota, se la quantità è 0 o se la quantità da rimuovere è maggiore delle azioni possedute
      */
-    public final void allocaAzione(String operatore, String azienda, int quantita) throws IllegalArgumentException{
+    protected final void allocaAzione(String operatore, String azienda, int quantita) throws IllegalArgumentException{
         if(!quotazioni.containsKey(Azienda.factoryAzienda(azienda))){
             throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
         }
