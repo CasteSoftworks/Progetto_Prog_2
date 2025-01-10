@@ -45,25 +45,21 @@ public class Operatore implements Comparable<Operatore>{
     private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
     
     /**
-     * Metodo per costruire un operatore
+     * Metodo per costruire un operatore (aggiungendolo alla lista degli operatori) o ottenere un operatore già esistente
      * 
      * @param nome il nome dell'operatore
-     * @param budget il budget dell'operatore
      * 
      * @return l'operatore costruito
      * 
      * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se il budget dell'operatore è negativo
      */
-    public static Operatore factoryOperatore(String nome, int budget) throws IllegalArgumentException{
+    public static Operatore factoryOperatore(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
         }
-        if(budget<0){
-            throw new IllegalArgumentException("Il budget dell'operatore deve essere maggiore o uguale a 0");
-        }
 
         if(!operatori.containsKey(nome)){
-            operatori.put(nome, new Operatore(nome, budget));
+            operatori.put(nome, new Operatore(nome, 0));
         }
         return getOperatore(nome);
     }
