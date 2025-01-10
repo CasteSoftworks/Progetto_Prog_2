@@ -10,7 +10,7 @@ package BorsaNova.PoliticaPrezzo;
  * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>ChatGTP 4.o (correzione errori e problemi)</li>
  * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
@@ -48,9 +48,9 @@ public class Decremento implements Politica {
      * Metodo per calcolare il prezzo di una quotazione
      * 
      * @param prezzo il prezzo corrente della quotazione
-     * @param acquisto true se si tratta di un acquisto, false se si tratta di una vendita
+     * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
      * 
-     * @return il prezzo (se si tratta di una vendita, il prezzo calcolato sarà minore di quello corrente di un valore decremento)
+     * @return il prezzo (se si tratta di una vendita, il prezzo calcolato sarà minore di quello corrente di un valore decremento o 1)
      */
     @Override
     public int calcolaPrezzo(int prezzo, boolean acquisto) {

@@ -9,7 +9,7 @@ package BorsaNova.PoliticaPrezzo;
  * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, discussione sull'uso della interfaccia)</li>
@@ -21,7 +21,7 @@ public interface Politica {
      * Metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della borsa
      * 
      * @param prezzo il prezzo corrente della quotazione
-     * @param acquisto true se si tratta di un acquisto, false se si tratta di una vendita
+     * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
      * 
      * @return il prezzo calcolato
      * 
