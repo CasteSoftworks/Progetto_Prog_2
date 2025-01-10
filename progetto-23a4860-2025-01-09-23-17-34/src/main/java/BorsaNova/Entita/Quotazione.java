@@ -10,9 +10,6 @@ package BorsaNova.Entita;
  * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
- * <li>ChatGTP 4.o (correzione errori e problemi)</li>
- * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
@@ -29,7 +26,7 @@ public class Quotazione {
      * - prezzoCorrente è maggiore o uguale a 0
      */
 
-    /** Il prezzo corrente della quotazione */
+    /** Il {@code prezzoCorrente} della quotazione */
     private int prezzoCorrente;
 
     /**
