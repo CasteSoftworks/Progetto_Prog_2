@@ -16,7 +16,7 @@ import java.util.TreeSet;
  * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>ChatGTP 4.o (correzione errori e problemi)</li>
  * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
@@ -36,7 +36,7 @@ public class Azienda implements Comparable<Azienda>{
      * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
      */
 
-    /** Il [@code nome} dell'azienda */
+    /** Il {@code nome} dell'azienda */
     public final String nome;
     /** La set dei nomi delle borse dove l'azienda è quotata */
     private final Set<String> borse = new TreeSet<>();
@@ -180,6 +180,9 @@ public class Azienda implements Comparable<Azienda>{
 
     /**
      * Metodo override per confrontare due aziende in base al loro nome
+     * 
+     * <p>
+     * Automaticamente generato da Github Copilot sulla base di compareTo scritto in Borsa
      * 
      * @param a l'azienda con cui confrontare
      * 
