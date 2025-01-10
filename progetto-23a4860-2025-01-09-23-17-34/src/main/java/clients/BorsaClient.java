@@ -91,7 +91,7 @@ public class BorsaClient {
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();
 
-        if(line.equals("--")){
+        if(line.equals("--")||line.isBlank()){
           break;
         }
 
@@ -118,7 +118,7 @@ public class BorsaClient {
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();
 
-        if(line.equals("--")){
+        if(line.equals("--")||line.isBlank()){
           break;
         }
 
@@ -126,7 +126,8 @@ public class BorsaClient {
         String nomeOperatore = tokens[0];
         int budgetIniziale = Integer.parseInt(tokens[1]);
 
-        Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+        Operatore o=Operatore.factoryOperatore(nomeOperatore);
+        o.depositaInBudget(budgetIniziale);
         
       }
 
@@ -144,7 +145,7 @@ public class BorsaClient {
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();
 
-        if(line.equals("--")){
+        if(line.isBlank()){
           break;
         }
 

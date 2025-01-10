@@ -80,7 +80,8 @@ public class PoliticaPrezzoClient {
     borsa.setPoliticaPrezzo(valore,valore,valore);
 
 
-    Operatore operatore = Operatore.factoryOperatore("operatore", budgetIniziale);
+    Operatore operatore = Operatore.factoryOperatore("operatore");
+    operatore.depositaInBudget(budgetIniziale);
 
     try(Scanner scanner = new Scanner(System.in)){
       /*

@@ -93,7 +93,7 @@ public class OperatoreClient {
       */
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
-        if (line.equals("--")) {
+        if (line.equals("--")||line.isBlank()) {
           break;
         }
         String[] tokens = line.split(" ");
@@ -116,14 +116,16 @@ public class OperatoreClient {
       */
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
-        if (line.equals("--")) {
+
+        if (line.equals("--")||line.isBlank()) {
           break;
         }
         String[] tokens = line.split(" ");
         String nomeOperatore = tokens[0];
         int budgetIniziale = Integer.parseInt(tokens[1]);
 
-        Operatore op=Operatore.factoryOperatore(nomeOperatore, budgetIniziale);
+        Operatore op=Operatore.factoryOperatore(nomeOperatore);
+        op.depositaInBudget(budgetIniziale);
         operatori.add(op);
       }
       /*
@@ -131,7 +133,7 @@ public class OperatoreClient {
       */
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
-        if (line.equals("--")) {
+        if (line.isBlank()) {
           break;
         }
         String[] tokens = line.split(" ");
