@@ -53,7 +53,7 @@ public class Borsa implements Comparable<Borsa>{
     private Map<String, Integer> allocazioni = new TreeMap<>();
        
     /**
-     * Metodo per costruire una borsa
+     * Metodo per costruire una borsa (aggiungendola alla lista delle borse) o ottenere una borsa già esistente
      * 
      * @param nome il nome della borsa
      * 
@@ -147,9 +147,13 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * modifies la quotazione della azienda
      * 
-     * @throws IllegalArgumentException se il prezzo passato a Quotazione è minore o uguale a 0
+     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0
      */
     protected final void quotaAzienda(Azienda azienda, int prezzo) throws IllegalArgumentException{
+        if(prezzo<=0){
+            throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+        }
+        
         if(quotazioni.containsKey(azienda)){ 
             quotazioni.get(azienda).aggiornaPrezzo(prezzo);
         } else {

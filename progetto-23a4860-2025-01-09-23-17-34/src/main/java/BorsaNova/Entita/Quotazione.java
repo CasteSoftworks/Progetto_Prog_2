@@ -36,13 +36,8 @@ public class Quotazione {
      * Metodo per costruire una quotazione
      * 
      * @param prezzo il prezzo corrente della quotazione
-     * 
-     * @throws IllegalArgumentException se il prezzo corrente della quotazione è minore o uguale a 0 
      */
-    public Quotazione(int prezzo) throws IllegalArgumentException{
-        if(prezzo<=0){
-            throw new IllegalArgumentException("Il prezzo corrente della quotazione deve essere maggiore di 0");
-        }
+    public Quotazione(int prezzo){
         this.prezzoCorrente = prezzo;
     }
 
