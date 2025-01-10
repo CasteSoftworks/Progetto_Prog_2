@@ -14,7 +14,7 @@ import java.util.Map;
  * <p>
  * Fatto con l'aiuto di:
  * <ul>
- * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc)</li>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>ChatGTP 4.o (correzione errori e problemi)</li>
  * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
@@ -35,7 +35,7 @@ public class Operatore implements Comparable<Operatore>{
      * - budget è maggiore o uguale a 0
      */
     
-    /** Il nome dell'operatore */
+    /** Il {@code nome} dell'operatore */
     private final String nome;
     /** Mappa degli operatori (key= nome operatore, value= operatore stesso) */
     private static final Map<String, Operatore> operatori = new HashMap<>();
@@ -268,6 +268,9 @@ public class Operatore implements Comparable<Operatore>{
 
     /**
      * Metodo override per confrontare due operatori in base al nome
+     * 
+     * <p>
+     * Automaticamente generato da Github Copilot sulla base di compareTo scritto in Borsa
      * 
      * @param o l'operatore con cui confrontare
      * 
