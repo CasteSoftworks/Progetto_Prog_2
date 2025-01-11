@@ -168,14 +168,11 @@ public class Borsa implements Comparable<Borsa>{
      * @param azienda l'Azienda di cui si vogliono modificare/aggiungere le azioni
      * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
      *  
-     * @throws NullPointerException se l'Azienda è nulla, se le azioni sono nulle o se le quotazioni sono nulle
-     * @throws IllegalArgumentException se quantità è pari a 0, se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione o se l'Azienda non possiede azioni in questa borsa
+     * @throws NullPointerException se le azioni sono nulle o se le quotazioni sono nulle
+     * @throws IllegalArgumentException se quantità è pari a 0, se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione, se l'Azienda non possiede azioni in questa borsa o se factoryAzienda incorre in una IllegalArgumentException
      */
     protected final void modificaAzioni(String a, int quantita) throws NullPointerException, IllegalArgumentException{
         Azienda azienda = Azienda.factoryAzienda(a);
-        if(azienda==null){
-            throw new NullPointerException("L'azienda non può essere nulla");
-        }
         
         if(azioni==null){
             throw new NullPointerException("Le azioni non possono essere nulle");
