@@ -60,7 +60,7 @@ public class Azienda implements Comparable<Azienda>{
         if(!aziende.containsKey(nome)){
             aziende.put(nome, new Azienda(nome));
         }
-        return getAzienda(nome);
+        return aziende.get(nome);
     }
 
     /**
@@ -79,29 +79,6 @@ public class Azienda implements Comparable<Azienda>{
      */
     public String getNome(){
         return nome;
-    }
-
-    
-
-    /**
-     * Metodo per ottenere una azienda dal nome
-     * 
-     * @param nome il nome dell'azienda da ottenere
-     * 
-     * @return l'azienda richiesta
-     * 
-     * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto, se l'azienda richiesta non esiste
-     */
-    public static Azienda getAzienda(String nome) throws IllegalArgumentException{
-        if(nome==null || nome.isBlank()){
-            throw new IllegalArgumentException("Il nome dell'azienda deve essere non nullo o vuoto");
-        }
-
-        if(!aziende.containsKey(nome)){
-            throw new IllegalArgumentException("L'azienda richiesta non esiste");
-        }
-
-        return aziende.get(nome);
     }
 
     /**
@@ -131,7 +108,8 @@ public class Azienda implements Comparable<Azienda>{
             throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
         }
 
-        Borsa b = Borsa.getBorsa(borsa);
+        //Borsa b = Borsa.getBorsa(borsa);
+        Borsa b=Borsa.factoryBorsa(borsa);
         if(b==null){
             throw new NullPointerException("La borsa richiesta non esiste");
         }
@@ -152,7 +130,8 @@ public class Azienda implements Comparable<Azienda>{
         if(borsa==null || borsa.isBlank()){
             throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
         }
-        Borsa b = Borsa.getBorsa(borsa);
+        //Borsa b = Borsa.getBorsa(borsa);
+        Borsa b=Borsa.factoryBorsa(borsa);
         if(b==null){
             throw new NullPointerException("La borsa richiesta non esiste");
         }

@@ -69,7 +69,7 @@ public class Borsa implements Comparable<Borsa>{
         if(!borse.containsKey(nome)){
             borse.put(nome, new Borsa(nome));
         }
-        return getBorsa(nome);
+        return borse.get(nome);
     }
 
     /**
@@ -97,22 +97,6 @@ public class Borsa implements Comparable<Borsa>{
      */
     public static Set<Borsa> getBorse(){
         return Collections.unmodifiableSet(new TreeSet<>(borse.values()));
-    }
-
-    /**
-     * Metodo per ottenere una borsa specifica
-     * 
-     * @param nome il nome della borsa da ottenere
-     * @return la borsa richiesta o null se non esiste
-     * 
-     * @throws IllegalArgumentException se il nome è nullo o composto da soli spazi bianchi
-     */
-    public static Borsa getBorsa(String nome){
-        if(nome==null || nome.isBlank()){
-            throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
-        }
-
-        return borse.get(nome);
     }
 
     /**

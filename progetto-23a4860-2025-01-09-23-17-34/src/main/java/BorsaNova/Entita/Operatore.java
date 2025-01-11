@@ -61,7 +61,7 @@ public class Operatore implements Comparable<Operatore>{
         if(!operatori.containsKey(nome)){
             operatori.put(nome, new Operatore(nome, 0));
         }
-        return getOperatore(nome);
+        return operatori.get(nome);
     }
 
     /**
@@ -228,8 +228,8 @@ public class Operatore implements Comparable<Operatore>{
         while(it.hasNext()){
             Map.Entry<String, Integer> entry = it.next();
             String[] tokens = entry.getKey().split(" ");
-            Azienda a = Azienda.getAzienda(tokens[0]);
-            Borsa b = Borsa.getBorsa(tokens[1]);
+            Azienda a = Azienda.factoryAzienda(tokens[0]);
+            Borsa b = Borsa.factoryBorsa(tokens[1]);
             valorePortafoglio += a.getQuotazione(b).getPrezzoCorrente() * entry.getValue();
         }
 
@@ -245,25 +245,6 @@ public class Operatore implements Comparable<Operatore>{
      */
     public int getCapitaleTotale() throws IllegalArgumentException{
         return budget + getValorePortafoglio();
-    }
-
-    /**
-     * Metodo per ottenere un operatore
-     * 
-     * @param nome il nome dell'operatore da ottenere
-     * 
-     * @return l'operatore richiesto
-     * 
-     * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se l'operatore richiesto non esiste
-     */
-    public static Operatore getOperatore(String nome) throws IllegalArgumentException{
-        if(nome==null || nome.isBlank()){
-            throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
-        }
-        if(!operatori.containsKey(nome)){
-            throw new IllegalArgumentException("L'operatore richiesto non esiste");
-        }
-        return operatori.get(nome);
     }
 
     /**
