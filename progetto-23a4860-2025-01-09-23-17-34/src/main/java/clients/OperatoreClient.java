@@ -93,7 +93,7 @@ public class OperatoreClient {
       */
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
-        if (line.equals("--")||line.isBlank()) {
+        if (line.equals("--")) {
           break;
         }
         String[] tokens = line.split(" ");
@@ -117,7 +117,7 @@ public class OperatoreClient {
       while (scanner.hasNext()) {
         String line = scanner.nextLine();
 
-        if (line.equals("--")||line.isBlank()) {
+        if (line.equals("--")) {
           break;
         }
         String[] tokens = line.split(" ");
@@ -140,7 +140,7 @@ public class OperatoreClient {
         String nomeOperatore = tokens[0];
         String operazione = tokens[1];
 
-        Operatore o= Operatore.getOperatore(nomeOperatore);
+        Operatore o= Operatore.factoryOperatore(nomeOperatore);
         
         if(operazione.equals("b")){
           String nomeBorsa = tokens[2];
@@ -178,7 +178,7 @@ public class OperatoreClient {
       for(Borsa b : borse){
         for(String key : b.getAllocazioni().keySet()){
           String[] tokens = key.split(" ");
-          Azienda a = Azienda.getAzienda(tokens[1]);
+          Azienda a = Azienda.factoryAzienda(tokens[1]);
           if(o.getNome().equals(tokens[0])){
             System.out.println("- " + b.getNome() + ", " + a.getNome() + ", " + b.getAllocazioni().get(key));
           }

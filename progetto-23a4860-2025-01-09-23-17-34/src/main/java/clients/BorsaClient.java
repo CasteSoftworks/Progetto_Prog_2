@@ -155,11 +155,11 @@ public class BorsaClient {
         String nomeBorsa = tokens[2];
         String nomeAzienda = tokens[3];
 
-        Operatore o= Operatore.getOperatore(nomeOperatore);
+        Operatore o= Operatore.factoryOperatore(nomeOperatore);
         
-        Azienda az = Azienda.getAzienda(nomeAzienda);
+        Azienda az = Azienda.factoryAzienda(nomeAzienda);
         
-        Borsa b = Borsa.getBorsa(nomeBorsa);
+        Borsa b = Borsa.factoryBorsa(nomeBorsa);
         
         String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
 
