@@ -20,7 +20,7 @@ import BorsaNova.PoliticaPrezzo.*;
  * <li>Github Copilot - GTP4.0 (correzione errori e problemi, generazione di parte del codice e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>ChatGTP 4.o (correzione errori e problemi)</li>
  * <li>StackOverflow (correzione errori e problemi)</li>
- * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice, suggerimento sul prestare attenzione ai metodi poco sicuri)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * <li>Fernando Gavezzotti (compagno di corso, suggerimento di usare protected)</li>
