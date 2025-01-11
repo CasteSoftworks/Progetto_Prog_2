@@ -25,31 +25,29 @@ import java.util.Map;
 public class Operatore implements Comparable<Operatore>{
     /**
      * AF:
-     * AF(nome, budget) = Un operatore rappresentato da:
-     * - nome: è il nome dell'operatore
-     * - budget: è il budget dell'operatore
+     * Un Operatore è rappresentato da un nome e un budget 
      *
      * RI:
-     * RI(nome, budget) = L'oggetto operatore rispetta le seguenti condizioni:
-     * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
-     * - budget è maggiore o uguale a 0
+     * L'oggetto Operatore deve rispettare le seguenti condizioni:
+     * - nome non null, stringa vuota o composta solo da soli spazi bianchi
+     * - budget maggiore o uguale a 0 (inizialmente 0)
      */
     
     /** Il {@code nome} dell'operatore */
     private final String nome;
-    /** Mappa degli operatori (key= nome operatore, value= operatore stesso) */
-    private static final Map<String, Operatore> operatori = new HashMap<>();
-    /** Il budget dell'operatore */
+    /** Il budget dell'Operatore */
     private int budget;
-    /** Mappa delle azioni possedute dall'operatore (key= "nome_azienda nome_borsa", value= quantità) */
+    /** Mappa degli Operatori (key= nome_operatore, value= operatore stesso) */
+    private static final Map<String, Operatore> operatori = new HashMap<>();
+    /** Mappa delle azioni possedute dall'Operatore (key= "nome_azienda nome_borsa", value= quantità) */
     private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
     
     /**
-     * Metodo per costruire un operatore (aggiungendolo alla lista degli operatori) o ottenere un operatore già esistente
+     * Metodo per costruire un operatore (aggiungendolo alla lista degli operatori) o ottenere un operatore già esistente a partire dal nome
      * 
-     * @param nome il nome dell'operatore
+     * @param nome il nome dell'Operatore da creare o recuperare
      * 
-     * @return l'operatore costruito
+     * @return l'Operatore richiesto
      * 
      * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se il budget dell'operatore è negativo
      */
@@ -65,10 +63,10 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere un operatore
+     * Metodo per ottenere un Operatore
      * 
-     * @param nome il nome dell'operatore da ottenere
-     * @param budget il budget dell'operatore da ottenere
+     * @param nome il nome dell'Operatore da ottenere
+     * @param budget il budget dell'Operatore da ottenere
      */
     private Operatore(String nome, int budget){
         this.nome = nome;
@@ -76,18 +74,18 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere il nome dell'operatore
+     * Metodo per ottenere il nome dell'Operatore
      * 
-     * @return il nome dell'operatore
+     * @return il nome dell'Operatore
      */
     public String getNome() {
         return nome;
     }
 
     /**
-     * Metodo per ottenere il budget dell'operatore
+     * Metodo per ottenere il budget dell'Operatore
      * 
-     * @return il budget dell'operatore
+     * @return il budget dell'Operatore
      */
     public int getBudget() {
         return budget;
@@ -95,6 +93,9 @@ public class Operatore implements Comparable<Operatore>{
 
     /**
      * Metodo per depositare denaro nel budget
+     * 
+     * <p>
+     * Utile sia per la creazione dell'Operatore  (che deve iniziare con budget 0) che per ricaricare il budget
      * 
      * @param deposito l'importo da depositare
      * 
@@ -167,8 +168,10 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per vendere azioni di un'azienda (se l'operatore possiede abbastanza azioni)
-     * L'entry sulla mappa rimane solo se dopo l'operazione rimangono delle azioni in possesso dell'operatore, altrimenti viene rimossa
+     * Metodo per vendere azioni di un'azienda (se l'Operatore possiede abbastanza azioni)
+     * 
+     * <p>
+     * L'entry sulla mappa portafoglioAzionario rimane solo se dopo l'operazione rimangono delle azioni in possesso dell'Operatore, altrimenti viene rimossa
      * 
      * @param azienda l'azienda a cui appartengono le azioni da vendere
      * @param borsa la borsa dove vendere le azioni
@@ -216,11 +219,11 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere il valore totale del portafoglio dell'operatore (valore delle azioni possedute)
+     * Metodo per ottenere il valore totale del portafoglio dell'Operatore (valore delle azioni possedute)
      * 
-     * @return il valore totale del portafoglio dell'operatore
+     * @return il valore totale del portafoglio azionario dell'Operatore
      * 
-     * @throws IllegalArgumentException se getAzienda o getBorsa incontrano problemi
+     * @throws IllegalArgumentException se factoryAzienda o factoryBorsa incontrano problemi
      */
     public int getValorePortafoglio() throws IllegalArgumentException{
         int valorePortafoglio=0;
@@ -237,9 +240,9 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere il patrimonio dell'operatore (budget + valore del portafoglio)
+     * Metodo per ottenere il patrimonio totale dell'Operatore (budget + valore del portafoglio)
      * 
-     * @return la somma del budget e del valore del portafoglio dell'operatore
+     * @return la somma del budget e del valore del portafoglio dell'Operatore
      * 
      * @throws IllegalArgumentException se getValorePortafoglio incontra problemi
      */
@@ -248,14 +251,14 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo override per confrontare due operatori in base al nome
+     * Metodo override per confrontare due Operatori in base al nome
      * 
      * <p>
      * Automaticamente generato da Github Copilot sulla base di compareTo scritto in Borsa
      * 
-     * @param o l'operatore con cui confrontare
+     * @param o l'Operatore con cui confrontare
      * 
-     * @return 0 se i due operatori sono uguali, un numero negativo se l'operatore è minore di o, un numero positivo altrimenti
+     * @return 0 se i due Operatori sono uguali, un numero negativo se l'Operatore è minore di o, un numero positivo altrimenti
      */
     @Override
     public int compareTo(Operatore o) {
