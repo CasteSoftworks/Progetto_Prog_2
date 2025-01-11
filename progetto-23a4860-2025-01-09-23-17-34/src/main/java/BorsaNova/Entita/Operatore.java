@@ -136,19 +136,11 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @return la quantità di azioni acquistate
      * 
-     * @throws NullPointerException se l'azienda è nulla
-     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata
+     * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa, se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata o se factoryAzienda o factoryBorsa incorrono in una IllegalArgumentException
      */
-    public int acquistaAzione(String a, String b, int prezzoTot) throws NullPointerException, IllegalArgumentException{
+    public int acquistaAzione(String a, String b, int prezzoTot) throws IllegalArgumentException{
         Azienda azienda = Azienda.factoryAzienda(a);
-        if(azienda==null){
-            throw new NullPointerException("L'azienda non pèuò essere nulla");
-        }
-
         Borsa borsa = Borsa.factoryBorsa(b);
-        if(borsa==null){
-            throw new NullPointerException("La borsa non può essere nulla");
-        }
         
         if(azienda.getQuotazione(borsa.getNome())==null){
             throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + borsa.getNome());

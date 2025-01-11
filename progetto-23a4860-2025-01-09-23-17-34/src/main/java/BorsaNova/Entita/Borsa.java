@@ -100,16 +100,16 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per ottenere la quotazione di un'Azienda
      * 
-     * @param azienda l'Azienda di cui si vuole ottenere la quotazione
+     * @param azienda il nome della Azienda di cui si vuole ottenere la quotazione
      * 
      * @return la quotazione dell'Azienda richiesta o null se non esiste
      * 
-     * @throws NullPointerException se l'Azienda richiesta è nulla o ha un nome nullo o vuoto
+     * @throws IllegalArgumentException se l'Azienda richiesta è nulla o ha un nome nullo o vuoto
      */
     public Quotazione getQuotazioneAzienda(String azienda){
 
         if(azienda==null||azienda.isBlank()){
-            throw new NullPointerException("L'azienda richiesta non può essere nulla o avere un nome nullo o vuoto");
+            throw new IllegalArgumentException("Il nome della Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
         }
 
         if(quotazioni.containsKey(azienda)){
