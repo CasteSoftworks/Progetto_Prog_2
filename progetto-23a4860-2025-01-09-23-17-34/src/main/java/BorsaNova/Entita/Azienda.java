@@ -28,27 +28,25 @@ import java.util.TreeSet;
 public class Azienda implements Comparable<Azienda>{
     /**
      * AF:
-     * AF(nome) = Un'azienda rappresentata da:
-     * - nome: è il nome dell'azienda
+     * Un'Azienda è rappresentata da un nome
      *
      * RI:
-     * RI(nome) = L'oggetto Azienda rispetta le seguenti condizioni:
-     * - nome non è null, non è una stringa vuota o composta solo da spazi bianchi
+     * L'oggetto Azienda deve rispettare la seguente condizione: nome non deve essere null, stringa vuota o composta solo da soli spazi bianchi
      */
 
-    /** Il {@code nome} dell'azienda */
+    /** Il {@code nome} dell'Azienda */
     public final String nome;
-    /** La set dei nomi delle borse dove l'azienda è quotata */
+    /** La set dei nomi delle Borse dove l'Azienda è quotata */
     private final Set<String> borse = new TreeSet<>();
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Map<String, Azienda> aziende = new TreeMap<>();
 
     /**
-     * Metodo per costruire un'azienda (aggiungendola alla lista delle aziende) o ottenere un'azienda già esistente
+     * Metodo per o costruire un'Azienda (aggiungendola alla mappa delle Aziende) o ottenere un'Azienda già esistente
      * 
-     * @param nome il nome dell'azienda
+     * @param nome il nome dell'Azienda
      *  
-     * @return l'azienda costruita o, se già esistente, l'azienda con quel nome
+     * @return l'Azienda costruita o, se già esistente, l'Azienda con quel nome
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
@@ -64,36 +62,36 @@ public class Azienda implements Comparable<Azienda>{
     }
 
     /**
-     * Metodo per creare un'azienda
+     * Costruttore privato per creare un'Azienda
      * 
-     * @param nome il nome dell'azienda da ottenere
+     * @param nome il nome dell'Azienda da ottenere
      */
     private Azienda(String nome){
         this.nome = nome;
     }
 
     /**
-     * Metodo per ottenere il nome dell'azienda
+     * Metodo per ottenere il nome dell'Azienda
      * 
-     * @return il nome dell'azienda
+     * @return il nome dell'Azienda
      */
     public String getNome(){
         return nome;
     }
 
     /**
-     * Metodo per ottenere il set dei nomi delle borse dove l'azienda è quotata
+     * Metodo per ottenere il set dei nomi delle Borse dove l'Azienda è quotata
      * 
-     * @return set non modificabile dei nomi delle borse dove l'azienda è quotata
+     * @return set non modificabile dei nomi delle Borse
      */
     public Set<String> getBorseDoveQuotata(){
         return Collections.unmodifiableSet(borse);
     }
 
     /**
-     * Metodo attraverso il quale una azieda si quotata in una borsa
+     * Metodo attraverso il quale una Azienda si quotata in una Borsa
      * 
-     * @param borsa la borsa in cui quotarsi
+     * @param borsa il nome la borsa in cui quotarsi
      * @param prezzo il prezzo di quotazione
      * 
      * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto, se il prezzo è minore o uguale a 0
@@ -108,64 +106,63 @@ public class Azienda implements Comparable<Azienda>{
             throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
         }
 
-        //Borsa b = Borsa.getBorsa(borsa);
         Borsa b=Borsa.factoryBorsa(borsa);
         if(b==null){
             throw new NullPointerException("La borsa richiesta non esiste");
         }
         borse.add(borsa);
-        b.quotaAzienda(this, prezzo);
+        b.quotaAzienda(this.getNome(), prezzo);
     }
 
     /**
-     * Metodo per farsi erogare un determinato numero di azioni in una borsa
+     * Metodo per farsi erogare un determinato numero di azioni in una Borsa
      * 
-     * @param borsa il nome della borsa in cui erogare le azioni
+     * @param borsa il nome della Borsa in cui erogare le azioni
      * @param numeroAzioni il numero di azioni da farsi erogare
      * 
-     * @throws NullPointerException se la borsa richiesta non esiste e se modificaAzioni incorre in una NullPointerException
-     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto e se modificaAzioni incorre in una IllegalArgumentException
+     * @throws NullPointerException se la Borsa richiesta non esiste e se modificaAzioni incorre in una NullPointerException
+     * @throws IllegalArgumentException se il nome della Borsa è nullo o vuoto e se modificaAzioni incorre in una IllegalArgumentException
      */
     public final void erogaAzione(String borsa, int numeroAzioni) throws NullPointerException, IllegalArgumentException{
         if(borsa==null || borsa.isBlank()){
             throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
         }
-        //Borsa b = Borsa.getBorsa(borsa);
         Borsa b=Borsa.factoryBorsa(borsa);
         if(b==null){
             throw new NullPointerException("La borsa richiesta non esiste");
         }
-        b.modificaAzioni(this, numeroAzioni);
+        b.modificaAzioni(this.getNome(), numeroAzioni);
     }
 
     /**
-     * Metodo per ottenere la quotazione dell'azienda in una borsa
-     * @param borsa la borsa dove cercare la quotazione
+     * Metodo per ottenere la quotazione dell'Azienda in una Borsa
+     * @param borsa il nome della Borsa dove cercare la quotazione
      * 
-     * @return la quotazione dell'azienda
+     * @return la quotazione dell'Azienda
      */
-    public Quotazione getQuotazione(Borsa borsa){
-        return borsa.getQuotazioneAzienda(this);
+    public Quotazione getQuotazione(String b){
+        Borsa borsa = Borsa.factoryBorsa(b);
+        return borsa.getQuotazioneAzienda(this.getNome());
     }
 
     /**
-     * Metodo per ottenere la mappa non modificabile delle aziende
+     * Metodo per ottenere un set non modificabile dei nomi delle Aziende
      * 
-     * @return la mappa delle aziende
+     * @return la mappa dei nomi delle Aziende
      */
-    public static Map<String, Azienda> getAziende(){
-        return Collections.unmodifiableMap(aziende);
+    public static Set<String> getAziende(){
+        return Collections.unmodifiableSet(aziende.keySet());
     }
 
     /**
-     * Metodo override per confrontare due aziende in base al loro nome
+     * Metodo override per confrontare due Aziende in base al loro nome
      * 
      * <p>
      * Automaticamente generato da Github Copilot sulla base di compareTo scritto in Borsa
      * 
-     * @param a l'azienda con cui confrontare
+     * @param a l'Azienda con cui confrontare
      * 
-     * @return 0 se le aziende sono uguali, un numero negativo se l'azienda è minore di a, un numero positivo altrimenti
+     * @return 0 se le Aziende sono uguali, un numero negativo se l'Azienda è minore di a, un numero positivo altrimenti
      */
     @Override
     public int compareTo(Azienda a){

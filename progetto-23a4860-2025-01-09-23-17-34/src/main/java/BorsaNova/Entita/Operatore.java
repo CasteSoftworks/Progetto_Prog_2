@@ -139,12 +139,18 @@ public class Operatore implements Comparable<Operatore>{
      * @throws NullPointerException se l'azienda è nulla
      * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa o se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata
      */
-    public int acquistaAzione(Azienda azienda, Borsa borsa, int prezzoTot) throws NullPointerException, IllegalArgumentException{
+    public int acquistaAzione(String a, String b, int prezzoTot) throws NullPointerException, IllegalArgumentException{
+        Azienda azienda = Azienda.factoryAzienda(a);
         if(azienda==null){
             throw new NullPointerException("L'azienda non pèuò essere nulla");
         }
 
-        if(azienda.getQuotazione(borsa)==null){
+        Borsa borsa = Borsa.factoryBorsa(b);
+        if(borsa==null){
+            throw new NullPointerException("La borsa non può essere nulla");
+        }
+        
+        if(azienda.getQuotazione(borsa.getNome())==null){
             throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + borsa.getNome());
         }
 
@@ -152,13 +158,13 @@ public class Operatore implements Comparable<Operatore>{
             throw new IllegalArgumentException("Il denaro spendibile per le azioni non può essere negativo o pari a 0");
         }
 
-        int costoPerAzione = azienda.getQuotazione(borsa).getPrezzoCorrente();
+        int costoPerAzione = azienda.getQuotazione(borsa.getNome()).getPrezzoCorrente();
         int quantita = prezzoTot / costoPerAzione;
 
         int costo = costoPerAzione * quantita;
 
         budget -= costo;
-        borsa.modificaAzioni(azienda, -quantita);
+        borsa.modificaAzioni(azienda.getNome(), -quantita);
         borsa.allocaAzione(nome, azienda.getNome(), quantita);
 
         String key=azienda.getNome()+" "+borsa.getNome();
@@ -179,16 +185,21 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @return true se l'operazione è andata a buon fine, false altrimenti
      * 
-     * @throws NullPointerException se l'azienda è nulla
+     * @throws NullPointerException se l'azienda è nulla o l borsa è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
+    public boolean vendeAzione(String a, String b, int quantita) throws NullPointerException, IllegalArgumentException{
+        Azienda azienda = Azienda.factoryAzienda(a);
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }
 
+        Borsa borsa = Borsa.factoryBorsa(b);
         if(borsa==null){
             throw new NullPointerException("La borsa non può essere nulla");
+        }
+        if(azienda.getQuotazione(b)==null){
+            throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + b);
         }
 
         if(quantita<=0){
@@ -206,9 +217,9 @@ public class Operatore implements Comparable<Operatore>{
         }
 
 
-        int guadagno = azienda.getQuotazione(borsa).getPrezzoCorrente() * quantita;
+        int guadagno = azienda.getQuotazione(b).getPrezzoCorrente() * quantita;
         budget += guadagno;
-        borsa.modificaAzioni(azienda, +quantita);
+        borsa.modificaAzioni(azienda.getNome(), +quantita);
         borsa.allocaAzione(nome, azienda.getNome(), -quantita);
 
         portafoglioAzionario.put(key, portafoglioAzionario.get(key) - quantita);
@@ -232,8 +243,7 @@ public class Operatore implements Comparable<Operatore>{
             Map.Entry<String, Integer> entry = it.next();
             String[] tokens = entry.getKey().split(" ");
             Azienda a = Azienda.factoryAzienda(tokens[0]);
-            Borsa b = Borsa.factoryBorsa(tokens[1]);
-            valorePortafoglio += a.getQuotazione(b).getPrezzoCorrente() * entry.getValue();
+            valorePortafoglio += a.getQuotazione(tokens[1]).getPrezzoCorrente() * entry.getValue();
         }
 
         return valorePortafoglio;
