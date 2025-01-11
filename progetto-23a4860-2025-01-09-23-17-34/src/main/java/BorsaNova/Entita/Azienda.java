@@ -91,25 +91,17 @@ public class Azienda implements Comparable<Azienda>{
     /**
      * Metodo attraverso il quale una Azienda si quotata in una Borsa
      * 
-     * @param borsa il nome la borsa in cui quotarsi
+     * @param borsa il nome la Borsa in cui quotarsi
      * @param prezzo il prezzo di quotazione
      * 
-     * @throws IllegalArgumentException se il nome della borsa è nullo o vuoto, se il prezzo è minore o uguale a 0
-     * @throws NullPointerException se la borsa richiesta non esiste
+     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se factoryBorsa incorre in una IllegalArgumentException
      */
-    public final void quotatiInBorsa(String borsa, int prezzo) throws IllegalArgumentException, NullPointerException{
-        if(borsa==null || borsa.isBlank()){
-            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
-        }
-
-        if(prezzo<=0){
+    public final void quotatiInBorsa(String borsa, int prezzo) throws IllegalArgumentException {
+        if(prezzo <= 0){
             throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
         }
 
-        Borsa b=Borsa.factoryBorsa(borsa);
-        if(b==null){
-            throw new NullPointerException("La borsa richiesta non esiste");
-        }
+        Borsa b = Borsa.factoryBorsa(borsa);
         borse.add(borsa);
         b.quotaAzienda(this.getNome(), prezzo);
     }
@@ -120,17 +112,14 @@ public class Azienda implements Comparable<Azienda>{
      * @param borsa il nome della Borsa in cui erogare le azioni
      * @param numeroAzioni il numero di azioni da farsi erogare
      * 
-     * @throws NullPointerException se la Borsa richiesta non esiste e se modificaAzioni incorre in una NullPointerException
-     * @throws IllegalArgumentException se il nome della Borsa è nullo o vuoto e se modificaAzioni incorre in una IllegalArgumentException
+     * @throws NullPointerException se modificaAzioni incorre in una NullPointerException
+     * @throws IllegalArgumentException se modificaAzioni o factoryBorsa incorrono in una IllegalArgumentException
      */
     public final void erogaAzione(String borsa, int numeroAzioni) throws NullPointerException, IllegalArgumentException{
         if(borsa==null || borsa.isBlank()){
             throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
         }
         Borsa b=Borsa.factoryBorsa(borsa);
-        if(b==null){
-            throw new NullPointerException("La borsa richiesta non esiste");
-        }
         b.modificaAzioni(this.getNome(), numeroAzioni);
     }
 
