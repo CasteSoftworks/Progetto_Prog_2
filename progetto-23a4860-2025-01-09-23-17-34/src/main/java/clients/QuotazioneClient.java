@@ -72,11 +72,11 @@ public class QuotazioneClient {
     }
 
     //per ogni azienda elenca le borse in cui è quotata
-    for(Azienda a : Azienda.getAziende().values()){
+    for(String a : Azienda.getAziende()){
       for(Azienda a2 : aziende){
-        if(a.getNome().equals(a2.getNome())){
-          System.out.println(a.getNome());
-          for(String b : a.getBorseDoveQuotata()){
+        if(a.equals(a2.getNome())){
+          System.out.println(a);
+          for(String b : a2.getBorseDoveQuotata()){
             System.out.println("- "+b);
           }
         }
@@ -88,8 +88,8 @@ public class QuotazioneClient {
       for(Borsa b2 : borse){
         if(b2.getNome().equals(b.getNome())){
           System.out.println(b.getNome());
-          for(Azienda a : b2.getAziendeQuotate()){
-            System.out.println("- "+a.getNome());
+          for(String a : b2.getAziendeQuotate()){
+            System.out.println("- "+a);
           }
         }
       }

@@ -147,10 +147,9 @@ public class OperatoreClient {
           String nomeAzienda = tokens[3];
 
           Azienda az = Azienda.factoryAzienda(nomeAzienda);
-          Borsa b = Borsa.factoryBorsa(nomeBorsa);
           int prezzoTotale = Integer.parseInt(tokens[4]);
 
-          o.acquistaAzione(az, b, prezzoTotale);
+          o.acquistaAzione(az.getNome(), nomeBorsa, prezzoTotale);
 
         }else if(operazione.equals("s")){
           String nomeBorsa = tokens[2];
@@ -159,9 +158,8 @@ public class OperatoreClient {
           int numeroAzioni = Integer.parseInt(tokens[4]);
 
           Azienda az = Azienda.factoryAzienda(nomeAzienda);
-          Borsa b = Borsa.factoryBorsa(nomeBorsa);
 
-          o.vendeAzione(az, b, numeroAzioni);
+          o.vendeAzione(az.getNome(), nomeBorsa, numeroAzioni);
 
         }else if(operazione.equals("d")){
           int valore = Integer.parseInt(tokens[2]);

@@ -156,18 +156,15 @@ public class BorsaClient {
         String nomeAzienda = tokens[3];
 
         Operatore o= Operatore.factoryOperatore(nomeOperatore);
-        
         Azienda az = Azienda.factoryAzienda(nomeAzienda);
         
-        Borsa b = Borsa.factoryBorsa(nomeBorsa);
-        
-        String key=b.getNome()+" "+az.getNome()+" "+o.getNome();
+        String key=nomeBorsa+" "+az.getNome()+" "+o.getNome();
 
         if(tipoOperazione.equals("b")){
           int prezzoTotale = Integer.parseInt(tokens[4]);
           
 
-          int numAzioni=o.acquistaAzione(az, b, prezzoTotale);
+          int numAzioni=o.acquistaAzione(az.getNome(), nomeBorsa, prezzoTotale);
           
           if(mappaAziendaOperatoreAzioni.containsKey(key)){
             numAzioni+=mappaAziendaOperatoreAzioni.get(key);
@@ -177,7 +174,7 @@ public class BorsaClient {
         }else if(tipoOperazione.equals("s")){
           int numeroAzioni = Integer.parseInt(tokens[4]);
 
-          if(o.vendeAzione(az, b, numeroAzioni)){
+          if(o.vendeAzione(az.getNome(), nomeBorsa, numeroAzioni)){
             mappaAziendaOperatoreAzioni.put(key, mappaAziendaOperatoreAzioni.get(key) - numeroAzioni);
           }        
         }
@@ -190,10 +187,10 @@ public class BorsaClient {
       for(Borsa b2 : borse){
         if(b.getNome().equals(b2.getNome())){
           System.out.println(b.getNome());
-          for(Azienda a : b2.getAziendeQuotate()){
-            System.out.println("- "+a.getNome()+" "+b2.getNumeroAzioni(a));
+          for(String a : b2.getAziendeQuotate()){
+            System.out.println("- "+a+" "+b2.getNumeroAzioni(a));
             for(String key : mappaAziendaOperatoreAzioni.keySet()){
-              if(key.contains(b2.getNome()+" "+a.getNome())&&mappaAziendaOperatoreAzioni.get(key)!=0){
+              if(key.contains(b2.getNome()+" "+a)&&mappaAziendaOperatoreAzioni.get(key)!=0){
                 System.out.println("= "+key.split(" ")[2]+" "+mappaAziendaOperatoreAzioni.get(key));
               }
             }

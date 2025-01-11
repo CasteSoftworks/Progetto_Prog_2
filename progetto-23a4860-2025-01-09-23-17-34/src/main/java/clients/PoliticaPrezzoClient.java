@@ -117,16 +117,16 @@ public class PoliticaPrezzoClient {
         Azienda az = Azienda.factoryAzienda(nomeAzienda);
 
         if(tokens[0].equals("b")) {
-          operatore.acquistaAzione(az, borsa, num);
+          operatore.acquistaAzione(az.getNome(), nomeBorsa, num);
         } else {
-          operatore.vendeAzione(az, borsa, num);
+          operatore.vendeAzione(az.getNome(), nomeBorsa, num);
         }
       }
     }
 
     //output
-    for(Azienda az : borsa.getAziendeQuotate()){
-      System.out.println(az.getNome()+", "+borsa.getQuotazioneAzienda(az).getPrezzoCorrente());
+    for(String az : borsa.getAziendeQuotate()){
+      System.out.println(az+", "+borsa.getQuotazioneAzienda(az).getPrezzoCorrente());
     }
 
   }

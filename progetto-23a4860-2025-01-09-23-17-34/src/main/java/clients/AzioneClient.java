@@ -65,11 +65,11 @@ public class AzioneClient {
       }
     }
 
-    for(Azienda a : b.getAziendeQuotate()){
+    for(String a : b.getAziendeQuotate()){
       int prezzo = b.getQuotazioneAzienda(a).getPrezzoCorrente();
       Integer numero = b.getNumeroAzioni(a);
       if(numero!=null){
-        System.out.println(a.getNome()+", "+prezzo+", "+numero);
+        System.out.println(a+", "+prezzo+", "+numero);
       }
     }
   }
