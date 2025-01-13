@@ -25,14 +25,19 @@ import BorsaNova.PoliticaPrezzo.*;
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * <li>Fernando Gavezzotti (compagno di corso, suggerimento di usare protected)</li>
- * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected e di stile documentativo)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected, di stile documentativo e reminder dei modifies)</li>
  * </ul>
  */
 
 public class Borsa implements Comparable<Borsa>{
     /**
      * AF:
-     * Una Borsa è rappresentata da un nome
+     * Una Borsa è rappresentata da:
+     * - nome: il nome della Borsa
+     * - quotazioni: le quotazioni delle aziende quotate in questa Borsa
+     * - azioni: le azioni delle aziende in questa Borsa
+     * - politica: la politica di prezzo della Borsa
+     * - allocazioni: le allocazioni delle azioni agli operatori
      *
      * RI:
      * L'oggetto Borsa deve rispettare la seguente condizione: nome non null, stringa vuota o composta solo da soli spazi bianchi
@@ -53,6 +58,9 @@ public class Borsa implements Comparable<Borsa>{
        
     /**
      * Metodo per costruire una Borsa (aggiungendola alla lista delle borse) o ottenere una Borsa già esistente a partire dal nome
+     * 
+     * <p>
+     * Modifies la mappa {@code borse} se la Borsa non esiste già
      * 
      * @param nome il nome della Borsa
      * 
@@ -125,11 +133,10 @@ public class Borsa implements Comparable<Borsa>{
      * <p>
      * Protected per evitare che venga chiamato da classi esterne a Entita
      * Fatto con l'aiuto di Copilot
+     * Modifies la mappa {@code quotazioni} aggiungendo o modificando la quotazione dell'Azienda
      * 
-     * @param azienda l'azienda da quotare
-     * @param prezzo il prezzo di quotazione dell'azienda
-     * 
-     * modifies la quotazione della azienda
+     * @param az il nome della Azienda da quotare
+     * @param prezzo il prezzo di quotazione della Azienda
      * 
      * @throws IllegalArgumentException se il prezzo è minore o uguale a 0
      */
@@ -165,8 +172,10 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * <p>
      * Protected per evitare che venga chiamato da classi esterne a Entita
+     * Modifies la mappa {@code azioni} aggiungendo o rimuovendo le azioni dell'Azienda
+     * Modifies la mappa {@code quotazioni} aggiornando il prezzo delle azioni dell'Azienda se la Politica di Prezzo non è nulla
      * 
-     * @param azienda l'Azienda di cui si vogliono modificare/aggiungere le azioni
+     * @param a il nome della Azienda di cui si vogliono modificare/aggiungere le azioni
      * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
      *  
      * @throws NullPointerException se le azioni sono nulle o se le quotazioni sono nulle
@@ -218,6 +227,7 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * <p>
      * Protected per evitare che venga chiamato da classi esterne a Entita
+     * Modifies la mappa {@code allocazioni} aggiungendo o rimuovendo le azioni allocate all'Operatore o rimuovendo l'allocazione se la quantità post modifica è 0
      * 
      * @param operatore il nome dell'Operatore a cui allocare le azioni
      * @param azienda il nome dell'Azienda di cui allocare le azioni
@@ -269,6 +279,7 @@ public class Borsa implements Comparable<Borsa>{
      * <p>
      * Valore serve solo a decidere se la politica è di incremento, decremento o variazione.
      * Per decidere il valore di incremento e decremento si usano vSu e vGiu
+     * Modifies {@code politica} settando la politica di prezzo
      * 
      * <ul>
      * <li> se il valore è positivo, la politica è ad incremento costante pari a vSu</li>

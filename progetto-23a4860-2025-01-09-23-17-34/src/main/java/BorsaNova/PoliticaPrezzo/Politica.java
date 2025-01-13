@@ -13,12 +13,12 @@ package BorsaNova.PoliticaPrezzo;
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, discussione sull'uso della interfaccia)</li>
- * <li>Matteo Mascherpa (compagno di corso, aiuto sulla formalità della documentazione)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo)</li>
  * </ul>
  */
 public interface Politica {
     /**
-     * Metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della borsa
+     * Metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della Borsa
      * 
      * @param prezzo il prezzo corrente della quotazione
      * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita

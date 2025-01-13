@@ -22,13 +22,16 @@ import java.util.TreeSet;
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice, suggerimento sul prestare attenzione ai metodi poco sicuri)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo e reminder dei modifies)</li>
  * </ul>
  */
 
 public class Azienda implements Comparable<Azienda>{
     /**
      * AF:
-     * Un'Azienda è rappresentata da un nome
+     * Un'Azienda è rappresentata da:
+     * - nome: il nome dell'Azienda
+     * - borse: un set di stringhe che rappresentano i nomi delle Borse dove l'Azienda è quotata
      *
      * RI:
      * L'oggetto Azienda deve rispettare la seguente condizione: nome non deve essere null, stringa vuota o composta solo da soli spazi bianchi
@@ -43,6 +46,9 @@ public class Azienda implements Comparable<Azienda>{
 
     /**
      * Metodo per o costruire un'Azienda (aggiungendola alla mappa delle Aziende) o ottenere un'Azienda già esistente
+     * 
+     * <p>
+     * Modifies la mappa {@code aziende} se l'Azienda non esiste già
      * 
      * @param nome il nome dell'Azienda
      *  
@@ -91,7 +97,7 @@ public class Azienda implements Comparable<Azienda>{
     /**
      * Metodo attraverso il quale una Azienda si quotata in una Borsa
      * 
-     * @param borsa il nome la Borsa in cui quotarsi
+     * @param borsa il nome la Borsa in cui quotarsi (attraverso il nome modifica la mappa {@code quotazioni} di Borsa)
      * @param prezzo il prezzo di quotazione
      * 
      * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se factoryBorsa incorre in una IllegalArgumentException
@@ -109,7 +115,7 @@ public class Azienda implements Comparable<Azienda>{
     /**
      * Metodo per farsi erogare un determinato numero di azioni in una Borsa
      * 
-     * @param borsa il nome della Borsa in cui erogare le azioni
+     * @param borsa il nome della Borsa in cui erogare le azioni (attraverso il nome modifica la mappa {@code azioni} di Borsa)
      * @param numeroAzioni il numero di azioni da farsi erogare
      * 
      * @throws NullPointerException se modificaAzioni incorre in una NullPointerException
@@ -125,7 +131,8 @@ public class Azienda implements Comparable<Azienda>{
 
     /**
      * Metodo per ottenere la quotazione dell'Azienda in una Borsa
-     * @param borsa il nome della Borsa dove cercare la quotazione
+     * 
+     * @param b il nome della Borsa dove cercare la quotazione
      * 
      * @return la quotazione dell'Azienda
      */

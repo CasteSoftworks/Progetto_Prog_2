@@ -15,23 +15,23 @@ package BorsaNova.PoliticaPrezzo;
  * <li>StackOverflow (correzione errori e problemi)</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo)</li>
  * </ul>
  */
 public class Decremento implements Politica {
     /**
      * AF
-     * AF(decremento) = Una politica di decremento rappresentata da:
-     * - decremento: è il decremento da applicare al prezzo
+     * Una politica di decremento rappresentata da un decremento da applicare al prezzo
      * 
      * RI
-     * RI(decremento) = L'oggetto politica di decremento rispetta la seguente condizione:
-     * - decremento è maggiore o uguale a 0
+     * L'oggetto politica di decremento rispetta la seguente condizione: decremento maggiore o uguale a 0
      */
+
     /** Il decremento da applicare al prezzo */
     private final int decremento;
 
     /**
-     * Costruttore della classe
+     * Costruttore di Decremento
      * 
      * @param decremento il decremento da applicare al prezzo
      * 

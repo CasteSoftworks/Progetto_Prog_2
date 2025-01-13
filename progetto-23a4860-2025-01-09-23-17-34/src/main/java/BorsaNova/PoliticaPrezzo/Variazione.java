@@ -13,28 +13,29 @@ package BorsaNova.PoliticaPrezzo;
  * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
- * <li>Matteo Mascherpa (compagno di corso, aiuto sulla formalità della documentazione)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo)</li>
  * </ul>
  */
 public class Variazione implements Politica{
     /**
      * AF
-     * AF(variazioneSu, variazioneGiu) = Una politica di variazione rappresentata da:
+     * Una politica di Variazione è rappresentata da:
      * - variazioneSu: è la variazione da applicare al prezzo in caso di acquisto
      * - variazioneGiu: è la variazione da applicare al prezzo in caso di vendita
      * 
      * RI
-     * RI(variazioneSu, variazioneGiu) = L'oggetto politica di variazione rispetta la seguente condizione:
+     * L'oggetto Variazione rispetta le seguenti condizioni:
      * - variazioneSu è maggiore o uguale a 0
      * - variazioneGiu è maggiore o uguale a 0
      */
+    
     /** La variazione da applicare al prezzo dopo un acquisto */
     private final int variazioneSu;
     /** La variazione da applicare al prezzo dopo una vendita */
     private final int variazioneGiu;
 
     /**
-     * Costruttore della classe
+     * Costruttore di Variazione
      * 
      * @param variazioneA la variazione da applicare al prezzo in caso di acquisto
      * @param variazioneB la variazione da applicare al prezzo in caso di vendita

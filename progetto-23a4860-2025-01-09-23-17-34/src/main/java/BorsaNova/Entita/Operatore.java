@@ -20,12 +20,17 @@ import java.util.Map;
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice, suggerimento sul prestare attenzione ai metodi poco sicuri)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo e reminder dei modifies)</li>
+
  * </ul>
  */
 public class Operatore implements Comparable<Operatore>{
     /**
      * AF:
-     * Un Operatore è rappresentato da un nome e un budget 
+     * Un Operatore è rappresentato da:
+     * - nome: il nome dell'Operatore
+     * - budget: il budget dell'Operatore
+     * - portafoglioAzionario: una mappa delle azioni possedute dall'Operatore (key= "nome_azienda"+" "+"nome_borsa", value= quantità) 
      *
      * RI:
      * L'oggetto Operatore deve rispettare le seguenti condizioni:
@@ -43,7 +48,10 @@ public class Operatore implements Comparable<Operatore>{
     private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
     
     /**
-     * Metodo per costruire un operatore (aggiungendolo alla lista degli operatori) o ottenere un operatore già esistente a partire dal nome
+     * Metodo per costruire un operatore 
+     * 
+     * <p>
+     * Modified la mappa {@code operatori} se l'Operatore non esiste già
      * 
      * @param nome il nome dell'Operatore da creare o recuperare
      * 
@@ -63,7 +71,7 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere un Operatore
+     * Costruttore di Operatore
      * 
      * @param nome il nome dell'Operatore da ottenere
      * @param budget il budget dell'Operatore da ottenere
@@ -96,6 +104,7 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * <p>
      * Utile sia per la creazione dell'Operatore  (che deve iniziare con budget 0) che per ricaricare il budget
+     * Modifies {@code budget} dell'Operatore
      * 
      * @param deposito l'importo da depositare
      * 
@@ -110,6 +119,9 @@ public class Operatore implements Comparable<Operatore>{
 
     /**
      * Metodo per prelevare denaro dal budget
+     * 
+     * <p>
+     * Modifies {@code budget} dell'Operatore
      * 
      * @param prelievo l'importo da prelevare
      * 
@@ -130,8 +142,11 @@ public class Operatore implements Comparable<Operatore>{
     /**
      * Metodo per acquistare azioni di un'azienda
      * 
-     * @param azienda l'azienda a cui appartengono le azioni da acquistare
-     * @param borsa la borsa dove acquistare le azioni
+     * <p>
+     * Modifies {@code portafoglioAzionario} dell'Operatore
+     * 
+     * @param a il nome della Azienda a cui appartengono le azioni da acquistare
+     * @param b il nome della Borsa dove acquistare le azioni (attraverso il nome modifica la mappa {@code azioni} di Borsa e la mappa {@code allocazione} della Borsa)
      * @param prezzoTot il prezzo totale delle azioni da acquistare
      * 
      * @return la quantità di azioni acquistate
@@ -169,10 +184,10 @@ public class Operatore implements Comparable<Operatore>{
      * Metodo per vendere azioni di un'azienda (se l'Operatore possiede abbastanza azioni)
      * 
      * <p>
-     * L'entry sulla mappa portafoglioAzionario rimane solo se dopo l'operazione rimangono delle azioni in possesso dell'Operatore, altrimenti viene rimossa
+     * Modifies {@code portafoglioAzionario} dell'Operatore aggiungendo o rimuovendo azioni o eliminando la chiave se non ci sono più azioni
      * 
-     * @param azienda l'azienda a cui appartengono le azioni da vendere
-     * @param borsa la borsa dove vendere le azioni
+     * @param a il nome della Azienda a cui appartengono le azioni da vendere
+     * @param b il nome della Borsa dove vendere le azioni
      * @param quantita la quantità di azioni da vendere
      * 
      * @return true se l'operazione è andata a buon fine, false altrimenti

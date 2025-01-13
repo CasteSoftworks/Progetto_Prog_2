@@ -13,24 +13,24 @@ package BorsaNova.Entita;
  * <li>Gabriele Favizzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo e reminder dei modifies)</li>
  * </ul>
  */
 public class Quotazione {
     /**
      * AF:
-     * AF(prezzoCorrente) = Una quotazione rappresentata da:
+     * Una Quotazione rappresentata da:
      * - prezzoCorrente: è il prezzo corrente della quotazione
      *
      * RI:
-     * RI(prezzoCorrente) = L'oggetto quotazione rispetta la seguente condizione:
-     * - prezzoCorrente è maggiore o uguale a 0
+     * L'oggetto Quotazione rispetta la seguente condizione: prezzoCorrente è maggiore o uguale a 0
      */
 
-    /** Il {@code prezzoCorrente} della quotazione */
+    /** Il {@code prezzoCorrente} della Quotazione */
     private int prezzoCorrente;
 
     /**
-     * Metodo per costruire una quotazione
+     * Costruttore di Quotazione
      * 
      * @param prezzo il prezzo corrente della quotazione
      */
@@ -39,20 +39,21 @@ public class Quotazione {
     }
 
     /**
-     * Metodo per ottenere il prezzo corrente della quotazione
+     * Metodo per ottenere il prezzo corrente della Quotazione
      * 
-     * @return il prezzo corrente della quotazione
+     * @return il prezzo corrente della Quotazione
      */
     public int getPrezzoCorrente(){
         return prezzoCorrente;
     }
 
     /**
-     * Metodo per aggiornare il prezzo corrente della quotazione 
+     * Metodo per aggiornare il prezzo corrente della Quotazione 
+     * 
+     * <p>
+     * Modifies {@code prezzoCorrente} della Quotazione
      * 
      * @param var la variazione del prezzo corrente
-     * 
-     * modifies this.prezzoCorrente
      */
     public void aggiornaPrezzo(int var){
         prezzoCorrente = var;

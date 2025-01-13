@@ -13,24 +13,23 @@ package BorsaNova.PoliticaPrezzo;
  * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
  * <li>Gabriele Favazzi (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
- * <li>Matteo Mascherpa (compagno di corso, aiuto sulla formalità della documentazione)</li>
+ * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo)</li>
  * </ul>
  */
 public class Incremento implements Politica {
     /**
      * AF
-     * AF(incremento) = Una politica di incremento rappresentata da:
-     * - incremento: è l'incremento da applicare al prezzo
+     * Una politica di Incremento rappresentata da un incremento da applicare al prezzo
      * 
      * RI
-     * RI(incremento) = L'oggetto politica di incremento rispetta la seguente condizione:
-     * - incremento è maggiore o uguale a 0
+     * L'oggetto Incremento rispetta la seguente condizione: incremento maggiore o uguale a 0
      */
+
     /** L'incremento da applicare al prezzo */
     private final int incremento;
 
     /**
-     * Costruttore della classe
+     * Costruttore di Incremento
      * 
      * @param incremento l'incremento da applicare al prezzo
      * 
