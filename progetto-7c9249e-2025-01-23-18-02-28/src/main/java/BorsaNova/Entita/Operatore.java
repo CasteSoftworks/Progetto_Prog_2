@@ -249,7 +249,7 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @throws IllegalArgumentException se factoryAzienda o factoryBorsa incontrano problemi
      */
-    public int getCapitaleTotale() throws IllegalArgumentException{
+    public int getValorePortafoglio() throws IllegalArgumentException{
         int valorePortafoglio=0;
         Iterator<Map.Entry<Azione, Integer>> it = portafoglioAzionario2.entrySet().iterator();
         while(it.hasNext()){
