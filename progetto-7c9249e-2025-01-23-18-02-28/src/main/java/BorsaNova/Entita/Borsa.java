@@ -518,6 +518,8 @@ public class Borsa implements Comparable<Borsa>{
 
         /** La Azienda a cui è collegata la Azione */
         private final Azienda azienda;
+        /** La Borsa a cui è collegata la Azienda di cui si crea l'Azione */
+        private final Borsa borsa;
         /** Il prezzo della Azione */
         private int prezzo;
         /** La quantità di Azioni non possedute da nessuno Operatore della Azienda */
@@ -531,6 +533,7 @@ public class Borsa implements Comparable<Borsa>{
          */
         private Azione(Azienda azienda, int prezzo, int quantita){
             this.azienda=azienda;
+            this.borsa=Borsa.this;
             this.prezzo=prezzo;
             this.quantita=quantita;
         }
@@ -569,6 +572,13 @@ public class Borsa implements Comparable<Borsa>{
          */
         public void modificaPrezzo(int modifica){
             this.prezzo+=modifica;
+        }
+
+        /**
+         * Metodo per recuperare la Borsa a cui è collegata l'Azione
+         */
+        public Borsa getBorsa(){
+            return borsa;
         }
 
         /**
