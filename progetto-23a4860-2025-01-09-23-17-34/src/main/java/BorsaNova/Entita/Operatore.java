@@ -153,7 +153,7 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa, se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata o se factoryAzienda o factoryBorsa incorrono in una IllegalArgumentException
      */
-    public int acquistaAzione(String a, String b, int prezzoTot) throws IllegalArgumentException{
+    /*public int acquistaAzione(String a, String b, int prezzoTot) throws IllegalArgumentException{
         Azienda azienda = Azienda.factoryAzienda(a);
         Borsa borsa = Borsa.factoryBorsa(b);
         
@@ -178,7 +178,7 @@ public class Operatore implements Comparable<Operatore>{
         portafoglioAzionario.put(key, portafoglioAzionario.getOrDefault(key, 0) + quantita);
 
         return quantita;
-    }
+    }*/
 
     /**
      * Metodo per vendere azioni di un'azienda (se l'Operatore possiede abbastanza azioni)
@@ -195,7 +195,7 @@ public class Operatore implements Comparable<Operatore>{
      * @throws NullPointerException se l'azienda è nulla o l borsa è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    public boolean vendeAzione(String a, String b, int quantita) throws NullPointerException, IllegalArgumentException{
+    /*public boolean vendeAzione(String a, String b, int quantita) throws NullPointerException, IllegalArgumentException{
         Azienda azienda = Azienda.factoryAzienda(a);
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
@@ -234,7 +234,7 @@ public class Operatore implements Comparable<Operatore>{
             portafoglioAzionario.remove(key);
         }
         return true;
-    }
+    }*/
 
     /**
      * Metodo per ottenere il valore totale del portafoglio dell'Operatore (valore delle azioni possedute)

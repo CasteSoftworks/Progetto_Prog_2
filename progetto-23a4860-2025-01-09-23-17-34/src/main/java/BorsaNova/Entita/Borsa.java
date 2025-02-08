@@ -1,6 +1,8 @@
 package BorsaNova.Entita;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -34,27 +36,36 @@ public class Borsa implements Comparable<Borsa>{
      * AF:
      * Una Borsa è rappresentata da:
      * - nome: il nome della Borsa
-     * - quotazioni: le quotazioni delle aziende quotate in questa Borsa
-     * - azioni: le azioni delle aziende in questa Borsa
+     * - quotazioni: le quotazioni delle Aziende in questa Borsa
+     * - azioniTotali: le azioni totali delle Aziende in questa Borsa
+     * - azioniDisponibili: le azioni disponibili delle Aziende in questa Borsa
      * - politica: la politica di prezzo della Borsa
-     * - allocazioni: le allocazioni delle azioni agli operatori
+     * - azioni: le azioni totali delle Aziende quotate in Borsa
      *
      * RI:
-     * L'oggetto Borsa deve rispettare la seguente condizione: nome non null, stringa vuota o composta solo da soli spazi bianchi
+     * L'oggetto Borsa deve rispettare la seguente condizione:
+     * - nome non null, stringa vuota o composta solo da soli spazi bianchi
+     * - quotazioni non deve essere null e non deve contenere null
+     * - azioniTotali non deve essere null e non deve contenere null
+     * - azioniDisponibili non deve essere null e non deve contenere null
+     * - politica può essere null o un oggetto di tipo Politica
+     * - allocazioni non deve essere null e non deve contenere null
      */
     
     /** Il {@code nome} della Borsa */
     private final String nome;
-    /** Mappa delle quotazioni (key= nome_azienda, value= quotazione) */
-    private final Map<String, Quotazione> quotazioni = new TreeMap<>();
+    /** Mappa delle quotazioni (key= Azienda, value= quotazione) */
+    private final Map<Azienda, Quotazione> quotazioni = new TreeMap<>();
     /** Lista delle Borse */
-    private static Map<String, Borsa> borse = new TreeMap<>();
-    /** Mappa delle azioni disponibili(key= azienda, value= quantità di azioni) */
-    private Map<Azienda, Integer> azioni = new TreeMap<>();
+    private static Set<Borsa> borse = new TreeSet<>();
+    /** Mappa delle azioni totali(key= azienda, value= quantità di azioni totali) */
+    private Map<Azienda, Integer> azioniTotali = new TreeMap<>();
+    /** Mappa delle azioni disponibili (key= azienda value=quntità di azioni disponibili) */
+    private Map<Azienda, Integer> azioniDisponibili = new TreeMap<>();
     /** La politica di prezzo della Borsa */
     private Politica politica;
     /** Mappa delle allocazioni delle azioni agli operatori (key=nome_operatore+" "+nome_azienda value= quantità allocata)*/
-    private Map<String, Integer> allocazioni = new TreeMap<>();
+    private ArrayList<Azione> azioni = new ArrayList<>();
        
     /**
      * Metodo per costruire una Borsa (aggiungendola alla lista delle borse) o ottenere una Borsa già esistente a partire dal nome
@@ -73,10 +84,11 @@ public class Borsa implements Comparable<Borsa>{
             throw new IllegalArgumentException("Il nome della borsa deve essere non nullo o vuoto");
         }
         
-        if(!borse.containsKey(nome)){
-            borse.put(nome, new Borsa(nome));
+        Borsa b = new Borsa(nome);
+        if(!borse.contains(b)){
+            borse.add(b);
         }
-        return borse.get(nome);
+        return b;
     }
 
     /**
@@ -102,8 +114,24 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return un set non modificabile di nomi di Borse 
      */
-    public static Set<Borsa> getBorse(){
-        return Collections.unmodifiableSet(new TreeSet<>(borse.values()));
+    public static Iterator<Borsa> getBorse(){
+        return Collections.unmodifiableCollection(borse).iterator();
+    }
+
+    /**
+     * Metodo per ottenere una Borsa a partire dal nome
+     * 
+     * @param nome il nome della Borsa da ottenere
+     * 
+     * @return la Borsa richiesta o null se non esiste
+     */
+    public static Borsa getBorsaDaNome(String nome){
+        for (Borsa borsa : borse) {
+            if(borsa.getNome().equals(nome)){
+                return borsa;
+            }
+        }
+        return null;
     }
 
     /**
@@ -116,13 +144,13 @@ public class Borsa implements Comparable<Borsa>{
      * @throws IllegalArgumentException se l'Azienda richiesta è nulla o ha un nome nullo o vuoto
      */
     public Quotazione getQuotazioneAzienda(String azienda){
-
         if(azienda==null||azienda.isBlank()){
             throw new IllegalArgumentException("Il nome della Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
         }
 
-        if(quotazioni.containsKey(azienda)){
-            return quotazioni.get(azienda);
+        Azienda a = Azienda.getAziendaDaNome(azienda);
+        if(quotazioni.containsKey(a)){
+            return quotazioni.get(a);
         }
         return null;
     }
@@ -138,129 +166,119 @@ public class Borsa implements Comparable<Borsa>{
      * @param az il nome della Azienda da quotare
      * @param prezzo il prezzo di quotazione della Azienda
      * 
-     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0
+     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se l'Azienda è già quotata in questa Borsa
      */
-    protected final void quotaAzienda(String az, int prezzo) throws IllegalArgumentException{
+    protected final void quotaAzienda(String az, int prezzo, int quantita) throws IllegalArgumentException{
         if(prezzo<=0){
             throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
         }
 
-        if(quotazioni.containsKey(az)){ 
-            quotazioni.get(az).aggiornaPrezzo(prezzo);
+        Azienda a = Azienda.getAziendaDaNome(az);
+        if(quotazioni.containsKey(a)){ 
+            throw new IllegalArgumentException("L'azienda è già quotata in questa borsa");
         } else {
-            quotazioni.put(az, new Quotazione(prezzo));
+            quotazioni.put(a, new Quotazione(prezzo));
+            erogaAzione(a, quantita);
         }
     }
 
     /**
-     * Metodo per ottenere il numero di azioni di un'azienda
+     * Metodo per ottenere il numero di azioni totali di un'Azienda
      * 
-     * @param azienda l'azienda di cui si vuole ottenere il numero di azioni
+     * @param azienda l'Azienda di cui si vuole ottenere il numero di azioni totali
      * 
-     * @return il numero di azioni dell'azienda richiesta o null se non esiste
+     * @return il numero di azioni totali dell'Azienda richiesta o null se non ne ha
+     * 
+     * @throws NullPointerException se l'Azienda è null
      */
-    public final Integer getNumeroAzioni(String azienda){
-        Azienda a = Azienda.factoryAzienda(azienda);
-        if(azioni.containsKey(a)){
-            return azioni.get(a);
+    public final Integer getNumeroAzioniTotali(String azienda){
+        Azienda a = Azienda.getAziendaDaNome(azienda);
+        if(a==null){
+            throw new NullPointerException("L'Azienda non può essere nulla");
+        }
+
+        if(azioniTotali.containsKey(a)){
+            return azioniTotali.get(a);
         }
         return null;
     }
 
     /**
-     * Metodo per aggiungere/rimuovere o (se non presenti) emettere le azioni di un'azienda (svolto con l'aiuto di Copilot)
+     * Metodo per recuperare il numero di azioni disponibili di un'Azienda
      * 
-     * <p>
-     * Protected per evitare che venga chiamato da classi esterne a Entita
-     * Modifies la mappa {@code azioni} aggiungendo o rimuovendo le azioni dell'Azienda
-     * Modifies la mappa {@code quotazioni} aggiornando il prezzo delle azioni dell'Azienda se la Politica di Prezzo non è nulla
+     * @param azienda l'Azienda di cui si vuole ottenere il numero di azioni disponibili
      * 
-     * @param a il nome della Azienda di cui si vogliono modificare/aggiungere le azioni
-     * @param quantita la quantità di azioni aggiunegre/rimuovere/creare
-     *  
-     * @throws NullPointerException se le azioni sono nulle o se le quotazioni sono nulle
-     * @throws IllegalArgumentException se quantità è pari a 0, se le azioni sono da rimuovere e ne vanno rimosse più di quante ne esistono in circolazione, se l'Azienda non possiede azioni in questa borsa o se factoryAzienda incorre in una IllegalArgumentException
+     * @throws NullPointerException se l'Azienda è null
      */
-    protected final void modificaAzioni(String a, int quantita) throws NullPointerException, IllegalArgumentException{
-        Azienda azienda = Azienda.factoryAzienda(a);
+    public final Integer getNumeroAzioniDisponibili(String azienda){
+        Azienda a = Azienda.getAziendaDaNome(azienda);
+        if(a==null){
+            throw new NullPointerException("L'Azienda non può essere nulla");
+        }
+
+        if(azioniDisponibili.containsKey(a)){
+            return azioniDisponibili.get(a);
+        }
+        return null;
+    }
+
+    /**
+     * Metodo per erogare un certo numero di azioni ad un'azienda (e settare le azioni disponibili)
+     * 
+     * @param azienda il nome dell'Azienda a cui erogare le azioni
+     * @param quantita la quantità di azioni da erogare
+     * 
+     * @throws NullPointerException se l'Azienda è nullo
+     * @throws IllegalArgumentException se la quantità è minore o uguale a 0
+     */
+    private final void erogaAzione(Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+        if(azienda==null){
+            throw new NullPointerException("L'Azienda non può essere null");
+        }
+
+        if(quantita<=0){
+            throw new IllegalArgumentException("La quantità di azioni da erogare deve essere maggiore di 0");
+        }
+
+        azioniTotali.put(azienda, quantita);
+        azioniDisponibili.put(azienda, quantita);
+    }
+    
+    /**
+     * Metodo per far comprare delle azioni ad un Operatore
+     * 
+     * @param operatore l'Operatore che compra le azioni
+     * @param azienda l'Azienda di cui comprare le azioni
+     * @param quantita la quantità di azioni da comprare
+     * 
+     * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
+     * @throws IllegalArgumentException se l'Azienda non è quotata o non ha azioni disponibili
+     */
+    protected void compraAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+        if(operatore==null){
+            throw new NullPointerException("L'Operatore non può essere nullo");
+        }
         
-        if(azioni==null){
-            throw new NullPointerException("Le azioni non possono essere nulle");
+        if(azienda==null){
+            throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
-        if(quotazioni==null){
-            throw new NullPointerException("Le quotazioni non possono essere nulle");
-        }
-
-        if(quantita==0){
-            throw new IllegalArgumentException("La quantità di azioni da aggiungere/rimuovere non può essere 0");
-        }
-
-        if(azioni.containsKey(azienda)){
-            if(quantita<0 && azioni.get(azienda)<Math.abs(quantita)){
-                throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle disponibili");
-            }
-            if(politica!=null){
-                //se compro azioni sto sottraendo quantità, se vendo sto aggiungendo, quindi per fare in modo che quando compro arrivi <code>true</code> e quando vendo <code>false</code> inverto il check di quantità per tare true qwuando <0 e false altrimenti
-                quotazioni.get(a).aggiornaPrezzo(politica.calcolaPrezzo(quotazioni.get(a).getPrezzoCorrente(), quantita<0));
-            }
-            azioni.put(azienda, azioni.get(azienda) + quantita);
-        } else {
-            if(quantita<0){
-                throw new IllegalArgumentException("Le azioni non possono essere rimosse se non esistono");
-            }
-            azioni.put(azienda, quantita);
-        }
-    }
-
-    /**
-     * Metodo per ottenere le allocazioni delle azioni agli Operatori
-     * 
-     * @return la mappa delle allocazioni delle azioni agli Operatori
-     */
-    public final Map<String, Integer> getAllocazioni(){
-        return Collections.unmodifiableMap(allocazioni);
-    }
-
-    /**
-     * Metodo per allocare ad un Operatore un certo numero di azioni di un'Azienda
-     * 
-     * <p>
-     * Protected per evitare che venga chiamato da classi esterne a Entita
-     * Modifies la mappa {@code allocazioni} aggiungendo o rimuovendo le azioni allocate all'Operatore o rimuovendo l'allocazione se la quantità post modifica è 0
-     * 
-     * @param operatore il nome dell'Operatore a cui allocare le azioni
-     * @param azienda il nome dell'Azienda di cui allocare le azioni
-     * @param quantita la quantità di azioni da allocare (anche rimuovere se l'Operatore sta vendendo)
-     * 
-     * @throws IllegalArgumentException se l'Azienda non è quotata in questa borsa, se l'Operatore è nullo o vuoto, se l'Azienda è nulla o vuota, se la quantità è 0 o se la quantità da rimuovere è maggiore delle azioni possedute
-     */
-    protected final void allocaAzione(String operatore, String azienda, int quantita) throws IllegalArgumentException{
         if(!quotazioni.containsKey(azienda)){
-            throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
+            throw new IllegalArgumentException("L'azienda non è quotata");
+        }
+        
+        if(azioniDisponibili.get(azienda)==0){
+            throw new IllegalArgumentException("L'azienda non ha azioni disponibili");
         }
 
-        if(operatore==null||operatore.isBlank()){
-            throw new IllegalArgumentException("L'operatore non può essere nullo o vuoto");
+        if(azioniDisponibili.containsKey(azienda)){
+            azioniDisponibili.put(azienda, azioniDisponibili.get(azienda) - quantita);
         }
-
-        if(azienda==null||azienda.isBlank()){
-            throw new IllegalArgumentException("L'azienda non può essere nulla o vuota");
-        }
-
-        if(quantita==0){
-            throw new IllegalArgumentException("La quantità di azioni da allocare non può essere 0");
-        }
-
-        String key=operatore+" "+azienda;
-
-        if(quantita<0 && allocazioni.get(key)<Math.abs(quantita)){
-            throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle possedute");
-        }
-
-        allocazioni.put(key, allocazioni.getOrDefault(key, 0) + quantita);
-        if(allocazioni.get(key)==0){
-            allocazioni.remove(key);
+        for (Azione azione : azioni) {
+            if(azione.getAzienda().equals(azienda)){
+                azione.aggiungiAllocazione(operatore, quantita);
+                break;
+            }
         }
     }
 
@@ -269,8 +287,12 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return set non modificabile delle aziende quotate in questa borsa
      */
-    public Set<String> getAziendeQuotate(){
-        return Collections.unmodifiableSet(quotazioni.keySet());
+    public Iterator<String> getAziendeQuotate(){
+        Set<String> aziendeNomi = new TreeSet<>();
+        for (Azienda azienda : quotazioni.keySet()) {
+            aziendeNomi.add(azienda.getNome());
+        }
+        return Collections.unmodifiableCollection(aziendeNomi).iterator();
     }
 
     /**
@@ -313,5 +335,123 @@ public class Borsa implements Comparable<Borsa>{
     @Override
     public int compareTo(Borsa borsa){
         return this.getNome().compareTo(borsa.getNome());
+    }
+
+    public class Azione{
+        /**
+         * AF:
+         * Una Azione è rappresentata da:
+         * - azienda: la Azienda a cui è collegata la Azione
+         * - quantita: la quantità di Azioni della Azienda
+         * - allocazioni: le allocazioni degli Operatori
+         * 
+         * RI:
+         * L'oggetto Azione deve rispettare la seguente condizione:
+         * - azienda non può essere null
+         * - quantita deve essere maggiore di 0
+         * - allocazioni non deve essere null e non deve contenere null
+         */
+
+        /** La Azienda a cui è collegata la Azione */
+        private final Azienda azienda;
+        /** La quantità di Azioni della Azienda */
+        private final int quantita;
+        /** Mappa delle allocazioni degli operatori (key= Operatore, value= quantità allocata) */
+        private Map<Operatore, Integer> allocazioni = new TreeMap<>();
+
+        /**
+         * Costruttore privato per creare una Azione
+         * 
+         * @param azienda la Azienda a cui è collegata la Azione
+         * @param quantita la quantità di Azioni della Azienda
+         */
+        private Azione(Azienda azienda, int quantita){
+            this.azienda=azienda;
+            this.quantita=quantita;
+        }
+
+        /**
+         * Metodo per ottenere la Azienda a cui è collegata la Azione
+         * 
+         * @return la Azienda a cui è collegata la Azione
+         */
+        public Azienda getAzienda(){
+            return azienda;
+        }
+
+        /**
+         * Metodo per ottenere la quantità di Azioni della Azienda
+         * 
+         * @return la quantità di Azioni della Azienda
+         */
+        public int getQuantita(){
+            return quantita;
+        }
+
+        /**
+         * Metodo per ottenere le allocazioni degli Operatori
+         * 
+         * @return la mappa delle allocazioni degli Operatori
+         */
+        public Map<Operatore, Integer> getAllocazioni(){
+            return Collections.unmodifiableMap(allocazioni);
+        }
+
+        /**
+         * Metodo aggiungere un'allocazione ad un Operatore di un certo numero di azioni di un'Azienda
+         * 
+         * @param operatore l'Operatore a cui allocare le azioni
+         * @param quantita la quantità di azioni da allocare
+         * 
+         * @throws NullPointerException se l'Operatore è nullo
+         * @throws IllegalArgumentException se la quantità è minore o uguale a 0
+         */
+        public void aggiungiAllocazione(Operatore operatore, int quantita) throws NullPointerException, IllegalArgumentException{
+            if(operatore==null){
+                throw new NullPointerException("L'Operatore non può essere nullo");
+            }
+
+            if(quantita<=0){
+                throw new IllegalArgumentException("La quantità di azioni da allocare deve essere maggiore di 0");
+            }
+
+            if(allocazioni.containsKey(operatore)){
+                allocazioni.put(operatore, allocazioni.get(operatore) + quantita);
+            }else{
+                allocazioni.put(operatore, quantita);
+            }
+        }
+
+        /**
+         * Metodo per rimuovere dalle allocazioni ad un Operatore di un certo numero di azioni di un'Azienda (se la quantità post rimozione è 0, rimuove l'allocazione)
+         * 
+         * @param operatore l'Operatore da cui rimuovere le azioni
+         * @param quantita la quantità di azioni da rimuovere
+         * 
+         * @throws NullPointerException se l'Operatore è nullo
+         * @throws IllegalArgumentException se la quantità è minore o uguale a 0, se la quantità da rimuovere è maggiore delle azioni allocate o se l'Operatore non ha azioni allocate
+         */
+        public void rimuoviDaAllocazione(Operatore operatore, int quantita) throws NullPointerException, IllegalArgumentException{
+            if(operatore==null){
+                throw new NullPointerException("L'Operatore non può essere nullo");
+            }
+
+            if(quantita<=0){
+                throw new IllegalArgumentException("La quantità di azioni da rimuovere deve essere maggiore di 0");
+            }
+
+            if(allocazioni.containsKey(operatore)){
+                if(quantita<0 && allocazioni.get(operatore)<Math.abs(quantita)){
+                    throw new IllegalArgumentException("La quantità di azioni da rimuovere non deve essere maggiore di quelle allocate");
+                }
+
+                allocazioni.put(operatore, allocazioni.get(operatore) - quantita);
+                if(allocazioni.get(operatore)==0){
+                    allocazioni.remove(operatore);
+                }
+            }else{
+                throw new IllegalArgumentException("L'Operatore non ha azioni allocate");
+            }
+        }
     }
 }
