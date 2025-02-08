@@ -49,9 +49,7 @@ public class Borsa implements Comparable<Borsa>{
     
     /** Il {@code nome} della Borsa */
     private final String nome;
-    /** Mappa delle quotazioni (key= Azienda, value= quotazione) */
-    //private final Map<Azienda, Integer> quotazioni = new TreeMap<>();
-
+    /** Set delle Aziende in Borsa */
     private SortedSet<Azienda> aziendeInBorsa = new TreeSet<>();
 
     /** La politica di prezzo della Borsa */
