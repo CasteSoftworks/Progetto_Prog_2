@@ -1,3 +1,0 @@
-Tesla2 10 20
-Lafayette2 100 100
-Louvre2 2000 10 

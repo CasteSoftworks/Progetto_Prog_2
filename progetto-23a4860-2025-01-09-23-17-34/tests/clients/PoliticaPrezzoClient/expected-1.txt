@@ -1,3 +1,0 @@
-Apple1p, 20
-Microsoft1p, 210
-Tesla1p, 60

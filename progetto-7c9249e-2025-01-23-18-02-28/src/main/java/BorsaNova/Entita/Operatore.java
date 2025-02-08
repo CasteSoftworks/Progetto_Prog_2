@@ -45,7 +45,9 @@ public class Operatore implements Comparable<Operatore>{
     /** Mappa degli Operatori (key= nome_operatore, value= operatore stesso) */
     private static final Map<String, Operatore> operatori = new HashMap<>();
     /** Mappa delle azioni possedute dall'Operatore (key= "nome_azienda nome_borsa", value= quantità) */
-    private final Map<String, Integer> portafoglioAzionario = new HashMap<>();
+    private final Map<String, Integer> portafoglioAzionario = new HashMap<>(); //  QUESTO È MERDA
+
+    //SALVO UN TREEMAP DI AZIONE E NUMERO
     
     /**
      * Metodo per costruire un operatore 

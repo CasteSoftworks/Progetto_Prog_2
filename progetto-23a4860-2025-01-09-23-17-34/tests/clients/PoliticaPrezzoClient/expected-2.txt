@@ -1,3 +1,0 @@
-Apple2p, 1
-Microsoft2p, 195
-Tesla2p, 45
