@@ -136,20 +136,29 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @param borsa il nome la Borsa in cui quotarsi (attraverso il nome modifica la mappa {@code quotazioni} di Borsa)
      * @param prezzo il prezzo di quotazione
+     * @param quantita il numero di azioni da quotare
      * 
      * @throws NullPointerException se la Borsa non esiste
      * @throws IllegalArgumentException se il prezzo è minore o uguale a 0
      */
-    public final void quotatiInBorsa(String borsa, int prezzo) throws IllegalArgumentException {
+    public final void quotatiInBorsa(String borsa, int prezzo, int quantita) throws IllegalArgumentException {
+        if(borsa==null || borsa.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
+        }
+
         if(prezzo <= 0){
             throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+        }
+
+        if(quantita <= 0){
+            throw new IllegalArgumentException("La quantità di azioni da quotare deve essere maggiore di 0");
         }
 
         Borsa b = Borsa.getBorsaDaNome(borsa);
         if(b==null){
             throw new NullPointerException("La borsa non esiste");
         }
-        b.quotaAzienda(this.getNome(), prezzo);
+        b.quotaAzienda(this.getNome(), prezzo, quantita);
     }
 
     /**
@@ -178,11 +187,16 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @param b il nome della Borsa dove cercare la quotazione
      * 
-     * @return la quotazione dell'Azienda
+     * @return la quotazione dell'Azienda 
      * 
      * @throws NullPointerException se la Azienda non è quotata nella Borsa richiesta
+     * @throws IllegalArgumentException se il nome della Borsa è nullo o vuoto
      */
-    public Quotazione getQuotazione(String b){
+    public Integer getQuotazione(String b){
+        if(b==null || b.isBlank()){
+            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
+        }
+
         Borsa borsa = getBorsaQuotata(b);
         if(borsa==null){
             throw new NullPointerException("La Azienda non è quotata nella Borsa richiesta");
