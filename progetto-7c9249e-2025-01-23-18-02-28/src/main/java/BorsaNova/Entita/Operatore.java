@@ -3,6 +3,9 @@ package BorsaNova.Entita;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
+
+import BorsaNova.Entita.Borsa.Azione;
 
 /**
  * Classe per rappresentare un Operatore
@@ -45,9 +48,10 @@ public class Operatore implements Comparable<Operatore>{
     /** Mappa degli Operatori (key= nome_operatore, value= operatore stesso) */
     private static final Map<String, Operatore> operatori = new HashMap<>();
     /** Mappa delle azioni possedute dall'Operatore (key= "nome_azienda nome_borsa", value= quantità) */
-    private final Map<String, Integer> portafoglioAzionario = new HashMap<>(); //  QUESTO È MERDA
+    //private final Map<String, Integer> portafoglioAzionario = new HashMap<>(); //  QUESTO È MERDA
 
     //SALVO UN TREEMAP DI AZIONE E NUMERO
+    private final Map<Azione, Integer> portafoglioAzionario2 = new TreeMap<>();
     
     /**
      * Metodo per costruire un operatore 
@@ -245,14 +249,13 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @throws IllegalArgumentException se factoryAzienda o factoryBorsa incontrano problemi
      */
-    public int getValorePortafoglio() throws IllegalArgumentException{
+    public int getCapitaleTotale() throws IllegalArgumentException{
         int valorePortafoglio=0;
-        Iterator<Map.Entry<String, Integer>> it = portafoglioAzionario.entrySet().iterator();
+        Iterator<Map.Entry<Azione, Integer>> it = portafoglioAzionario2.entrySet().iterator();
         while(it.hasNext()){
-            Map.Entry<String, Integer> entry = it.next();
-            String[] tokens = entry.getKey().split(" ");
-            Azienda a = Azienda.factoryAzienda(tokens[0]);
-            valorePortafoglio += a.getQuotazione(tokens[1]).getPrezzoCorrente() * entry.getValue();
+            Map.Entry<Azione, Integer> entry = it.next();
+            Azienda a = entry.getKey().getAzienda();
+            valorePortafoglio += a.getQuotazione(entry.getKey().getBorsa().getNome()).getPrezzoCorrente() * entry.getValue();
         }
 
         return valorePortafoglio;
