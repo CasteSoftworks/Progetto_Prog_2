@@ -501,7 +501,7 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /** Classe interna Azione */
-    public class Azione{
+    public class Azione implements Comparable<Azione>{
         /**
          * AF:
          * Una Azione è rappresentata da:
@@ -578,6 +578,11 @@ public class Borsa implements Comparable<Borsa>{
          */
         public void modificaQuantita(int modifica){
             this.quantita+=modifica;
+        }
+        
+        @Override
+        public int compareTo(Azione other) {
+            return azienda.compareTo(other.azienda);
         }
     }
 
