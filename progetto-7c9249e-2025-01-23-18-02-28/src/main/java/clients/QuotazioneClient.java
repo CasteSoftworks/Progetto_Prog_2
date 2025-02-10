@@ -21,6 +21,12 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.*;
+
 /** Client di test per alcune funzionalità relative alle <strong>quotazioni</strong>. */
 public class QuotazioneClient {
 
@@ -43,4 +49,54 @@ public class QuotazioneClient {
    * alfabetico; i nomi di borsa nel primo elenco e i azienda nel secondo devono
    * essere prefissati da "- ".
    */
+
+  public static void main(String[] args) {
+    SortedSet<Azienda> aziende = new TreeSet<>();
+    SortedSet<Borsa> borse = new TreeSet<>();
+
+    try(Scanner scanner = new Scanner(System.in)) {
+      while(scanner.hasNextLine()) {
+        String line=scanner.nextLine();
+
+        if(line.isEmpty()) {
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+
+        Borsa b = Borsa.of(tokens[1]);
+        borse.add(b);
+        Azienda a = Azienda.of(tokens[0]);
+        aziende.add(a);
+
+        a.quotatiInBorsa(b, Integer.parseInt(tokens[3]), Integer.parseInt(tokens[2]));
+      }
+    }
+
+    for(Azienda a : aziende) {
+      System.out.println(a.getNome());
+      for(Borsa b : borse) {
+        try {
+          if(a.getQuotazione(b) != null) {
+            System.out.println("- " + b.getNome());
+          }
+        } catch(IllegalArgumentException e) {
+          continue;
+        }
+      }
+    }
+    
+    for(Borsa b : borse) {
+      System.out.println(b.getNome());
+      for(Azienda a : aziende) {
+        try {
+          if(a.getQuotazione(b) != null) {
+            System.out.println("- " + a.getNome());
+          }
+        } catch(IllegalArgumentException e) {
+          continue;
+        }
+      }
+    }
+  }
 }

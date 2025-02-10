@@ -21,6 +21,12 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.Borsa;
+
 /** Client di test per alcune funzionalità relative alle <strong>aziende</strong>. */
 public class OmonimiaBorsaClient {
 
@@ -33,5 +39,21 @@ public class OmonimiaBorsaClient {
    * nel flusso d'uscita l'elenco di tali nomi di borsa in ordine alfabetico e
    * senza ripetizioni.
    */
+
+  public static void main(String[] args) {
+    SortedSet<Borsa> borse = new TreeSet<>();
+
+    try(Scanner scanner = new Scanner(System.in)){
+      while(scanner.hasNextLine()){
+        String nomeBorsa = scanner.nextLine();
+        Borsa borsa = Borsa.of(nomeBorsa);
+        borse.add(borsa);
+      }
+    }
+
+    for(Borsa borsa : borse){
+      System.out.println(borsa.getNome());
+    }
+  }
 
 }

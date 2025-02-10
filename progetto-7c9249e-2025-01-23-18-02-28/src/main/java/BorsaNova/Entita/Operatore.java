@@ -3,7 +3,9 @@ package BorsaNova.Entita;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import BorsaNova.Entita.Borsa.Azione;
 
@@ -46,12 +48,15 @@ public class Operatore implements Comparable<Operatore>{
     /** Il budget dell'Operatore */
     private int budget;
     /** Mappa degli Operatori (key= nome_operatore, value= operatore stesso) */
-    private static final Map<String, Operatore> operatori = new HashMap<>();
     /** Mappa delle azioni possedute dall'Operatore (key= "nome_azienda nome_borsa", value= quantità) */
     //private final Map<String, Integer> portafoglioAzionario = new HashMap<>(); //  QUESTO È MERDA
 
     //SALVO UN TREEMAP DI AZIONE E NUMERO
     private final Map<Azione, Integer> portafoglioAzionario2 = new TreeMap<>();
+
+    private static final SortedSet<String> NOMI_USATI = new TreeSet<>();
+    private static final SortedSet<Operatore> operatori = new TreeSet<>();
+
     
     /**
      * Metodo per costruire un operatore 
@@ -65,15 +70,15 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @throws IllegalArgumentException se il nome dell'operatore è nullo o vuoto o se è composto solo da spazi bianchi, se il budget dell'operatore è negativo
      */
-    public static Operatore factoryOperatore(String nome) throws IllegalArgumentException{
+    public static Operatore of(String nome) throws IllegalArgumentException{
         if(nome==null || nome.isBlank()){
             throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
         }
 
-        if(!operatori.containsKey(nome)){
-            operatori.put(nome, new Operatore(nome, 0));
+        if(NOMI_USATI.contains(nome)){
+            return getOperatoreDaNome(nome);
         }
-        return operatori.get(nome);
+        return new Operatore(nome);
     }
 
     /**
@@ -82,9 +87,21 @@ public class Operatore implements Comparable<Operatore>{
      * @param nome il nome dell'Operatore da ottenere
      * @param budget il budget dell'Operatore da ottenere
      */
-    private Operatore(String nome, int budget){
+    private Operatore(String nome){
         this.nome = nome;
-        this.budget = budget;
+    }
+
+    public static Operatore getOperatoreDaNome(String nome){
+        if(nome==null || nome.isBlank()){
+            throw new IllegalArgumentException("Il nome dell'operatore deve essere non nullo o vuoto");
+        }
+
+        for(Operatore o : operatori){
+            if(o.getNome().equals(nome)){
+                return o;
+            }
+        }
+        return null;
     }
 
     /**
@@ -255,7 +272,7 @@ public class Operatore implements Comparable<Operatore>{
         while(it.hasNext()){
             Map.Entry<Azione, Integer> entry = it.next();
             Azienda a = entry.getKey().getAzienda();
-            valorePortafoglio += a.getQuotazione(entry.getKey().getBorsa().getNome()).getPrezzoCorrente() * entry.getValue();
+            valorePortafoglio += a.getQuotazione(entry.getKey().getBorsa()) * entry.getValue();
         }
 
         return valorePortafoglio;
