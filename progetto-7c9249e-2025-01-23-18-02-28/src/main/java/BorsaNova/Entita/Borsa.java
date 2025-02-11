@@ -205,20 +205,15 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'Azienda è null
      * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto
      */
-    public final Integer getNumeroAzioniTotali(String azienda) throws NullPointerException, IllegalArgumentException{
-        if(azienda==null||azienda.isBlank()){
-            throw new IllegalArgumentException("Il nome della Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
-        }
-
-        Azienda a = Azienda.getAziendaDaNome(azienda);
-        if(a==null){
+    public final Integer getNumeroAzioniTotali(Azienda azienda) throws NullPointerException, IllegalArgumentException{
+        if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
         int tot=0;
         for(Allocazione allocazione : allocazioni){
             for(Entry<Azione, Integer> entry : allocazione.azioniPossedute.entrySet()){
-                if(entry.getKey().getAzienda().equals(a)){
+                if(entry.getKey().getAzienda().equals(azienda)){
                     tot+=entry.getValue();
                 }
             }
@@ -234,20 +229,15 @@ public class Borsa implements Comparable<Borsa>{
      * @param azienda l'Azienda di cui si vuole ottenere il numero di azioni disponibili
      * 
      * @throws NullPointerException se l'Azienda è null
-     * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto
      */
-    public final Integer getNumeroAzioniDisponibili(String azienda) throws NullPointerException, IllegalArgumentException{
-        if(azienda==null||azienda.isBlank()){
-            throw new IllegalArgumentException("Il nome della Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
-        }
+    public final Integer getNumeroAzioniDisponibili(Azienda azienda) throws NullPointerException{
 
-        Azienda a = Azienda.getAziendaDaNome(azienda);
-        if(a==null){
+        if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
         for(Azione azione : azioni){
-            if(azione.getAzienda().getNome().equals(azienda)){
+            if(azione.getAzienda().equals(azienda)){
                 return azione.getQuantita();
             }
         }
@@ -351,74 +341,158 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
      * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione o se l'Azienda non ha abbastanza Azioni disponibili
      */
-    public final int compraAzione(Operatore operatore, String azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException{
+    public final int compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
             throw new NullPointerException("L'Operatore non può essere nullo");
         }
 
-        if(azienda==null||azienda.isBlank()){
-            throw new IllegalArgumentException("Il nome dell'Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
-        }
+        System.err.println("operatore esiste");
 
-        Azienda a = Azienda.getAziendaDaNome(azienda);
-        if(a==null){
+        if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
-        if(getQuotazioneAzienda(a)==null){
+        System.err.println("azienda esiste");
+
+        Integer prezzoAz=getQuotazioneAzienda(azienda);
+        if(prezzoAz==null){
             throw new IllegalArgumentException("L'Azienda non è quotata in questa Borsa");
         }
 
-        if(getQuotazioneAzienda(a)>budgetAcquisto){
+        System.err.println("la quotazione esiste");
+
+        if(prezzoAz>budgetAcquisto){
             throw new IllegalArgumentException("Il prezzo di acquisto deve essere maggiore o uguale al prezzo di quotazione");
         }
 
-        int quantita=budgetAcquisto/getQuotazioneAzienda(a);
+        System.err.println("il budget è sufficiente");
+
+        int quantita=budgetAcquisto/prezzoAz;
+
+        System.err.println("la quantità è "+quantita);
+
         if(getNumeroAzioniDisponibili(azienda)<quantita){
             throw new IllegalArgumentException("L'Azienda non ha abbastanza azioni disponibili");
         }
 
-        int resto = budgetAcquisto%getQuotazioneAzienda(a);
+        System.err.println("le azioni sono disponibili");
+
+        int resto = budgetAcquisto%prezzoAz;
+
+        System.err.println("il resto è "+resto);
 
         for(Allocazione allocazione : allocazioni){
             if(allocazione.getOperatore().equals(operatore)){
+
+                System.err.println("l'operatore ha già azioni in borsa");
+
                 for(Entry<Azione, Integer> entry : allocazione.azioniPossedute.entrySet()){
-                    if(entry.getKey().getAzienda().equals(a)){
+                    if(entry.getKey().getAzienda().equals(azienda)){
+
+                        System.err.println("l'operatore ha già azioni di questa azienda");
+
                         int tot=(entry.getValue()+quantita);
 
-                        Azione azione = getAzione(a);
+                        Azione azione = getAzione(azienda);
                         azioni.remove(azione);
                         azione.modificaQuantita(-quantita);
                         azioni.add(azione);
 
-                        allocazione.azioniPossedute.remove(getAzione(a));
-                        allocazione.azioniPossedute.put(getAzione(a), tot);
+                        System.err.println("le azioni sono state aggiornate");
+
+                        allocazione.azioniPossedute.remove(azione);
+                        allocazione.azioniPossedute.put(azione, tot);
+
+                        System.err.println("le azioni dell'operatore sono state aggiornate");
+
+                        allocazioni.remove(allocazione);
+                        
+
+                        System.err.println("le allocazioni sono state aggiornate");
 
                         return resto;
                     }
                 }
+
+                System.err.println("l'operatore non ha azioni di questa azienda");
+
+                Azione azione = getAzione(azienda);
+                azioni.remove(azione);
+                azione.modificaQuantita(-quantita);
+                azioni.add(azione);
+
+                System.err.println("le azioni sono state aggiornate");
+
+                allocazione.azioniPossedute.put(azione, quantita);
+
+                System.err.println("le azioni dell'operatore sono state aggiornate");
+
+                return resto;
             }
-
-            Azione azione = getAzione(a);
-            azioni.remove(azione);
-            azione.modificaQuantita(-quantita);
-            azioni.add(azione);
-
-            allocazione.azioniPossedute.put(azione, quantita);
-            return resto;
         }
 
-        Azione azione = getAzione(a);
+        System.err.println("l'operatore non ha azioni in borsa");
+
+        Azione azione = getAzione(azienda);
         azioni.remove(azione);
         azione.modificaQuantita(-quantita);
         azioni.add(azione);
 
+        System.err.println("le azioni sono state aggiornate");
+
         Allocazione allocazione = new Allocazione(operatore);
         allocazione.azioniPossedute.put(azione, quantita);
         allocazioni.add(allocazione);
+
+        System.err.println("le allocazioni sono state aggiornate");
+
         return resto;
     }
-
+    /*public final int compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException {
+        if (operatore == null) {
+            throw new NullPointerException("L'operatore non può essere nullo");
+        }
+    
+        if (azienda == null) {
+            throw new NullPointerException("L'azienda non può essere nulla");
+        }
+    
+        Integer prezzoAz = getQuotazioneAzienda(azienda);
+        if (prezzoAz == null) {
+            throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
+        }
+    
+        if (prezzoAz > budgetAcquisto) {
+            throw new IllegalArgumentException("Il budget non è sufficiente per acquistare anche una sola azione");
+        }
+    
+        int quantita = budgetAcquisto / prezzoAz;
+        if (getNumeroAzioniDisponibili(azienda) < quantita) {
+            throw new IllegalArgumentException("Non ci sono abbastanza azioni disponibili");
+        }
+    
+        int resto = budgetAcquisto % prezzoAz;
+    
+        for (Allocazione allocazione : allocazioni) {
+            if (allocazione.getOperatore().equals(operatore)) {
+                Azione azione = getAzione(azienda);
+                allocazione.azioniPossedute.merge(azione, quantita, Integer::sum);
+                azione.modificaQuantita(-quantita);
+                return resto;
+            }
+        }
+    
+        Azione azione = getAzione(azienda);
+        azioni.remove(azione);
+        azione.modificaQuantita(-quantita);
+        azioni.add(azione);
+    
+        Allocazione allocazione = new Allocazione(operatore);
+        allocazione.azioniPossedute.put(azione, quantita);
+        allocazioni.add(allocazione);
+    
+        return resto;
+    }*/
     /**
      * Metodo per far vendere delle azioni ad un Operatore
      * 
@@ -473,6 +547,14 @@ public class Borsa implements Comparable<Borsa>{
         throw new IllegalArgumentException("L'Operatore non ha azioni da vendere");
     }
 
+    public SortedSet<Azione> getAzioni(){
+        return Collections.unmodifiableSortedSet(azioni);
+    }
+
+    public SortedSet<Allocazione> getAllocazioni(){
+        return Collections.unmodifiableSortedSet(allocazioni);
+    }
+
     @Override
     public int compareTo(Borsa other) {
         return nome.compareTo(other.nome);
@@ -521,7 +603,7 @@ public class Borsa implements Comparable<Borsa>{
          * @param azienda la Azienda a cui è collegata la Azione
          * @param quantita la quantità di Azioni della Azienda
          */
-        private Azione(Azienda azienda, int prezzo, int quantita){
+        public Azione(Azienda azienda, int prezzo, int quantita){
             this.azienda=azienda;
             this.borsa=Borsa.this;
             this.prezzo=prezzo;
@@ -587,7 +669,7 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /** Classe interna Allocazione */
-    public class Allocazione{
+    public class Allocazione implements Comparable<Allocazione>{
         /*
          * AF:
          * Un'Allocazione è rappresentata da:
@@ -618,6 +700,7 @@ public class Borsa implements Comparable<Borsa>{
             }
 
             this.operatore=operatore;
+            this.azioniPossedute=new TreeMap<>();
             
         }
 
@@ -628,6 +711,28 @@ public class Borsa implements Comparable<Borsa>{
          */
         public Operatore getOperatore(){
             return operatore;
+        }
+
+        public TreeMap<Azione, Integer> getAzioniPossedute(){
+            return azioniPossedute;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Allocazione other)){
+                return false;
+            }
+            return operatore.equals(other.operatore);
+        }
+
+        @Override
+        public int hashCode() {
+            return operatore.hashCode();
+        }
+
+        @Override
+        public int compareTo(Allocazione other) {
+            return this.operatore.getNome().compareTo(other.operatore.getNome());
         }
 
     }

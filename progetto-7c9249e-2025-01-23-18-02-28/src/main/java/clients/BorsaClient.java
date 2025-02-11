@@ -21,6 +21,16 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.*;
+import BorsaNova.Entita.Borsa.Allocazione;
+import BorsaNova.Entita.Borsa.Azione;
+
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class BorsaClient {
 
@@ -65,4 +75,116 @@ public class BorsaClient {
    * ognuna di esse i nomi degli operatori e delle quantità che ne possiedono
    * (in ordine alfabetico, prefissati da =).
    */
+
+  public static void main(String[] args) {
+    SortedSet<Azienda> aziende = new TreeSet<>();
+    SortedSet<Borsa> borse = new TreeSet<>();
+    SortedSet<Operatore> operatori = new TreeSet<>();
+
+    //System.err.println("--==Input 1==--");
+
+    try(Scanner scanner = new Scanner(System.in)){
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+        
+        if(line.equals("--")){
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+
+        Azienda azienda = Azienda.of(tokens[0]);
+
+        Borsa borsa = Borsa.of(tokens[1]);
+
+        int numero = Integer.parseInt(tokens[2]);
+        int prezzoUnitario = Integer.parseInt(tokens[3]);
+
+        azienda.quotatiInBorsa(borsa, prezzoUnitario, numero);
+        aziende.add(azienda);
+        borse.add(borsa);
+      }
+      //System.err.println("--==Input 2==--");
+
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+        
+        if(line.equals("--")){
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+
+        Operatore operatore = Operatore.of(tokens[0]);
+        int budgetIniziale = Integer.parseInt(tokens[1]);
+
+        operatore.depositaInBudget(budgetIniziale);
+        System.err.println("budget di "+operatore.getNome()+"="+operatore.getBudget());
+        operatori.add(operatore);
+
+      }
+
+      //System.err.println("--==Input 3==--");
+
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+
+        if(line.isEmpty()){
+          break;
+        }
+        
+        String[] tokens = line.split(" ");
+
+        Operatore operatore = Operatore.of(tokens[0]);
+
+        System.err.println("Operatore: "+operatore.getNome());
+
+        char operazione = tokens[1].charAt(0);
+
+        String nomeBorsa = tokens[2];
+        String nomeAzienda = tokens[3];
+        Borsa borsa = Borsa.of(nomeBorsa);
+        Azienda azienda = Azienda.of(nomeAzienda);
+
+        System.err.println("Borsa: "+borsa.getNome());
+        System.err.println("Azienda: "+azienda.getNome());
+
+        if(operazione == 'b'){
+
+          System.err.println("----====Acquisto====----");
+
+          
+          int prezzoTotale = Integer.parseInt(tokens[4]);
+
+          operatore.acquistaAzione(azienda, borsa, prezzoTotale);
+        } else if(operazione == 's'){
+          System.err.println("--==Vendita==--");
+    
+          int numeroAzioni = Integer.parseInt(tokens[4]);
+
+          System.err.println("Vendita non implementata");
+        }
+      }
+    }
+
+    System.err.println("--==Output==--");
+
+    for(Borsa borsa : borse){
+      System.out.println(borsa.getNome());
+      System.err.println(borsa.getNome());
+      for(Azione azione : borsa.getAzioni()){
+        System.out.println("- " + azione.getAzienda().getNome() + " " + azione.getQuantita());
+        System.err.println("- " + azione.getAzienda().getNome() + " " + azione.getQuantita());
+        for(Allocazione allocazione : borsa.getAllocazioni()){
+          TreeMap<Azione, Integer> azioni = allocazione.getAzioniPossedute();
+          if(azioni.containsKey(azione)){
+            System.out.println("= " + allocazione.getOperatore().getNome() + " " + azioni.get(azione));
+            System.err.println("= " + allocazione.getOperatore().getNome() + " " + azioni.get(azione));
+          }
+        }
+      }
+    }
+
+    System.err.println("--==Fine==--");
+  }
 }

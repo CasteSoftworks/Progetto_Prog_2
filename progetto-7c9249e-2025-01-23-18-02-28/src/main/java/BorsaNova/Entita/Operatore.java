@@ -130,11 +130,11 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @param deposito l'importo da depositare
      * 
-     * @throws IllegalArgumentException se l'importo del deposito è negativo o pari a 0
+     * @throws IllegalArgumentException se l'importo del deposito è negativo
      */
     public void depositaInBudget(int deposito) throws IllegalArgumentException{
-        if(deposito<=0){
-            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo o pari a 0");
+        if(deposito<0){
+            throw new IllegalArgumentException("Il deposito di denaro non può essere negativo");
         }
         this.budget += deposito;
     }
@@ -175,32 +175,26 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @throws IllegalArgumentException se la quantità di azioni da acquistare è negativa, se le azioni da acquistare sono maggiori di quelle disponibili nella borsa specificata o se factoryAzienda o factoryBorsa incorrono in una IllegalArgumentException
      */
-    /*public int acquistaAzione(String a, String b, int prezzoTot) throws IllegalArgumentException{
-        Azienda azienda = Azienda.factoryAzienda(a);
-        Borsa borsa = Borsa.factoryBorsa(b);
-        
-        if(azienda.getQuotazione(borsa.getNome())==null){
-            throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + borsa.getNome());
+    public void acquistaAzione(Azienda a, Borsa b, int prezzoTot) throws IllegalArgumentException{        
+        if(a==null){
+            throw new NullPointerException("L'azienda non può essere nulla");
+        }
+
+        if(b==null){
+            throw new NullPointerException("La borsa non può essere nulla");
         }
 
         if(prezzoTot<=0){
             throw new IllegalArgumentException("Il denaro spendibile per le azioni non può essere negativo o pari a 0");
         }
 
-        int costoPerAzione = azienda.getQuotazione(borsa.getNome()).getPrezzoCorrente();
-        int quantita = prezzoTot / costoPerAzione;
-
-        int costo = costoPerAzione * quantita;
-
-        budget -= costo;
-        borsa.modificaAzioni(azienda.getNome(), -quantita);
-        borsa.allocaAzione(nome, azienda.getNome(), quantita);
-
-        String key=azienda.getNome()+" "+borsa.getNome();
-        portafoglioAzionario.put(key, portafoglioAzionario.getOrDefault(key, 0) + quantita);
-
-        return quantita;
-    }*/
+        System.err.println("\tBudget: "+this.budget);
+        budget -= prezzoTot;
+        System.err.println("\tBudget: "+this.budget);
+        int resto=b.compraAzione(this, a, prezzoTot);
+        depositaInBudget(resto);
+        System.err.println("\tBudget: "+this.budget);
+    }
 
     /**
      * Metodo per vendere azioni di un'azienda (se l'Operatore possiede abbastanza azioni)
@@ -217,43 +211,21 @@ public class Operatore implements Comparable<Operatore>{
      * @throws NullPointerException se l'azienda è nulla o l borsa è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    /*public boolean vendeAzione(String a, String b, int quantita) throws NullPointerException, IllegalArgumentException{
-        Azienda azienda = Azienda.factoryAzienda(a);
+    /*public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }
 
-        Borsa borsa = Borsa.factoryBorsa(b);
         if(borsa==null){
             throw new NullPointerException("La borsa non può essere nulla");
-        }
-        if(azienda.getQuotazione(b)==null){
-            throw new IllegalArgumentException("L'azienda non è quotata nella borsa: " + b);
         }
 
         if(quantita<=0){
             throw new IllegalArgumentException("La quantità di azioni da vendere non può essere negativa o nulla");
         }
 
-        String key=azienda.getNome()+" "+borsa.getNome();
-
-        if(!portafoglioAzionario.containsKey(key)){
+        if(portafoglioAzionario2.get(borsa.new Azione(azienda, 1, 1))==null){
             throw new IllegalArgumentException("L'operatore non possiede azioni di questa azienda");
-        }
-
-        if(portafoglioAzionario.get(key)<quantita){
-            throw new IllegalArgumentException("L'operatore non possiede abbastanza azioni di questa azienda");
-        }
-
-
-        int guadagno = azienda.getQuotazione(b).getPrezzoCorrente() * quantita;
-        budget += guadagno;
-        borsa.modificaAzioni(azienda.getNome(), +quantita);
-        borsa.allocaAzione(nome, azienda.getNome(), -quantita);
-
-        portafoglioAzionario.put(key, portafoglioAzionario.get(key) - quantita);
-        if(portafoglioAzionario.get(key)==0){
-            portafoglioAzionario.remove(key);
         }
         return true;
     }*/
