@@ -21,6 +21,13 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.*;
+import BorsaNova.Entita.Borsa.Azione;
+
 /** Client di test per alcune funzionalità relative alle <strong>azioni</strong>. */
 public class AzioneClient {
 
@@ -40,4 +47,27 @@ public class AzioneClient {
    * numero (separati da virgole). Assuma che il nome dell'azienda non contenga
    * spazi.
    */
+
+  public static void main(String[] args) {
+    SortedSet<Azienda> aziende = new TreeSet<>();
+    Borsa borsa = Borsa.of(args[0]);
+
+    try(Scanner scanner = new Scanner(System.in)) {
+      while (scanner.hasNext()) {
+        String nome = scanner.next();
+        int numero = scanner.nextInt();
+        int prezzo = scanner.nextInt();
+
+        Azienda azienda = Azienda.of(nome);
+        azienda.quotatiInBorsa(borsa, prezzo, numero);
+        aziende.add(azienda);
+      }
+    }
+
+    for (Azienda azienda : aziende) {
+      Azione az=borsa.getAzione(azienda);
+      System.out.println(az.getAzienda().getNome() + ", " + az.getPrezzo() + ", " + az.getQuantita());
+    }
+
+  }
 }

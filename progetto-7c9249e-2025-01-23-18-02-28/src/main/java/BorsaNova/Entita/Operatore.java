@@ -1,7 +1,9 @@
 package BorsaNova.Entita;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -51,7 +53,7 @@ public class Operatore implements Comparable<Operatore>{
     //private final Map<String, Integer> portafoglioAzionario = new HashMap<>(); //  QUESTO È MERDA
 
     //SALVO UN TREEMAP DI AZIONE E NUMERO
-    private final Map<Azione, Integer> portafoglioAzionario2 = new TreeMap<>();
+    private TreeMap<Azione, Integer> portafoglioAzionario2 = new TreeMap<>();
 
     private static final SortedSet<String> NOMI_USATI = new TreeSet<>();
     private static final SortedSet<Operatore> operatori = new TreeSet<>();
@@ -88,6 +90,8 @@ public class Operatore implements Comparable<Operatore>{
      */
     private Operatore(String nome){
         this.nome = nome;
+        this.budget = 0;
+        this.portafoglioAzionario2=new TreeMap<>();
     }
 
     public static Operatore getOperatoreDaNome(String nome){
@@ -187,12 +191,8 @@ public class Operatore implements Comparable<Operatore>{
         if(prezzoTot<=0){
             throw new IllegalArgumentException("Il denaro spendibile per le azioni non può essere negativo o pari a 0");
         }
-
-        System.err.println("\tBudget: "+this.budget);
         
-        int resto=b.compraAzione(this, a, prezzoTot);
-        depositaInBudget(resto);
-        System.err.println("\tBudget: "+this.budget);
+        b.compraAzione(this, a, prezzoTot);
     }
 
     /**
@@ -239,8 +239,9 @@ public class Operatore implements Comparable<Operatore>{
         Iterator<Map.Entry<Azione, Integer>> it = portafoglioAzionario2.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry<Azione, Integer> entry = it.next();
-            Azienda a = entry.getKey().getAzienda();
-            valorePortafoglio += a.getQuotazione(entry.getKey().getBorsa()) * entry.getValue();
+            //Azienda a = entry.getKey().getAzienda();
+            
+            valorePortafoglio += entry.getKey().getPrezzo()*entry.getValue();
         }
 
         return valorePortafoglio;
@@ -255,6 +256,38 @@ public class Operatore implements Comparable<Operatore>{
      */
     public int getCapitaleTotale() throws IllegalArgumentException{
         return budget + getValorePortafoglio();
+    }
+
+    public SortedMap<Azione, Integer> getPortafoglioAzionario(){
+        return Collections.unmodifiableSortedMap(portafoglioAzionario2);
+    }
+
+    public void aggiungiAzione(Azione azione, int quantita){
+        if(quantita<=0){
+            throw new IllegalArgumentException("La quantità di azioni da aggiungere non può essere negativa o nulla");
+        }
+
+        if(portafoglioAzionario2.containsKey(azione)){
+            portafoglioAzionario2.put(azione, portafoglioAzionario2.get(azione)+quantita);
+        }else{
+            portafoglioAzionario2.put(azione, quantita);
+        }
+    }
+
+    public void rimuoviAzione(Azione azione, int quantita){
+        if(quantita<=0){
+            throw new IllegalArgumentException("La quantità di azioni da rimuovere non può essere negativa o nulla");
+        }
+
+        if(portafoglioAzionario2.containsKey(azione)){
+            if(portafoglioAzionario2.get(azione)-quantita<=0){
+                portafoglioAzionario2.remove(azione);
+            }else{
+                portafoglioAzionario2.put(azione, portafoglioAzionario2.get(azione)-quantita);
+            }
+        }else{
+            throw new IllegalArgumentException("L'operatore non possiede azioni di questa azienda");
+        }
     }
 
     /**

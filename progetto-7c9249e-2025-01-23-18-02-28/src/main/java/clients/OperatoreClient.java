@@ -21,6 +21,16 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+import BorsaNova.Entita.Borsa.Azione;
+import BorsaNova.Entita.Operatore;
+
 /** Client di test per alcune funzionalità relative agli <strong>operatori</strong>. */
 public class OperatoreClient {
 
@@ -73,4 +83,110 @@ public class OperatoreClient {
    * da virgole).
    */
 
+  public static void main(String[] args) {
+    SortedSet<Azienda> aziende = new TreeSet<>();
+    SortedSet<Borsa> borse = new TreeSet<>();
+    SortedSet<Operatore> operatori = new TreeSet<>();
+
+    try(Scanner scanner = new Scanner(System.in)){
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+        
+        if(line.equals("--")){
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+
+        Azienda azienda = Azienda.of(tokens[0]);
+
+        Borsa borsa = Borsa.of(tokens[1]);
+
+        int numero = Integer.parseInt(tokens[2]);
+        int prezzoUnitario = Integer.parseInt(tokens[3]);
+
+        azienda.quotatiInBorsa(borsa, prezzoUnitario, numero);
+        aziende.add(azienda);
+        borse.add(borsa);
+      }
+
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+        
+        if(line.equals("--")){
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+
+        Operatore operatore = Operatore.of(tokens[0]);
+        int budgetIniziale = Integer.parseInt(tokens[1]);
+
+        operatore.depositaInBudget(budgetIniziale);
+        operatori.add(operatore);
+
+      }
+
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+
+        if(line.isEmpty()){
+          break;
+        }
+        
+        String[] tokens = line.split(" ");
+
+        Operatore operatore = Operatore.of(tokens[0]);
+        for(Operatore op : operatori){
+          if(op.getNome().equals(tokens[0])){
+            operatore = op;
+            break;
+          }
+        }
+
+        char operazione = tokens[1].charAt(0);
+
+        if(tokens.length==3){
+          if(operazione == 'd'){  
+            int valore = Integer.parseInt(tokens[2]);
+            operatore.depositaInBudget(valore);
+  
+          }else if(operazione == 'w'){  
+            int valore = Integer.parseInt(tokens[2]);
+            operatore.prelievoDalBudget(valore);
+          }
+        }else{
+          String nomeBorsa = tokens[2];
+          String nomeAzienda = tokens[3];
+          Borsa borsa = Borsa.of(nomeBorsa);
+          Azienda azienda = Azienda.of(nomeAzienda);
+
+          if(operazione == 'b'){            
+            int prezzoTotale = Integer.parseInt(tokens[4]);
+
+            operatore.acquistaAzione(azienda, borsa, prezzoTotale);
+          } else if(operazione == 's'){
+      
+            int numeroAzioni = Integer.parseInt(tokens[4]);
+
+            operatore.vendeAzione(azienda, borsa, numeroAzioni);
+          }
+        }
+      }
+    }
+
+    for(Operatore operatore : operatori){
+      System.out.println(operatore.getNome() + ", " + operatore.getBudget() + ", " + operatore.getValorePortafoglio());
+      for(Borsa borsa : borse){
+        for(Azienda azienda : aziende){
+          for(Entry<Azione, Integer> entry : operatore.getPortafoglioAzionario().entrySet()){
+            if(entry.getKey().getBorsa().equals(borsa) && entry.getKey().getAzienda().equals(azienda)){
+              System.out.println("- " + borsa.getNome() + ", " + azienda.getNome() + ", " + entry.getValue());
+            }
+          }
+        }
+      }
+      System.out.println();
+    }
+  }
 }

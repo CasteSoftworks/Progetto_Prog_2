@@ -80,8 +80,6 @@ public class BorsaClient {
     SortedSet<Borsa> borse = new TreeSet<>();
     SortedSet<Operatore> operatori = new TreeSet<>();
 
-    //System.err.println("--==Input 1==--");
-
     try(Scanner scanner = new Scanner(System.in)){
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();
@@ -103,8 +101,6 @@ public class BorsaClient {
         aziende.add(azienda);
         borse.add(borsa);
       }
-      //System.err.println("--==Input 2==--");
-
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();
         
@@ -115,16 +111,13 @@ public class BorsaClient {
         String[] tokens = line.split(" ");
 
         Operatore operatore = Operatore.of(tokens[0]);
-        System.err.println("Operatore: "+operatore.getNome() + " " + operatore.getBudget());
         int budgetIniziale = Integer.parseInt(tokens[1]);
 
         operatore.depositaInBudget(budgetIniziale);
-        System.err.println("Operatore: "+operatore.getNome() + " " + operatore.getBudget());
         operatori.add(operatore);
 
       }
 
-      //System.err.println("--==Input 3==--");
 
       while(scanner.hasNextLine()){
         String line = scanner.nextLine();
@@ -143,7 +136,6 @@ public class BorsaClient {
           }
         }
 
-        System.err.println("Operatore: "+operatore.getNome() + " " + operatore.getBudget());
 
         char operazione = tokens[1].charAt(0);
 
@@ -152,46 +144,31 @@ public class BorsaClient {
         Borsa borsa = Borsa.of(nomeBorsa);
         Azienda azienda = Azienda.of(nomeAzienda);
 
-        System.err.println("Borsa: "+borsa.getNome());
-        System.err.println("Azienda: "+azienda.getNome());
-
         if(operazione == 'b'){
-
-          System.err.println("----====Acquisto====----");
-
           
           int prezzoTotale = Integer.parseInt(tokens[4]);
 
           operatore.acquistaAzione(azienda, borsa, prezzoTotale);
-        } else if(operazione == 's'){
-          System.err.println("--==Vendita==--");
-    
+        } else if(operazione == 's'){    
           int numeroAzioni = Integer.parseInt(tokens[4]);
 
-          //System.err.println("Vendita non implementata");
           operatore.vendeAzione(azienda, borsa, numeroAzioni);
         }
       }
     }
 
-    System.err.println("--==Output==--");
-
     for(Borsa borsa : borse){
       System.out.println(borsa.getNome());
-      System.err.println(borsa.getNome());
       for(Azione azione : borsa.getAzioni()){
         System.out.println("- " + azione.getAzienda().getNome() + " " + azione.getQuantita());
-        System.err.println("- " + azione.getAzienda().getNome() + " " + azione.getQuantita());
         for(Allocazione allocazione : borsa.getAllocazioni()){
           TreeMap<Azione, Integer> azioni = allocazione.getAzioniPossedute();
           if(azioni.containsKey(azione)){
             System.out.println("= " + allocazione.getOperatore().getNome() + " " + azioni.get(azione));
-            System.err.println("= " + allocazione.getOperatore().getNome() + " " + azioni.get(azione));
           }
         }
       }
     }
 
-    System.err.println("--==Fine==--");
   }
 }
