@@ -51,6 +51,7 @@ public class Borsa implements Comparable<Borsa>{
     private SortedSet<Azienda> aziendeInBorsa = new TreeSet<>();
 
     /** La politica di prezzo della Borsa */
+    @SuppressWarnings("unused")
     private Politica politica;
     /** SortedSet di Azioni*/
     private SortedSet<Azione> azioni = new TreeSet<>();
@@ -364,8 +365,6 @@ public class Borsa implements Comparable<Borsa>{
         if(getNumeroAzioniDisponibili(azienda)<quantita){
             throw new IllegalArgumentException("L'Azienda non ha abbastanza azioni disponibili");
         }
-
-        int resto = budgetAcquisto%prezzoAz;
 
         operatore.prelievoDalBudget(quantita*prezzoAz);
 
