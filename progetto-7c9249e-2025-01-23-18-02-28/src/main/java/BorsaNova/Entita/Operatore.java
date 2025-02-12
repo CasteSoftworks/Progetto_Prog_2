@@ -189,8 +189,7 @@ public class Operatore implements Comparable<Operatore>{
         }
 
         System.err.println("\tBudget: "+this.budget);
-        budget -= prezzoTot;
-        System.err.println("\tBudget: "+this.budget);
+        
         int resto=b.compraAzione(this, a, prezzoTot);
         depositaInBudget(resto);
         System.err.println("\tBudget: "+this.budget);
@@ -211,7 +210,7 @@ public class Operatore implements Comparable<Operatore>{
      * @throws NullPointerException se l'azienda è nulla o l borsa è nulla
      * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o nulla, se l'operatore non possiede azioni di questa azienda, se il costo delle azioni da vendere è maggiore del budget
      */
-    /*public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
+    public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'azienda non può essere nulla");
         }
@@ -224,11 +223,9 @@ public class Operatore implements Comparable<Operatore>{
             throw new IllegalArgumentException("La quantità di azioni da vendere non può essere negativa o nulla");
         }
 
-        if(portafoglioAzionario2.get(borsa.new Azione(azienda, 1, 1))==null){
-            throw new IllegalArgumentException("L'operatore non possiede azioni di questa azienda");
-        }
+        borsa.vendiAzione(this, azienda, quantita);
         return true;
-    }*/
+    }
 
     /**
      * Metodo per ottenere il valore totale del portafoglio dell'Operatore (valore delle azioni possedute)

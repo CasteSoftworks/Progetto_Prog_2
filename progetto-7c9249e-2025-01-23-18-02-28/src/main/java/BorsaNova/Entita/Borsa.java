@@ -380,6 +380,10 @@ public class Borsa implements Comparable<Borsa>{
         int resto = budgetAcquisto%prezzoAz;
 
         System.err.println("il resto è "+resto);
+        System.err.println("la spesa totale è "+(quantita*prezzoAz));
+        System.err.println("il budget rimanente è "+operatore.getBudget());
+
+        operatore.prelievoDalBudget(quantita*prezzoAz);
 
         for(Allocazione allocazione : allocazioni){
             if(allocazione.getOperatore().equals(operatore)){
@@ -406,6 +410,7 @@ public class Borsa implements Comparable<Borsa>{
                         System.err.println("le azioni dell'operatore sono state aggiornate");
 
                         allocazioni.remove(allocazione);
+                        allocazioni.add(allocazione);
                         
 
                         System.err.println("le allocazioni sono state aggiornate");
@@ -503,17 +508,12 @@ public class Borsa implements Comparable<Borsa>{
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
      * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se la quantità è minore o uguale a 0, se l'Operatore non ha abbastanza azioni da vendere o se l'Operatore non ha azioni di quell'Azienda
      */
-    public final void vendiAzione(Operatore operatore, String azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+    public final void vendiAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
             throw new NullPointerException("L'Operatore non può essere nullo");
         }
 
-        if(azienda==null||azienda.isBlank()){
-            throw new IllegalArgumentException("Il nome dell'Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
-        }
-
-        Azienda a = Azienda.getAziendaDaNome(azienda);
-        if(a==null){
+        if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
@@ -524,20 +524,31 @@ public class Borsa implements Comparable<Borsa>{
         for(Allocazione allocazione : allocazioni){
             if(allocazione.getOperatore().equals(operatore)){
                 for(Entry<Azione, Integer> entry : allocazione.azioniPossedute.entrySet()){
-                    if(entry.getKey().getAzienda().equals(a)){
+                    if(entry.getKey().getAzienda().equals(azienda)){
                         if(entry.getValue()<quantita){
                             throw new IllegalArgumentException("L'Operatore non ha abbastanza azioni da vendere");
                         }
 
                         int tot=(entry.getValue()-quantita);
 
-                        Azione azione = getAzione(a);
+                        Azione azione = getAzione(azienda);
+
+                        int prezzo=azione.getPrezzo();
+                        operatore.depositaInBudget(quantita*prezzo);
+
                         azioni.remove(azione);
                         azione.modificaQuantita(quantita);
                         azioni.add(azione);
 
-                        allocazione.azioniPossedute.remove(getAzione(a));
-                        allocazione.azioniPossedute.put(getAzione(a), tot);
+                        allocazioni.remove(allocazione);
+                        if(tot!=0){
+                            allocazioni.add(allocazione);
+                        }
+
+                        allocazione.azioniPossedute.remove(getAzione(azienda));
+                        if(tot!=0){
+                            allocazione.azioniPossedute.put(getAzione(azienda), tot);
+                        }
                         return;
                     }
                 }

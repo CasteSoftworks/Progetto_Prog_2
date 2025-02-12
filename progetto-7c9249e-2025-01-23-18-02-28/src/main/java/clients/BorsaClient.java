@@ -22,7 +22,6 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package clients;
 
 import java.util.Scanner;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -116,10 +115,11 @@ public class BorsaClient {
         String[] tokens = line.split(" ");
 
         Operatore operatore = Operatore.of(tokens[0]);
+        System.err.println("Operatore: "+operatore.getNome() + " " + operatore.getBudget());
         int budgetIniziale = Integer.parseInt(tokens[1]);
 
         operatore.depositaInBudget(budgetIniziale);
-        System.err.println("budget di "+operatore.getNome()+"="+operatore.getBudget());
+        System.err.println("Operatore: "+operatore.getNome() + " " + operatore.getBudget());
         operatori.add(operatore);
 
       }
@@ -136,8 +136,14 @@ public class BorsaClient {
         String[] tokens = line.split(" ");
 
         Operatore operatore = Operatore.of(tokens[0]);
+        for(Operatore op : operatori){
+          if(op.getNome().equals(tokens[0])){
+            operatore = op;
+            break;
+          }
+        }
 
-        System.err.println("Operatore: "+operatore.getNome());
+        System.err.println("Operatore: "+operatore.getNome() + " " + operatore.getBudget());
 
         char operazione = tokens[1].charAt(0);
 
@@ -162,7 +168,8 @@ public class BorsaClient {
     
           int numeroAzioni = Integer.parseInt(tokens[4]);
 
-          System.err.println("Vendita non implementata");
+          //System.err.println("Vendita non implementata");
+          operatore.vendeAzione(azienda, borsa, numeroAzioni);
         }
       }
     }
