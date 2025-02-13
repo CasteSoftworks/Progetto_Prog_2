@@ -80,6 +80,7 @@ public class Borsa implements Comparable<Borsa>{
         if (Objects.requireNonNull(nome, "Il nome non può essere null").isBlank()){
             throw new IllegalArgumentException("Il nome non può essere vuoto");
         }
+
         if (NOMI_USATI.contains(nome)) {
             return getBorsaDaNome(nome);
         }
@@ -108,6 +109,7 @@ public class Borsa implements Comparable<Borsa>{
         return nome;
     }
 
+    //TODO potrei fare Iterator<Borsa> anzichè SortedSet<Borsa>
     /**
      * Metodo per ottenere tutte le Borse create
      * 
@@ -234,7 +236,7 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @throws NullPointerException se l'Azienda è null
      */
-    public final Integer getNumeroAzioniDisponibili(Azienda azienda) throws NullPointerException{
+    public final int getNumeroAzioniDisponibili(Azienda azienda) throws NullPointerException{
 
         if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
@@ -249,6 +251,7 @@ public class Borsa implements Comparable<Borsa>{
         return 0;
     }
 
+    //TODO potrei fare Iterator<Azienda> anzichè SortedSet<Azienda>
     /**
      * Metodo per ottenere le aziende quotate in questa borsa
      * 
@@ -262,6 +265,7 @@ public class Borsa implements Comparable<Borsa>{
         return Collections.unmodifiableSortedSet(az);
     }
 
+    //TODO correggi gli ul
     /**
      * Metodo per settare una politica di prezzo per la borsa
      * 
@@ -292,22 +296,17 @@ public class Borsa implements Comparable<Borsa>{
     public final void setPoliticaPrezzo(int valore, int vSu, int vGiu) throws IllegalArgumentException{
         if(valore>0){
             if(vGiu==0 && vSu==0){
-                System.err.println("Vocale");
                 char lettera=(char)valore;
                 politica= new Vocale(lettera);
             }else{
-                System.err.println("Incremento");
                 politica= new Incremento(vSu);
             }
         }else if(valore<0){
-            System.err.println("Decremento");
             politica= new Decremento(Math.abs(vGiu));
         }else{
             if(vGiu==vSu){
-                System.err.println("Soglia");
                 politica= new Soglia(vSu);
             }else{
-                System.err.println("Variazione");
                 politica= new Variazione(vSu, vGiu);
             }
         }
@@ -538,6 +537,7 @@ public class Borsa implements Comparable<Borsa>{
         throw new IllegalArgumentException("L'Operatore non ha azioni da vendere");
     }
 
+    //TODO potrei fare Iterator<Azione> anzichè SortedSet<Azione>
     /**
      * Metodo per ottenere le Azioni in questa Borsa
      * 
@@ -547,6 +547,7 @@ public class Borsa implements Comparable<Borsa>{
         return Collections.unmodifiableSortedSet(azioni);
     }
 
+    //TODO potrei fare Iterator<Allocazione> anzichè SortedSet<Allocazione>
     /**
      * Metodo per ottenere le Allocazioni in questa Borsa
      * 
@@ -727,6 +728,7 @@ public class Borsa implements Comparable<Borsa>{
             return operatore;
         }
 
+        //TODO potrei fare Iterator<Entry<Azione, Integer>> anzichè SortedMap<Azione, Integer> ???
         /**
          * Metodo per ottenere le Azioni possedute dall'Operatore
          * 
@@ -753,6 +755,5 @@ public class Borsa implements Comparable<Borsa>{
         public int compareTo(Allocazione other) {
             return this.operatore.getNome().compareTo(other.operatore.getNome());
         }
-
     }
 }

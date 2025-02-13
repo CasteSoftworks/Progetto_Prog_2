@@ -92,6 +92,7 @@ public class Azienda implements Comparable<Azienda>{
         return nome;
     }   
     
+    //TODO potrei fare Iterator<Borsa> anzi che SortedSet<Borsa>
     /**
      * Metodo per recuperare le Borse dove l'Azienda è quotata (se lo è)
      * 
