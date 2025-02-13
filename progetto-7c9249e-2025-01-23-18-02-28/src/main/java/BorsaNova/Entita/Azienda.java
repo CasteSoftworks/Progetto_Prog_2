@@ -32,21 +32,17 @@ public class Azienda implements Comparable<Azienda>{
      * AF:
      * Un'Azienda è rappresentata da:
      * - nome: il nome dell'Azienda
-     * - borse: un set di Borse dove l'Azienda è quotata
      *
      * RI:
      * L'oggetto Azienda deve rispettare la seguente condizione: 
      * - nome non deve essere null, stringa vuota o composta solo da soli spazi bianchi
-     * - borse non deve essere null e non deve contenere null
      */
 
     /** Il {@code nome} dell'Azienda */
     private final String nome;
-    /** La set dei nomi delle Borse dove l'Azienda è quotata */
-    //private final Set<Borsa> borse = new TreeSet<>();
+
     /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
     private static final Set<Azienda> aziende = new TreeSet<>();
-
     /** Set dei nomi delle Aziende già usati */
     private static final SortedSet<String> NOMI_USATI = new TreeSet<>();
 
@@ -54,12 +50,13 @@ public class Azienda implements Comparable<Azienda>{
      * Metodo per o costruire un'Azienda (aggiungendola alla mappa delle Aziende) o ottenere un'Azienda già esistente
      * 
      * <p>
-     * Modifies la mappa {@code aziende} se l'Azienda non esiste già
+     * Modifies il set {@code aziende} e il set {@code NOMI_USATI} se l'Azienda non esiste già 
      * 
      * @param nome il nome dell'Azienda
      *  
      * @return l'Azienda costruita o, se già esistente, l'Azienda con quel nome
      * 
+     * @throws NullPointerException se il nome dell'azienda è nullo
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
     public static Azienda of(String nome) throws IllegalArgumentException{
@@ -92,14 +89,12 @@ public class Azienda implements Comparable<Azienda>{
      */
     public String getNome(){
         return nome;
-    }
-
-    
+    }   
     
     /**
      * Metodo per recuperare le Borse dove l'Azienda è quotata (se lo è)
      * 
-     * @return un SortedSet non modificabile delle borse dove l'azienda è quotata
+     * @return un SortedSet non modificabile delle borse dove l'azienda è quotata o null se non è quotata in nessuna borsa
      */
     public SortedSet<Borsa> getBorsaQuotata(){
         SortedSet<Borsa> borse = new TreeSet<>();
@@ -107,6 +102,10 @@ public class Azienda implements Comparable<Azienda>{
             if(b.getAziendeQuotate().contains(this)){
                 borse.add(b);
             }
+        }
+
+        if(borse.isEmpty()){
+            return null;
         }
         return Collections.unmodifiableSortedSet(borse);
     }
