@@ -146,7 +146,7 @@ public class Azienda implements Comparable<Azienda>{
      * @param quantita il numero di azioni da quotare
      * 
      * @throws NullPointerException se la Borsa non esiste 
-     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0
+     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se la quantità è minore o uguale a 0
      */
     public final void quotatiInBorsa(Borsa borsa, int prezzo, int quantita) throws NullPointerException, IllegalArgumentException {
         if(borsa==null ){
@@ -165,48 +165,27 @@ public class Azienda implements Comparable<Azienda>{
     }
 
     /**
-     * Metodo per farsi erogare un determinato numero di azioni in una Borsa
-     * 
-     * @param borsa il nome della Borsa in cui erogare le azioni (attraverso il nome modifica la mappa {@code azioni} di Borsa)
-     * @param numeroAzioni il numero di azioni da farsi erogare
-     * 
-     */
-    public final void erogaAzione(String borsa, int numeroAzioni) throws NullPointerException, IllegalArgumentException{
-        if(borsa==null || borsa.isBlank()){
-            throw new IllegalArgumentException("Il nome della borsa non può essere nullo o vuoto");
-        }
-
-        Borsa b=Borsa.getBorsaDaNome(borsa);
-        if(b==null){
-            throw new NullPointerException("La borsa non esiste");
-        }
-        
-
-        throw new NullPointerException("L'azienda non è quotata in questa borsa");
-        
-    }
-
-    /**
      * Metodo per ottenere la quotazione dell'Azienda in una Borsa
      * 
      * @param b il nome della Borsa dove cercare la quotazione
      * 
      * @return la quotazione dell'Azienda 
      * 
-     * @throws NullPointerException se la Borsa non esiste o se la Azienda non è quotata nella Borsa richiesta
+     * @throws NullPointerException se la Borsa non esiste 
+     * @throws IllegalArgumentException se la Azienda non è quotata nella Borsa richiesta
      */
     public Integer getQuotazione(Borsa b) throws NullPointerException, IllegalArgumentException{
         if(b==null){
             throw new NullPointerException("La Borsa richiesta non esiste");
         }
 
-        Integer i = b.getQuotazioneAzienda(this);
+        Integer quotazione = b.getQuotazioneAzienda(this);
 
-        if(i==null){
+        if(quotazione==null){
             throw new IllegalArgumentException("La Azienda non è quotata nella Borsa richiesta");
         }
 
-        return i;
+        return quotazione;
     }
 
     /**
@@ -218,16 +197,6 @@ public class Azienda implements Comparable<Azienda>{
         return Collections.unmodifiableCollection(aziende).iterator();
     }
 
-    /**
-     * Metodo override per confrontare due Aziende in base al loro nome
-     * 
-     * <p>
-     * Automaticamente generato da Github Copilot sulla base di compareTo scritto in Borsa
-     * 
-     * @param a l'Azienda con cui confrontare
-     * 
-     * @return 0 se le Aziende sono uguali, un numero negativo se l'Azienda è minore di a, un numero positivo altrimenti
-     */
     @Override
     public int compareTo(Azienda a){
         return this.getNome().compareTo(a.nome);
