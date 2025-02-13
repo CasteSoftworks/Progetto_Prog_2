@@ -1,5 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
+import BorsaNova.Entita.Borsa.Azione;
+
 /**
  * Classe per rappresentare una politica di incremento
  * 
@@ -51,12 +53,13 @@ public class Incremento implements Politica {
      * @return il prezzo (se si tratta di un acquisto, il prezzo calcolato sarà maggiore di quello corrente di un valore incremento)
      */
     @Override
-    public int calcolaPrezzo(int prezzo, boolean acquisto) {
-        if (acquisto) {
-            return prezzo + incremento;
-        }
+    public void cambioPrezzoVendita(Azione az, int valore) {
+        return;
+    }
 
-        return prezzo;
+    @Override
+    public void cambioPrezzoAcquisto(Azione az, int valore) {
+        az.modificaPrezzo(az.getPrezzo() + this.incremento);
     }
     
 }

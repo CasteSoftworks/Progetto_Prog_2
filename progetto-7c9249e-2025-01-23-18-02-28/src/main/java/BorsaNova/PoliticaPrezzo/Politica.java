@@ -1,5 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
+import BorsaNova.Entita.Borsa.Azione;
+
 /**
  * Interfaccia per rappresentare una politica di prezzo che viene poi espansa dalle classi presenti nella stesso package
  * 
@@ -27,6 +29,7 @@ public interface Politica {
      * 
      * @throws IllegalArgumentException se il valore che deve modificare prezzo è minore di 0 nelle classi che implementano l'interfaccia
      */
-    public abstract int calcolaPrezzo(int prezzo, boolean acquisto) throws IllegalArgumentException;
+    public abstract void cambioPrezzoVendita(Azione az, int valore) throws IllegalArgumentException;
     
+    public abstract void cambioPrezzoAcquisto(Azione az, int valore) throws IllegalArgumentException;
 } 

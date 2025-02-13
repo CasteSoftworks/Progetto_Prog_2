@@ -316,6 +316,23 @@ public class Borsa implements Comparable<Borsa>{
         }
     }
 
+    private final void aggiornaPrezzoAzione(Azione az, boolean acquisto,int quantita){
+        if(politica!=null){
+            if(acquisto){
+                politica.cambioPrezzoAcquisto(az,quantita);
+            }else{
+                politica.cambioPrezzoVendita(az,quantita);
+            }
+            for(Allocazione al : allocazioni){
+                for(Entry<Azione, Integer> entry : al.azioniPossedute.entrySet()){
+                    if(entry.getKey().equals(az)){
+                        entry.getKey().modificaPrezzo(az.getPrezzo());
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Metodo per ottenere l'Azione di una Azienda in questa Borsa
      * 
@@ -380,17 +397,18 @@ public class Borsa implements Comparable<Borsa>{
                         Azione azione = getAzione(azienda);
                         azioni.remove(azione);
                         azione.modificaQuantita(-quantita);
+                        aggiornaPrezzoAzione(azione, true, quantita);
                         azioni.add(azione);
 
                         allocazione.azioniPossedute.remove(azione);
                         allocazione.azioniPossedute.put(azione, tot);
 
-                        operatore.aggiungiAzione(azione, quantita);
-
-
                         allocazioni.remove(allocazione);
                         allocazioni.add(allocazione);
+
                         
+
+                        operatore.aggiungiAzione(azione, quantita);                        
 
                         return;
                     }
@@ -399,6 +417,7 @@ public class Borsa implements Comparable<Borsa>{
                 Azione azione = getAzione(azienda);
                 azioni.remove(azione);
                 azione.modificaQuantita(-quantita);
+                aggiornaPrezzoAzione(azione, true, quantita);
                 azioni.add(azione);
 
                 allocazione.azioniPossedute.put(azione, quantita);
@@ -412,6 +431,7 @@ public class Borsa implements Comparable<Borsa>{
         Azione azione = getAzione(azienda);
         azioni.remove(azione);
         azione.modificaQuantita(-quantita);
+        aggiornaPrezzoAzione(azione, true, quantita);
         azioni.add(azione);
 
         Allocazione allocazione = new Allocazione(operatore);
@@ -422,51 +442,7 @@ public class Borsa implements Comparable<Borsa>{
 
         return;
     }
-    /*public final int compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException {
-        if (operatore == null) {
-            throw new NullPointerException("L'operatore non può essere nullo");
-        }
     
-        if (azienda == null) {
-            throw new NullPointerException("L'azienda non può essere nulla");
-        }
-    
-        Integer prezzoAz = getQuotazioneAzienda(azienda);
-        if (prezzoAz == null) {
-            throw new IllegalArgumentException("L'azienda non è quotata in questa borsa");
-        }
-    
-        if (prezzoAz > budgetAcquisto) {
-            throw new IllegalArgumentException("Il budget non è sufficiente per acquistare anche una sola azione");
-        }
-    
-        int quantita = budgetAcquisto / prezzoAz;
-        if (getNumeroAzioniDisponibili(azienda) < quantita) {
-            throw new IllegalArgumentException("Non ci sono abbastanza azioni disponibili");
-        }
-    
-        int resto = budgetAcquisto % prezzoAz;
-    
-        for (Allocazione allocazione : allocazioni) {
-            if (allocazione.getOperatore().equals(operatore)) {
-                Azione azione = getAzione(azienda);
-                allocazione.azioniPossedute.merge(azione, quantita, Integer::sum);
-                azione.modificaQuantita(-quantita);
-                return resto;
-            }
-        }
-    
-        Azione azione = getAzione(azienda);
-        azioni.remove(azione);
-        azione.modificaQuantita(-quantita);
-        azioni.add(azione);
-    
-        Allocazione allocazione = new Allocazione(operatore);
-        allocazione.azioniPossedute.put(azione, quantita);
-        allocazioni.add(allocazione);
-    
-        return resto;
-    }*/
     /**
      * Metodo per far vendere delle azioni ad un Operatore
      * 
@@ -476,8 +452,8 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
      * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se la quantità è minore o uguale a 0, se l'Operatore non ha abbastanza azioni da vendere o se l'Operatore non ha azioni di quell'Azienda
-     */
-    public final void vendiAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
+     */   
+     public final void vendiAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
             throw new NullPointerException("L'Operatore non può essere nullo");
         }
@@ -507,19 +483,19 @@ public class Borsa implements Comparable<Borsa>{
 
                         azioni.remove(azione);
                         azione.modificaQuantita(quantita);
+                        aggiornaPrezzoAzione(azione, false, quantita);
                         azioni.add(azione);
 
                         allocazioni.remove(allocazione);
+                        allocazione.azioniPossedute.remove(azione);
+
                         if(tot!=0){
+                            allocazione.azioniPossedute.put(azione, tot);
                             allocazioni.add(allocazione);
                         }
 
                         operatore.rimuoviAzione(azione, quantita);
-
-                        allocazione.azioniPossedute.remove(getAzione(azienda));
-                        if(tot!=0){
-                            allocazione.azioniPossedute.put(getAzione(azienda), tot);
-                        }
+                        
                         return;
                     }
                 }
@@ -625,7 +601,7 @@ public class Borsa implements Comparable<Borsa>{
          * @param modifica la modifica da applicare al prezzo
          */
         public void modificaPrezzo(int modifica){
-            this.prezzo+=modifica;
+            this.prezzo=modifica;
         }
 
         /**

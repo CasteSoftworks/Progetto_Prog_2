@@ -1,5 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
+import BorsaNova.Entita.Borsa.Azione;
+
 /**
  * Classe per rappresentare una politica di variazione ad incremento-decremento
  * 
@@ -59,13 +61,17 @@ public class Variazione implements Politica{
      * @return il prezzo (se si tratta di un acquisto, il prezzo calcolato sarà maggiore di quello corrente di un valore variazioneSu altrimenti minore di un valore variazioneGiu o 1)
      */
     @Override
-    public int calcolaPrezzo(int prezzo, boolean acquisto) {
-        if (acquisto) {
-            return prezzo + variazioneSu;
-        }
-        if(prezzo - variazioneGiu <= 0) {
-            return 1;
-        }
-        return prezzo - variazioneGiu;
+    public void cambioPrezzoVendita(Azione az, int valore) {
+        int prz = az.getPrezzo() - variazioneGiu;
+        if(prz <= 0) {
+            az.modificaPrezzo(1);
+        } else {
+            az.modificaPrezzo(prz);
+        }   
+    }
+
+    @Override
+    public void cambioPrezzoAcquisto(Azione az, int valore) {
+        az.modificaPrezzo(az.getPrezzo() + variazioneSu);
     }
 }

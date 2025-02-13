@@ -1,5 +1,7 @@
 package BorsaNova.PoliticaPrezzo;
 
+import BorsaNova.Entita.Borsa.Azione;
+
 /**
  * Classe per rappresentare una politica di decremento
  * 
@@ -53,14 +55,17 @@ public class Decremento implements Politica {
      * @return il prezzo (se si tratta di una vendita, il prezzo calcolato sarà minore di quello corrente di un valore decremento o 1)
      */
     @Override
-    public int calcolaPrezzo(int prezzo, boolean acquisto) {
-        if (!acquisto) {
-            if(prezzo - decremento <= 0) {
-                return 1;
-            }
-            return prezzo - decremento;
-        }
+    public void cambioPrezzoVendita(Azione az, int valore) {
+        int prz = az.getPrezzo() - this.decremento;
+        if(prz <= 0) {
+            az.modificaPrezzo(1);
+        } else {
+            az.modificaPrezzo(prz);
+        }   
+    }
 
-        return prezzo;
+    @Override
+    public void cambioPrezzoAcquisto(Azione az, int valore) {
+        return;
     }
 }
