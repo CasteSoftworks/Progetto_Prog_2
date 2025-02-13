@@ -31,9 +31,9 @@ public class Variazione implements Politica{
      * - variazioneGiu è maggiore o uguale a 0
      */
     
-    /** La variazione da applicare al prezzo dopo un acquisto */
+    /** La Variazione da applicare al prezzo dopo un acquisto */
     private final int variazioneSu;
-    /** La variazione da applicare al prezzo dopo una vendita */
+    /** La Variazione da applicare al prezzo dopo una vendita */
     private final int variazioneGiu;
 
     /**
@@ -56,9 +56,9 @@ public class Variazione implements Politica{
      * Metodo per calcolare il prezzo di una quotazione
      * 
      * @param prezzo il prezzo corrente della quotazione
-     * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
+     * @param valore non utile in questa implementazione di Politica
      * 
-     * @return il prezzo (se si tratta di un acquisto, il prezzo calcolato sarà maggiore di quello corrente di un valore variazioneSu altrimenti minore di un valore variazioneGiu o 1)
+     * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
      */
     @Override
     public void cambioPrezzoVendita(Azione az, int valore) {
@@ -70,6 +70,14 @@ public class Variazione implements Politica{
         }   
     }
 
+    /**
+     * Metodo per calcolare il prezzo di una quotazione
+     * 
+     * @param prezzo il prezzo corrente della quotazione
+     * @param valore non utile in questa implementazione di Politica
+     * 
+     * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
+     */
     @Override
     public void cambioPrezzoAcquisto(Azione az, int valore) {
         az.modificaPrezzo(az.getPrezzo() + variazioneSu);

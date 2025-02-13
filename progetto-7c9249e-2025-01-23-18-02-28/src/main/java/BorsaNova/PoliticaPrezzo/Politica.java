@@ -3,10 +3,10 @@ package BorsaNova.PoliticaPrezzo;
 import BorsaNova.Entita.Borsa.Azione;
 
 /**
- * Interfaccia per rappresentare una politica di prezzo che viene poi espansa dalle classi presenti nella stesso package
+ * Interfaccia per rappresentare una Politica di Prezzo che viene poi espansa dalle classi presenti nella stesso package
  * 
  * <p>
- * Una politica di prezzo ha un metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della borsa e da un valore booleano che indica se si tratta di un acquisto o di una vendita.
+ * Una politica di prezzo ha un metodo per calcolare la variazione di prezzo di una Azione in base alla Politica della Borsa in caso di vendita e un metodo per calcolare la variazione di prezzo di una Azione in base alla Politica della Borsa in caso di acquisto.
  * 
  * <p>
  * Fatto con l'aiuto di:
@@ -20,16 +20,22 @@ import BorsaNova.Entita.Borsa.Azione;
  */
 public interface Politica {
     /**
-     * Metodo per calcolare la variazione di prezzo di una quotazione in base alla politica della Borsa
+     * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param prezzo il prezzo corrente della quotazione
-     * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
-     * 
-     * @return il prezzo calcolato
-     * 
-     * @throws IllegalArgumentException se il valore che deve modificare prezzo è minore di 0 nelle classi che implementano l'interfaccia
+     * @param az l'azione da modificare
+     * @param valore utile per la Politica di Soglia
+     *  
+     * @throws IllegalArgumentException se le classi che implementano l'interfaccia incorrono in IllegalArgumentException
      */
     public abstract void cambioPrezzoVendita(Azione az, int valore) throws IllegalArgumentException;
     
+    /**
+     * Metodo per cambiare il prezzo di una Azione in caso di acquisto
+     * 
+     * @param az l'azione da modificare
+     * @param valore utile per la Politica di Soglia
+     * 
+     * @throws IllegalArgumentException se le classi che implementano l'interfaccia incorrono in IllegalArgumentException
+     */
     public abstract void cambioPrezzoAcquisto(Azione az, int valore) throws IllegalArgumentException;
 } 
