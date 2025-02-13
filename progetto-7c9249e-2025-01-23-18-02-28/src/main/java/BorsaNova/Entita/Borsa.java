@@ -308,11 +308,25 @@ public class Borsa implements Comparable<Borsa>{
      */
     public final void setPoliticaPrezzo(int valore, int vSu, int vGiu) throws IllegalArgumentException{
         if(valore>0){
-            politica= new Incremento(vSu);
+            if(vGiu==0 && vSu==0){
+                System.err.println("Vocale");
+                char lettera=(char)valore;
+                politica= new Vocale(lettera);
+            }else{
+                System.err.println("Incremento");
+                politica= new Incremento(vSu);
+            }
         }else if(valore<0){
+            System.err.println("Decremento");
             politica= new Decremento(Math.abs(vGiu));
         }else{
-            politica= new Variazione(vSu,vGiu);
+            if(vGiu==vSu){
+                System.err.println("Soglia");
+                politica= new Soglia(vSu);
+            }else{
+                System.err.println("Variazione");
+                politica= new Variazione(vSu, vGiu);
+            }
         }
     }
 

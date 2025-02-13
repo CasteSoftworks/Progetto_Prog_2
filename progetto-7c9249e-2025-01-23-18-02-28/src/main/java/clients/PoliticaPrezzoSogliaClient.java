@@ -21,6 +21,14 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Scanner;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import BorsaNova.Entita.Azienda;
+import BorsaNova.Entita.Borsa;
+import BorsaNova.Entita.Operatore;
+
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class PoliticaPrezzoSogliaClient {
 
@@ -68,4 +76,61 @@ public class PoliticaPrezzoSogliaClient {
    * virgola).
    */
 
+  public static void main(String[] args) {
+    Borsa b = Borsa.of(args[0]);
+    int val = Integer.parseInt(args[1]);
+
+    b.setPoliticaPrezzo(0, val, val);
+
+    Operatore o = Operatore.of(args[2]);
+
+    o.depositaInBudget(Integer.parseInt(args[3]));
+
+    SortedSet<Azienda> aziende = new TreeSet<>();
+    
+    try(Scanner scanner = new Scanner(System.in)) {
+      while(scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        
+        if(line.equals("--")) {
+          break;
+        }
+        
+        String[] tokens = line.split(" ");
+
+        Azienda az = Azienda.of(tokens[0]);
+        az.quotatiInBorsa(b, Integer.parseInt(tokens[2]), Integer.parseInt(tokens[1]));
+        aziende.add(az);
+      }
+
+      while(scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+
+        if(line.isEmpty()) {
+          break;
+        }
+
+        String[] tokens = line.split(" ");
+
+        Character tipo = tokens[0].charAt(0);
+        String nome = tokens[1];
+
+        if(tipo=='b') {
+          int prezzo = Integer.parseInt(tokens[2]);
+          Azienda a=Azienda.of(nome);
+           
+          o.acquistaAzione(a, b, prezzo);
+        } else if(tipo=='s') {
+          int numero = Integer.parseInt(tokens[2]);
+          Azienda a=Azienda.of(nome);
+
+          o.vendeAzione(a, b, numero);
+        }
+      }
+    }
+
+    for(Azienda a : aziende) {
+      System.out.println(a.getNome() + ", " + b.getQuotazioneAzienda(a));
+    }
+  }
 }

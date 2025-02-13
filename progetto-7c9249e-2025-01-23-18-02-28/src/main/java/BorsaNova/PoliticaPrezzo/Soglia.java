@@ -19,8 +19,6 @@ public class Soglia implements Politica{
             int prezzo = az.getPrezzo()/2;
             if(prezzo>0){
                 az.modificaPrezzo(prezzo);
-            }else{
-                az.modificaPrezzo(1);
             }
         } 
     }
