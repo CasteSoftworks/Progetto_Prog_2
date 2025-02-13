@@ -22,8 +22,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package clients;
 
 import java.util.Scanner;
+import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import BorsaNova.Entita.*;
@@ -162,7 +162,7 @@ public class BorsaClient {
       for(Azione azione : borsa.getAzioni()){
         System.out.println("- " + azione.getAzienda().getNome() + " " + azione.getQuantita());
         for(Allocazione allocazione : borsa.getAllocazioni()){
-          TreeMap<Azione, Integer> azioni = allocazione.getAzioniPossedute();
+          SortedMap<Azione, Integer> azioni = allocazione.getAzioniPossedute();
           if(azioni.containsKey(azione)){
             System.out.println("= " + allocazione.getOperatore().getNome() + " " + azioni.get(azione));
           }

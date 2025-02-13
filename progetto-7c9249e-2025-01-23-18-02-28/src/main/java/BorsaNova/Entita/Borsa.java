@@ -3,6 +3,7 @@ package BorsaNova.Entita;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -13,8 +14,8 @@ import BorsaNova.PoliticaPrezzo.*;
  * Classe per rappresentare una Borsa
  * 
  * <p>
- * Una Borsa ha un nome (che la identifica univocamente) delle quotazioni, delle azioni, una politica di prezzo e delle allocazioni di azioni agli operatori
- * Una Borsa può quotare un'azienda (per procura di quest'ultima), aggiungere/rimuovere/creare azioni di un'azienda, allocare azioni ad un operatore e settare una politica di prezzo
+ * Una Borsa ha un nome che la identifica univocamente, delle Azioni delle Aziende quotate, una Politica di Prezzo e delle allocazioni di Azioni agli Operatori
+ * Una Borsa può quotare una Azienda (per procura di quest'ultima) creandole delle Azioni, aggiungere/rimuovere il numero di Azioni di una Azienda, fornire ad un Operatore una Allocazione, che tiene traccia di tutte le Azioni ad esso assegnate e settare una Politica di Prezzo
  * 
  * <p> 
  * Fatto con l'aiuto di:
@@ -37,19 +38,18 @@ public class Borsa implements Comparable<Borsa>{
      * - nome: il nome della Borsa
      * - politica: la politica di prezzo della Borsa
      * - azioni: un set di Azioni della Borsa
+     * - allocazioni: un set di Allocazioni della Borsa
      *
      * RI:
      * L'oggetto Borsa deve rispettare la seguente condizione:
      * - nome non null, stringa vuota o composta solo da soli spazi bianchi
      * - politica può essere null o un oggetto di tipo Politica
      * - azioni non deve essere null e non deve contenere null
+     * - allocazioni non deve essere null e non deve contenere null
      */
     
     /** Il {@code nome} della Borsa */
     private final String nome;
-    /** Set delle Aziende in Borsa */
-    private SortedSet<Azienda> aziendeInBorsa = new TreeSet<>();
-
     /** La politica di prezzo della Borsa */
     @SuppressWarnings("unused")
     private Politica politica;
@@ -77,8 +77,8 @@ public class Borsa implements Comparable<Borsa>{
      * @throws IllegalArgumentException se il nome della Borsa è vuoto o se il nome è già usato
      */
     public static Borsa of(String nome) throws NullPointerException, IllegalArgumentException{
-        if (Objects.requireNonNull(nome, "Name must not be null.").isBlank()){
-            throw new IllegalArgumentException("Name must not be empty.");
+        if (Objects.requireNonNull(nome, "Il nome non può essere null").isBlank()){
+            throw new IllegalArgumentException("Il nome non può essere vuoto");
         }
         if (NOMI_USATI.contains(nome)) {
             return getBorsaDaNome(nome);
@@ -123,6 +123,8 @@ public class Borsa implements Comparable<Borsa>{
      * @param nome il nome della Borsa da ottenere
      * 
      * @return la Borsa richiesta o null se non esiste
+     * 
+     * @throws IllegalArgumentException se il nome della Borsa è nullo, vuoto, composto solo da spazi bianchi o non esiste
      */
     public static Borsa getBorsaDaNome(String nome){
         if(nome==null||nome.isBlank()){
@@ -148,7 +150,6 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @return la quotazione dell'Azienda richiesta o null se non esiste
      * 
-     * @throws IllegalArgumentException se l'Azienda richiesta è nulla o ha un nome nullo o vuoto
      * @throws NullPointerException se l'Azienda richiesta non esiste
      */
     public Integer getQuotazioneAzienda(Azienda azienda){
@@ -166,26 +167,27 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per quotare un'Azienda in questa Borsa
+     * Metodo per quotare un'Azienda in questa Borsa (creando delle Azioni)
      * 
      * <p>
      * Fatto con l'aiuto di Copilot
-     * Modifies la mappa {@code quotazioni} aggiungendo o modificando la quotazione dell'Azienda
+     * Modifies {@code azioni} aggiungendo una nuova Azione per la Azienda richiesta nella Borsa
      * 
-     * @param az il nome della Azienda da quotare
+     * @param az la Azienda da quotare
      * @param prezzo il prezzo di quotazione della Azienda
+     * @param quantita la quantità di Azioni della Azienda
      * 
-     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se l'Azienda è già quotata in questa Borsa
      * @throws NullPointerException se l'Azienda richiesta non esiste
+     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se l'Azienda è già quotata in questa Borsa
      */
     public final void quotaAzienda(Azienda az, int prezzo, int quantita) throws NullPointerException,IllegalArgumentException{
-        if(prezzo<=0){
-            throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
-        }
-
         if(az==null){
             throw new NullPointerException("L'Azienda richiesta non esiste");
         }
+        
+        if(prezzo<=0){
+            throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+        }      
 
         for(Azione azione : azioni){
             if(azione.getAzienda().equals(az)){
@@ -201,12 +203,11 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @param azienda l'Azienda di cui si vuole ottenere il numero di azioni totali
      * 
-     * @return il numero di azioni totali dell'Azienda richiesta o null se non ne ha
+     * @return il numero di azioni totali dell'Azienda richiesta o 0 se non esiste
      * 
      * @throws NullPointerException se l'Azienda è null
-     * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto
      */
-    public final Integer getNumeroAzioniTotali(Azienda azienda) throws NullPointerException, IllegalArgumentException{
+    public final int getNumeroAzioniTotali(Azienda azienda) throws NullPointerException{
         if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
         }
@@ -229,6 +230,8 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @param azienda l'Azienda di cui si vuole ottenere il numero di azioni disponibili
      * 
+     * @return il numero di azioni disponibili dell'Azienda richiesta o 0 se non esiste
+     * 
      * @throws NullPointerException se l'Azienda è null
      */
     public final Integer getNumeroAzioniDisponibili(Azienda azienda) throws NullPointerException{
@@ -243,47 +246,20 @@ public class Borsa implements Comparable<Borsa>{
             }
         }
         
-        return null;
+        return 0;
     }
 
-    /**
-     * Metodo per erogare un certo numero di azioni ad un'azienda (e settare le azioni disponibili)
-     * 
-     * @param azienda il nome dell'Azienda a cui erogare le azioni
-     * @param quantita la quantità di azioni da erogare
-     * 
-     * @throws NullPointerException se l'Azienda è nullo
-     * @throws IllegalArgumentException se la quantità è minore o uguale a 0 o se il nome dell'Azienda è nullo o vuoto o se l'Azienda è già quotata in questa Borsa
-     */
-    public final void erogaAzione(String azienda, int prezzo, int quantita) throws NullPointerException, IllegalArgumentException{
-        if(azienda==null||azienda.isBlank()){
-            throw new IllegalArgumentException("Il nome della Azienda non può essere nullo, vuoto o composto solo da spazi bianchi");
-        }
-
-        Azienda a = Azienda.getAziendaDaNome(azienda);
-        if(a==null){
-            throw new NullPointerException("L'Azienda non può essere null");
-        }
-
-        if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da erogare deve essere maggiore di 0");
-        }
-
-        Azione azione=new Azione(a, prezzo, quantita);
-        if(!azioni.contains(azione)){
-            azioni.add(azione);
-        }
-
-        throw new IllegalArgumentException("L'Azienda è già quotata in questa Borsa");
-    }
-    
     /**
      * Metodo per ottenere le aziende quotate in questa borsa
      * 
      * @return set non modificabile delle aziende quotate in questa borsa
      */
     public SortedSet<Azienda> getAziendeQuotate(){
-        return Collections.unmodifiableSortedSet(aziendeInBorsa);
+        SortedSet<Azienda> az = new TreeSet<>();
+        for(Azione azione : azioni){
+            az.add(azione.getAzienda());
+        }
+        return Collections.unmodifiableSortedSet(az);
     }
 
     /**
@@ -295,9 +271,16 @@ public class Borsa implements Comparable<Borsa>{
      * Modifies {@code politica} settando la politica di prezzo
      * 
      * <ul>
-     * <li> se il valore è positivo, la politica è ad incremento costante pari a vSu</li>
-     * <li> se il valore è negativo, la politica è a decremento costante pari al valore assoluto di vGiu</li>
-     * <li> se il valore è 0, la politica è di variazione (incremento e decremento a seconda) di vSu e vGiu</li>
+     * <li> se il valore è positivo:</li>
+     * <ul>
+     * <li> se vSu e vGiu sono 0, la politica è di Vocale</li>
+     * <li> altrimenti la politica è ad Incremento Costante pari al valore di vSu</li>
+     * </ul>
+     * <li> se il valore è negativo, la politica è a Decremento Costante pari al valore assoluto di vGiu</li>
+     * <li> se il valore è 0, la politica:</li>
+     * <ul>
+     * <li> se vSu e vGiu sono uguali, la politica è a Soglia</li>
+     * <li> altrimenti la politica è a Variazione con vSu e vGiu</li>
      * </ul>
      * 
      * @param valore il valore della politica di prezzo
@@ -330,6 +313,18 @@ public class Borsa implements Comparable<Borsa>{
         }
     }
 
+    /**
+     * Metodo per applicare la variazione di prezzo ad una Azione in seguito ad un acquisto o una vendita
+     * 
+     * <p>
+     * Modifies {@code azioni} cambiando il prezzo di quotazione di una Azione e {@code allocazioni} cambiando il prezzo di quotazione di tutte le Azioni possedute da un Operatore
+     * 
+     * @param az l'Azione a cui applicare la variazione
+     * @param acquisto true se acquisto , false se vendita
+     * @param quantita la quantità di Azioni acquistate o vendute (utile per Politica di Soglia)
+     * 
+     * @throws IllegalArgumentException se {@code cambioPrezzoAcquisto} o {@code cambioPrezzoVendita} o {@code modificaPrezzo} lanciano una IllegalArgumentException
+     */
     private final void aggiornaPrezzoAzione(Azione az, boolean acquisto,int quantita){
         if(politica!=null){
             if(acquisto){
@@ -351,9 +346,16 @@ public class Borsa implements Comparable<Borsa>{
      * Metodo per ottenere l'Azione di una Azienda in questa Borsa
      * 
      * @param azienda l'Azienda di cui ottenere l'Azione
+     * 
      * @return l'Azione della Azienda richiesta o null se non esiste
+     * 
+     * @throws NullPointerException se l'Azienda è null
      */
-    public Azione getAzione(Azienda azienda){
+    public Azione getAzione(Azienda azienda) throws NullPointerException{
+        if(azienda==null){
+            throw new NullPointerException("L'Azienda non può essere nulla");
+        }
+
         for(Azione azione : azioni){
             if(azione.getAzienda().equals(azienda)){
                 return azione;
@@ -366,12 +368,22 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per far acquistare delle azioni ad un Operatore
      * 
+     * <p>
+     * Modifies {@code azioni} aggiungendo o modificando una Azione per l'Azienda richiesta, e aggiornandone il prezzo
+     * <p>
+     * Modifies {@code allocazioni} aggiungendo o modificando una Allocazione per l'Operatore richiesto
+     * <p>
+     * Modifies {@code operatore} aggiungendo o modificando le Azioni acquistate
+     * <p>
+     * Se l'Operatore ha già una Allocazione in Borsa, ma non ha Azioni di quell'Azienda, viene creata una nuova entry nella mappa {@code azioniPossedute} di Allocazione, altimenti se ne modifica il valore.
+     * Se l'Operatore non ha una Allocazione in Borsa viene creata una nuova Allocazione con la nuova Azione in {@code azioniPossedute}
+     * 
      * @param operatore l'Operatore che compra le azioni
      * @param azienda l'Azienda di cui comprare le azioni
      * @param budgetAcquisto il budgetAcquisto dell'Operatore
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
-     * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione o se l'Azienda non ha abbastanza Azioni disponibili
+     * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione, se l'Azienda non ha abbastanza Azioni disponibili, se {@code prelievoDalBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code aggiungiAzione} incorre in una IllegalArgumentException
      */
     public final void compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
@@ -420,8 +432,6 @@ public class Borsa implements Comparable<Borsa>{
                         allocazioni.remove(allocazione);
                         allocazioni.add(allocazione);
 
-                        
-
                         operatore.aggiungiAzione(azione, quantita);                        
 
                         return;
@@ -460,12 +470,21 @@ public class Borsa implements Comparable<Borsa>{
     /**
      * Metodo per far vendere delle azioni ad un Operatore
      * 
+     * <p>
+     * Modifies {@code azioni} aggiungendo o modificando una Azione per l'Azienda richiesta, e aggiornandone il prezzo
+     * <p>
+     * Modifies {@code allocazioni} rimuovendo o modificando una Allocazione per l'Operatore richiesto
+     * <p>
+     * Modifies {@code operatore} rimuovendo o modificando le Azioni vendute
+     * <p>
+     * Il metodo vende le Azioni se e solo se l'Operatore le possiede in Borsa
+     * 
      * @param operatore l'Operatore che vende le azioni
      * @param azienda l'Azienda di cui vendere le azioni
      * @param quantita la quantità di azioni da vendere
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
-     * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se la quantità è minore o uguale a 0, se l'Operatore non ha abbastanza azioni da vendere o se l'Operatore non ha azioni di quell'Azienda
+     * @throws IllegalArgumentException se la quantità è minore o uguale a 0, se l'Operatore non ha abbastanza azioni da vendere, se l'Operatore non ha azioni di quell'Azienda, se {@code depositaInBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code rimuoviAzione} incorre in una IllegalArgumentException
      */   
      public final void vendiAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
@@ -519,10 +538,20 @@ public class Borsa implements Comparable<Borsa>{
         throw new IllegalArgumentException("L'Operatore non ha azioni da vendere");
     }
 
+    /**
+     * Metodo per ottenere le Azioni in questa Borsa
+     * 
+     * @return un set non modificabile di Azioni
+     */
     public SortedSet<Azione> getAzioni(){
         return Collections.unmodifiableSortedSet(azioni);
     }
 
+    /**
+     * Metodo per ottenere le Allocazioni in questa Borsa
+     * 
+     * @return un set non modificabile di Allocazioni
+     */
     public SortedSet<Allocazione> getAllocazioni(){
         return Collections.unmodifiableSortedSet(allocazioni);
     }
@@ -550,12 +579,14 @@ public class Borsa implements Comparable<Borsa>{
          * AF:
          * Una Azione è rappresentata da:
          * - azienda: la Azienda a cui è collegata la Azione
+         * - borsa: la Borsa a cui è collegata la Azienda di cui si crea l'Azione
          * - quantita: la quantità di Azioni della Azienda ancora disponibili
          * - prezzo: il prezzo di quotazione dell'Azienda
          * 
          * RI:
          * L'oggetto Azione deve rispettare la seguente condizione:
          * - azienda non può essere null
+         * - borsa non può essere null
          * - prezzo deve essere maggiore di 0
          * - quantita deve essere maggiore di 0
          */
@@ -610,11 +641,17 @@ public class Borsa implements Comparable<Borsa>{
         }
 
         /**
-         * Metodo per modificare il prezzo della Azione
+         * Metodo per modificare il prezzo della Azione ad un nuovo valore
          * 
-         * @param modifica la modifica da applicare al prezzo
+         * @param modifica il nuovo valore di prezzo
+         * 
+         * @throws IllegalArgumentException se il prezzo è minore o uguale a 0
          */
         public void modificaPrezzo(int modifica){
+            if(modifica<=0){
+                throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+            }
+
             this.prezzo=modifica;
         }
 
@@ -629,8 +666,13 @@ public class Borsa implements Comparable<Borsa>{
          * Metodo per modificare la quantità di Azioni della Azienda
          * 
          * @param modifica la modifica da applicare alla quantità di Azioni
+         * 
+         * @throws IllegalArgumentException se la quantità di Azioni diventa minore di 0
          */
         public void modificaQuantita(int modifica){
+            if(this.quantita+modifica<0){
+                throw new IllegalArgumentException("La quantità di Azioni non può essere minore di 0");
+            }
             this.quantita+=modifica;
         }
         
@@ -646,17 +688,17 @@ public class Borsa implements Comparable<Borsa>{
          * AF:
          * Un'Allocazione è rappresentata da:
          * - operatore: l'Operatore a cui è collegata l'Allocazione
-         * - azioniPossedute: le Azioni possedute dall'Operatore
+         * - azioniPossedute: mappa delle Azioni possedute dall'Operatore (chiave: Azione, valore: quantità posseduta)
          * RI:
          * L'oggetto Allocazione deve rispettare la seguente condizione:
          * - operatore non può essere null
-         * - azioniPossedute non può essere null e non può contenere null
+         * - azioniPossedute non può essere null e non può contenere chiavi o valori null 
          */
 
         /** L'Operatore a cui è assegnata la Allocazione */
         private final Operatore operatore;
         /** Mappa delle Azioni possedute */
-        private TreeMap<Azione, Integer> azioniPossedute = new TreeMap<>();
+        private SortedMap<Azione, Integer> azioniPossedute = new TreeMap<>();
         
 
         /**
@@ -666,7 +708,7 @@ public class Borsa implements Comparable<Borsa>{
          *
          * @throws NullPointerException se l'Operatore è nullo
          */
-        private Allocazione(Operatore operatore){
+        private Allocazione(Operatore operatore) throws NullPointerException{
             if(operatore==null){
                 throw new NullPointerException("L'Operatore non può essere nullo");
             }
@@ -685,8 +727,13 @@ public class Borsa implements Comparable<Borsa>{
             return operatore;
         }
 
-        public TreeMap<Azione, Integer> getAzioniPossedute(){
-            return azioniPossedute;
+        /**
+         * Metodo per ottenere le Azioni possedute dall'Operatore
+         * 
+         * @return una sorted map non modificabile delle Azioni possedute dall'Operatore
+         */
+        public SortedMap<Azione, Integer> getAzioniPossedute(){
+            return Collections.unmodifiableSortedMap(azioniPossedute);
         }
 
         @Override

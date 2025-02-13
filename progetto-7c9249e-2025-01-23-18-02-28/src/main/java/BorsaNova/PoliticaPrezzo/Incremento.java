@@ -3,7 +3,7 @@ package BorsaNova.PoliticaPrezzo;
 import BorsaNova.Entita.Borsa.Azione;
 
 /**
- * Classe per rappresentare una politica di incremento
+ * Classe per rappresentare una Politica di Incremento
  * 
  * <p>
  * Una politica di incremento ha un valore da aggiungere al prezzo in caso di acquisto.
@@ -45,18 +45,24 @@ public class Incremento implements Politica {
     }
 
     /**
-     * Metodo per calcolare il prezzo di una quotazione
+     * Metodo per cambiare il prezzo di una Azione (non utile in questa implementazione di Politica)
      * 
      * @param prezzo il prezzo corrente della quotazione
      * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
-     * 
-     * @return il prezzo (se si tratta di un acquisto, il prezzo calcolato sarà maggiore di quello corrente di un valore incremento)
      */
     @Override
     public void cambioPrezzoVendita(Azione az, int valore) {
         return;
     }
 
+    /**
+     * Metodo per cambiare il prezzo di una Azione
+     * 
+     * @param prezzo il prezzo corrente della quotazione
+     * @param valore non utile in questa implementazione di Politica
+     * 
+     * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
+     */
     @Override
     public void cambioPrezzoAcquisto(Azione az, int valore) {
         az.modificaPrezzo(az.getPrezzo() + this.incremento);

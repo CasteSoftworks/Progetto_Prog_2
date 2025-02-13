@@ -47,12 +47,12 @@ public class Decremento implements Politica {
     }
 
     /**
-     * Metodo per calcolare il prezzo di una quotazione
+     * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
      * @param prezzo il prezzo corrente della quotazione
-     * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
+     * @param valore non utile in questa implementazione di Politica
      * 
-     * @return il prezzo (se si tratta di una vendita, il prezzo calcolato sarà minore di quello corrente di un valore decremento o 1)
+     * @throws IllegalArgumentException se {@code modificaPrezzo} è minore di 0
      */
     @Override
     public void cambioPrezzoVendita(Azione az, int valore) {
@@ -64,6 +64,12 @@ public class Decremento implements Politica {
         }   
     }
 
+    /**
+     * Metodo per cambiare il prezzo di una Azione (non utile in questa implementazione di Politica)
+     * 
+     * @param prezzo il prezzo corrente della quotazione
+     * @param valore non utile in questa implementazione di Politica
+     */
     @Override
     public void cambioPrezzoAcquisto(Azione az, int valore) {
         return;

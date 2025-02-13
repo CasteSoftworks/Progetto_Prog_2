@@ -12,7 +12,7 @@ import java.util.TreeSet;
  * 
  * <p>
  * Una Azienda ha un nome, che la identifica univocamente.
- * Una Azienda può quotarsi in una Borsa, farsi erogare delle azioni e ottenere la quotazione in una Borsa.
+ * Una Azienda può quotarsi in una Borsa facendosi erogare delle azioni e ottenere la sua quotazione in una Borsa.
  * 
  * <p>
  * Fatto con l'aiuto di:
@@ -60,9 +60,10 @@ public class Azienda implements Comparable<Azienda>{
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto
      */
     public static Azienda of(String nome) throws IllegalArgumentException{
-        if (Objects.requireNonNull(nome, "Name must not be null.").isBlank()){
-            throw new IllegalArgumentException("Name must not be empty.");
+        if (Objects.requireNonNull(nome, "Il nome non può essere null").isBlank()){
+            throw new IllegalArgumentException("Il nome non può essere vuoto");
         }
+
         if (NOMI_USATI.contains(nome)) {
             return getAziendaDaNome(nome);
         }
@@ -145,8 +146,8 @@ public class Azienda implements Comparable<Azienda>{
      * @param prezzo il prezzo di quotazione
      * @param quantita il numero di azioni da quotare
      * 
-     * @throws NullPointerException se la Borsa non esiste 
-     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se la quantità è minore o uguale a 0
+     * @throws NullPointerException se la Borsa non esiste o se {@code quotaAzienda} lancia una NullPointerException
+     * @throws IllegalArgumentException se il prezzo è minore o uguale a 0, se la quantità è minore o uguale a 0 o se {@code quotaAzienda} lancia una IllegalArgumentException
      */
     public final void quotatiInBorsa(Borsa borsa, int prezzo, int quantita) throws NullPointerException, IllegalArgumentException {
         if(borsa==null ){
@@ -171,7 +172,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @return la quotazione dell'Azienda 
      * 
-     * @throws NullPointerException se la Borsa non esiste 
+     * @throws NullPointerException se la Borsa non esiste o se {@code getQuotazioneAzienda} lancia una NullPointerException
      * @throws IllegalArgumentException se la Azienda non è quotata nella Borsa richiesta
      */
     public Integer getQuotazione(Borsa b) throws NullPointerException, IllegalArgumentException{
