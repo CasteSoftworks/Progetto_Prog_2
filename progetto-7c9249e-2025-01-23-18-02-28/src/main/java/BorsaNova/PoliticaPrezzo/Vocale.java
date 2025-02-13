@@ -21,7 +21,7 @@ public class Vocale implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
@@ -49,7 +49,7 @@ public class Vocale implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException

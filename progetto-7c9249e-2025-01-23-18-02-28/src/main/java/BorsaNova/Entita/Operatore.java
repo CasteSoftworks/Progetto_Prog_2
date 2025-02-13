@@ -216,8 +216,8 @@ public class Operatore implements Comparable<Operatore>{
      * <p>
      * Chiama il metodo {@code vendiAzione} di Borsa
      * 
-     * @param a la Azienda a cui appartengono le azioni da vendere
-     * @param b la Borsa dove l'Azienda di cui vendere le Azioni è quotata
+     * @param azienda la Azienda a cui appartengono le azioni da vendere
+     * @param borsa la Borsa dove l'Azienda di cui vendere le Azioni è quotata
      * @param quantita la quantità di azioni da vendere
      * 
      * @return true se l'operazione è andata a buon fine, false altrimenti

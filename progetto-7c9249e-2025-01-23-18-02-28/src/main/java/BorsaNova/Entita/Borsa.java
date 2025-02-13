@@ -276,10 +276,10 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * <ul>
      * <li> se il valore è positivo:</li>
-     * <ul>
+     * 
      * <li> se vSu e vGiu sono 0, la politica è di Vocale</li>
      * <li> altrimenti la politica è ad Incremento Costante pari al valore di vSu</li>
-     * </ul>
+     * 
      * <li> se il valore è negativo, la politica è a Decremento Costante pari al valore assoluto di vGiu</li>
      * <li> se il valore è 0, la politica:</li>
      * <ul>

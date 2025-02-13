@@ -26,7 +26,7 @@ public class Soglia implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'azione da modificare
      * @param valore la quantità di azioni da vendere
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
@@ -44,7 +44,7 @@ public class Soglia implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'azione da modificare
      * @param valore la quantità di azioni da acquistare
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
