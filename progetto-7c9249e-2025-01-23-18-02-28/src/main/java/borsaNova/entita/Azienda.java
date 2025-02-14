@@ -41,8 +41,8 @@ public class Azienda implements Comparable<Azienda>{
     /** Il {@code nome} dell'Azienda */
     private final String nome;
 
-    /** Mappa delle aziende (key= nome azienda, value=azienda stessa) */
-    private static final Set<Azienda> aziende = new TreeSet<>();
+    /** SortedSet delle aziende (key= nome azienda, value=azienda stessa) */
+    private static final SortedSet<Azienda> aziende = new TreeSet<>();
     /** Set dei nomi delle Aziende già usati */
     private static final SortedSet<String> NOMI_USATI = new TreeSet<>();
 
@@ -196,6 +196,5 @@ public class Azienda implements Comparable<Azienda>{
     public int hashCode() {
         return nome.hashCode();
     }
-
     
 }

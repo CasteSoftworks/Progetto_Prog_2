@@ -100,5 +100,5 @@ public class Vocale implements Politica{
     private boolean letteraVocale(char c){
         return c=='a' || c=='e' || c=='i' || c=='o' || c=='u';
     }
-    
+
 }

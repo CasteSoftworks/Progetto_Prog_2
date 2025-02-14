@@ -80,6 +80,7 @@ public class Operatore implements Comparable<Operatore>{
         if(NOMI_USATI.contains(nome)){
             return getOperatoreDaNome(nome);
         }
+
         return new Operatore(nome);
     }
 
@@ -190,20 +191,20 @@ public class Operatore implements Comparable<Operatore>{
      * @param b la Borsa dove acquistare le azioni 
      * @param prezzoTot il prezzo totale delle azioni da acquistare
      * 
-     * @throws NullPointerException se l'azienda è nulla o la borsa è nulla o se {@code compraAzione} incorre in una NullPointerException
-     * @throws IllegalArgumentException se il denaro spendibile per le azioni è negativo o pari a 0 o se {@code compraAzione} incorre in una IllegalArgumentException
+     * @throws NullPointerException se l'Azienda è nulla o la Borsa è nulla o se {@code compraAzione} incorre in una NullPointerException
+     * @throws IllegalArgumentException se il denaro spendibile per le Azioni è negativo o pari a 0 o se {@code compraAzione} incorre in una IllegalArgumentException
      */
     public void acquistaAzione(Azienda a, Borsa b, int prezzoTot) throws IllegalArgumentException{        
         if(a==null){
-            throw new NullPointerException("L'azienda non può essere nulla");
+            throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
         if(b==null){
-            throw new NullPointerException("La borsa non può essere nulla");
+            throw new NullPointerException("La Borsa non può essere nulla");
         }
 
         if(prezzoTot<=0){
-            throw new IllegalArgumentException("Il denaro spendibile per le azioni non può essere negativo o pari a 0");
+            throw new IllegalArgumentException("Il denaro spendibile per le Azioni non può essere negativo o pari a 0");
         }
         
         b.compraAzione(this, a, prezzoTot);
@@ -221,8 +222,8 @@ public class Operatore implements Comparable<Operatore>{
      * 
      * @return true se l'operazione è andata a buon fine, false altrimenti
      * 
-     * @throws NullPointerException se l'azienda è nulla o l borsa è nulla o se {@code vendiAzione} incorre in una NullPointerException
-     * @throws IllegalArgumentException se la quantità di azioni da vendere è negativa o se {@code vendiAzione} incorre in una IllegalArgumentException
+     * @throws NullPointerException se l'Azienda è nulla o la Borsa è nulla o se {@code vendiAzione} incorre in una NullPointerException
+     * @throws IllegalArgumentException se la quantità di Azioni da vendere è negativa o se {@code vendiAzione} incorre in una IllegalArgumentException
      */
     public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){

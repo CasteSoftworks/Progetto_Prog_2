@@ -722,7 +722,6 @@ public class Borsa implements Comparable<Borsa>{
             return operatore;
         }
 
-        //TODO potrei fare Iterator<Entry<Azione, Integer>> anzichè SortedMap<Azione, Integer> ???
         /**
          * Metodo per ottenere le Azioni possedute dall'Operatore
          * 
