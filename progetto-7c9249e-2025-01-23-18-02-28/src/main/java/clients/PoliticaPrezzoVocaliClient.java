@@ -25,9 +25,9 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import BorsaNova.Entita.Azienda;
-import BorsaNova.Entita.Borsa;
-import BorsaNova.Entita.Operatore;
+import borsaNova.entita.Azienda;
+import borsaNova.entita.Borsa;
+import borsaNova.entita.Operatore;
 
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class PoliticaPrezzoVocaliClient {

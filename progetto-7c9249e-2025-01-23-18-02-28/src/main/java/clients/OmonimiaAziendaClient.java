@@ -25,7 +25,7 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import BorsaNova.Entita.Azienda;
+import borsaNova.entita.Azienda;
 
 /** Client di test per alcune funzionalità relative alle <strong>aziende</strong>. */
 public class OmonimiaAziendaClient {

@@ -22,14 +22,15 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package clients;
 
 import java.util.Map.Entry;
+
+import borsaNova.entita.Azienda;
+import borsaNova.entita.Borsa;
+import borsaNova.entita.Operatore;
+import borsaNova.entita.Borsa.Azione;
+
 import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import BorsaNova.Entita.Azienda;
-import BorsaNova.Entita.Borsa;
-import BorsaNova.Entita.Borsa.Azione;
-import BorsaNova.Entita.Operatore;
 
 /** Client di test per alcune funzionalità relative agli <strong>operatori</strong>. */
 public class OperatoreClient {

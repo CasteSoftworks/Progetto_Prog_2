@@ -1,6 +1,6 @@
-package BorsaNova.PoliticaPrezzo;
+package borsaNova.politicaPrezzo;
 
-import BorsaNova.Entita.Borsa.Azione;
+import borsaNova.entita.Borsa.Azione;
 
 /**
  * Classe per rappresentare una politica di decremento

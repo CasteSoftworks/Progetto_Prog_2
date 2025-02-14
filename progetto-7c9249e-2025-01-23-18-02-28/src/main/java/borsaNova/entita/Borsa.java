@@ -1,15 +1,16 @@
-package BorsaNova.Entita;
+package borsaNova.entita;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import borsaNova.politicaPrezzo.*;
+
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
-import BorsaNova.PoliticaPrezzo.*;
 
 /**
  * Classe per rappresentare una Borsa

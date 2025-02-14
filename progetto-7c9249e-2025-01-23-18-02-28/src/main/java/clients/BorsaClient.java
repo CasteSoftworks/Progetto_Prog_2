@@ -27,9 +27,9 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import BorsaNova.Entita.*;
-import BorsaNova.Entita.Borsa.Allocazione;
-import BorsaNova.Entita.Borsa.Azione;
+import borsaNova.entita.*;
+import borsaNova.entita.Borsa.Allocazione;
+import borsaNova.entita.Borsa.Azione;
 
 /** Client di test per alcune funzionalità relative alle <strong>borse</strong>. */
 public class BorsaClient {

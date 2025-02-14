@@ -25,7 +25,7 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import BorsaNova.Entita.*;
+import borsaNova.entita.*;
 
 /** Client di test per alcune funzionalità relative alle <strong>quotazioni</strong>. */
 public class QuotazioneClient {

@@ -1,6 +1,6 @@
-package BorsaNova.PoliticaPrezzo;
+package borsaNova.politicaPrezzo;
 
-import BorsaNova.Entita.Borsa.Azione;
+import borsaNova.entita.Borsa.Azione;
 
 /**
  * Interfaccia per rappresentare una Politica di Prezzo che viene poi espansa dalle classi presenti nella stesso package

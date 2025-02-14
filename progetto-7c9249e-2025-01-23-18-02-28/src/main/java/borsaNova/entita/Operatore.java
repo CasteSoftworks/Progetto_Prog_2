@@ -1,4 +1,4 @@
-package BorsaNova.Entita;
+package borsaNova.entita;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import BorsaNova.Entita.Borsa.Azione;
+import borsaNova.entita.Borsa.Azione;
 
 /**
  * Classe per rappresentare un Operatore
