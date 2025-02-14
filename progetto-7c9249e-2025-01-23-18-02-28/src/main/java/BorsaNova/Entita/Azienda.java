@@ -91,26 +91,6 @@ public class Azienda implements Comparable<Azienda>{
     public String getNome(){
         return nome;
     }   
-    
-    //TODO potrei fare Iterator<Borsa> anzi che SortedSet<Borsa>
-    /**
-     * Metodo per recuperare le Borse dove l'Azienda è quotata (se lo è)
-     * 
-     * @return un SortedSet non modificabile delle borse dove l'azienda è quotata o null se non è quotata in nessuna borsa
-     */
-    public SortedSet<Borsa> getBorsaQuotata(){
-        SortedSet<Borsa> borse = new TreeSet<>();
-        for(Borsa b : Borsa.getBorse()){
-            if(b.getAziendeQuotate().contains(this)){
-                borse.add(b);
-            }
-        }
-
-        if(borse.isEmpty()){
-            return null;
-        }
-        return Collections.unmodifiableSortedSet(borse);
-    }
 
     /**
      * Metodo per recuperare una Azienda dal suo nome (se esiste)

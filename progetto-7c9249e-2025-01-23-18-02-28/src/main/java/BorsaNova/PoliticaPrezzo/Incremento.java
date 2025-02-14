@@ -6,8 +6,8 @@ import BorsaNova.Entita.Borsa.Azione;
  * Classe per rappresentare una Politica di Incremento
  * 
  * <p>
- * Una politica di incremento ha un valore da aggiungere al prezzo in caso di acquisto.
- * Una politica di incremento può calcolare il prezzo di una quotazione in base se si tratta di un acquisto.
+ * Una Politica di Incremento ha un valore da aggiungere al prezzo in caso di acquisto.
+ * Una Politica di Incremento può aggiornare il prezzo di una Azione in caso di un acquisto o non fare nulla in caso di vendita.
  * 
  * <p>
  * Fatto con l'aiuto di:
@@ -45,10 +45,10 @@ public class Incremento implements Politica {
     }
 
     /**
-     * Metodo per cambiare il prezzo di una Azione (non utile in questa implementazione di Politica)
+     * Metodo per cambiare il prezzo di una Azione in caso di vendita (non utile in questa implementazione di Politica)
      * 
-     * @param prezzo il prezzo corrente della quotazione
-     * @param acquisto {@code true} se si tratta di un acquisto, {@code false} se si tratta di una vendita
+     * @param az l'Azione da modificare
+     * @param valore non utile in questa implementazione di Politica
      */
     @Override
     public void cambioPrezzoVendita(Azione az, int valore) {
@@ -56,9 +56,9 @@ public class Incremento implements Politica {
     }
 
     /**
-     * Metodo per cambiare il prezzo di una Azione
+     * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException

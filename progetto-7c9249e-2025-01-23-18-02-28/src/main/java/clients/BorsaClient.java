@@ -21,6 +21,7 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package clients;
 
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -159,9 +160,13 @@ public class BorsaClient {
 
     for(Borsa borsa : borse){
       System.out.println(borsa.getNome());
-      for(Azione azione : borsa.getAzioni()){
+      Iterator<Azione> it = borsa.getAzioni();
+      while(it.hasNext()){
+        Azione azione = it.next();
         System.out.println("- " + azione.getAzienda().getNome() + " " + azione.getQuantita());
-        for(Allocazione allocazione : borsa.getAllocazioni()){
+        Iterator<Allocazione> it2 = borsa.getAllocazioni();
+        while(it2.hasNext()){
+          Allocazione allocazione = it2.next();
           SortedMap<Azione, Integer> azioni = allocazione.getAzioniPossedute();
           if(azioni.containsKey(azione)){
             System.out.println("= " + allocazione.getOperatore().getNome() + " " + azioni.get(azione));

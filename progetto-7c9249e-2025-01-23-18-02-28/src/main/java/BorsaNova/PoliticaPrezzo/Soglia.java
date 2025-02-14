@@ -2,9 +2,27 @@ package BorsaNova.PoliticaPrezzo;
 
 import BorsaNova.Entita.Borsa.Azione;
 
-//TODO descrittore
+/**
+ * Classe per rappresentare una Politica di Soglia
+ * 
+ * <p>
+ * Una Politica di Soglia ha un valore minimo di azioni da acquistare o vendere per applicare una modifica al prezzo.
+ * Una Politica di Soglia raddoppia il prezzo di un'azione in caso di acquisto di un numero di azioni maggiore della soglia e dimezza il prezzo in caso di vendita di un numero di azioni maggiore della soglia.
+ * 
+ * <p>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
+ * </ul>
+ */
 public class Soglia implements Politica{
-    //TODO AF e RI
+    /**
+     * AF
+     * Una politica di Soglia rappresentata da una soglia minima per l'applicazione della Politica di Soglia
+     * 
+     * RI
+     * L'oggetto Soglia rispetta la seguente condizione: soglia maggiore di 0
+     */
     
     /** La soglia minima per l'applicazione della Politica di Soglia */
     private final int soglia;

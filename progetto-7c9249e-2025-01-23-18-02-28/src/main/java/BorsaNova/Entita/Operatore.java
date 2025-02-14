@@ -87,7 +87,6 @@ public class Operatore implements Comparable<Operatore>{
      * Costruttore di Operatore
      * 
      * @param nome il nome dell'Operatore da ottenere
-     * @param budget il budget dell'Operatore da ottenere
      */
     private Operatore(String nome){
         this.nome = nome;

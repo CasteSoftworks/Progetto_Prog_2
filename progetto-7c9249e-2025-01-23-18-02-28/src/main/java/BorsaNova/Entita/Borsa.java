@@ -1,6 +1,7 @@
 package BorsaNova.Entita;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -30,7 +31,6 @@ import BorsaNova.PoliticaPrezzo.*;
  * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected, di stile documentativo e reminder dei modifies)</li>
  * </ul>
  */
-
 public class Borsa implements Comparable<Borsa>{
     /**
      * AF:
@@ -107,16 +107,6 @@ public class Borsa implements Comparable<Borsa>{
      */
     public String getNome(){
         return nome;
-    }
-
-    //TODO potrei fare Iterator<Borsa> anzichè SortedSet<Borsa>
-    /**
-     * Metodo per ottenere tutte le Borse create
-     * 
-     * @return un set non modificabile di nomi di Borse 
-     */
-    public static SortedSet<Borsa> getBorse(){
-        return Collections.unmodifiableSortedSet(borse);
     }
 
     /**
@@ -251,47 +241,49 @@ public class Borsa implements Comparable<Borsa>{
         return 0;
     }
 
-    //TODO potrei fare Iterator<Azienda> anzichè SortedSet<Azienda>
-    /**
-     * Metodo per ottenere le aziende quotate in questa borsa
-     * 
-     * @return set non modificabile delle aziende quotate in questa borsa
-     */
-    public SortedSet<Azienda> getAziendeQuotate(){
-        SortedSet<Azienda> az = new TreeSet<>();
-        for(Azione azione : azioni){
-            az.add(azione.getAzienda());
-        }
-        return Collections.unmodifiableSortedSet(az);
-    }
-
-    //TODO correggi gli ul
     /**
      * Metodo per settare una politica di prezzo per la borsa
      * 
      * <p>
-     * Valore serve solo a decidere se la politica è di incremento, decremento o variazione.
-     * Per decidere il valore di incremento e decremento si usano vSu e vGiu
-     * Modifies {@code politica} settando la politica di prezzo
+     * Modifies {@code politica} settando la Politica di Prezzo della Borsa
      * 
+     * <p>
+     * Valore è usato come:
      * <ul>
-     * <li> se il valore è positivo:</li>
-     * 
-     * <li> se vSu e vGiu sono 0, la politica è di Vocale</li>
-     * <li> altrimenti la politica è ad Incremento Costante pari al valore di vSu</li>
-     * 
-     * <li> se il valore è negativo, la politica è a Decremento Costante pari al valore assoluto di vGiu</li>
-     * <li> se il valore è 0, la politica:</li>
-     * <ul>
-     * <li> se vSu e vGiu sono uguali, la politica è a Soglia</li>
-     * <li> altrimenti la politica è a Variazione con vSu e vGiu</li>
+     * <li> Selettore per il tipo di Politica di Prezzo in Incremento, Decremento, Vocale, Soglia o Variazione</li>
+     * <li> Come lettera di riferimento (in ASCII) nella Politica di Vocale</li>
      * </ul>
      * 
-     * @param valore il valore della politica di prezzo
+     * <p>
+     * vSu e vGiu sono usati come:
+     * <ul>
+     * <li> Valore di variazione in caso di acquisto per le Politica di Incremento, Decremento e Variazione</li>
+     * <li> Selettori aggiuntivi per le Politiche di Vocale e Soglia</li>
+     * </ul>
+     * 
+     * <p>
+     * Come funziona la selezione della Politica di Prezzo:
+     * <ul>
+     * <li>Se valore è maggiore di 0:
+     *   <ul>
+     *      <li>Se vSu e vGiu sono entrambi 0, la Politica è di tipo Vocale</li>
+     *      <li>Altrimenti la Politica è di tipo Incremento</li>
+     *   </ul>
+     * </li>
+     * <li>Se valore è minore di 0, la politica è di tipo Decremento</li>
+     * <li>Se valore è uguale a 0:
+     *   <ul>
+     *      <li>Se vSu e vGiu sono uguali, la Politica è di tipo Soglia</li>
+     *      <li>Altrimenti la Politica è di tipo Variazione</li>
+     *   </ul>
+     * </li>
+     * </ul>
+     * 
+     * @param valore il valore della Politica di Prezzo
      * @param vSu il valore di variazione in caso di acquisto
      * @param vGiu il valore di variazione in caso di vendita
      * 
-     * @throws IllegalArgumentException se la creazione della politica fallisce
+     * @throws IllegalArgumentException se la creazione della Politica fallisce
      */
     public final void setPoliticaPrezzo(int valore, int vSu, int vGiu) throws IllegalArgumentException{
         if(valore>0){
@@ -537,24 +529,22 @@ public class Borsa implements Comparable<Borsa>{
         throw new IllegalArgumentException("L'Operatore non ha azioni da vendere");
     }
 
-    //TODO potrei fare Iterator<Azione> anzichè SortedSet<Azione>
     /**
-     * Metodo per ottenere le Azioni in questa Borsa
+     * Metodo per ottenere un iteratore delle Azioni in questa Borsa
      * 
-     * @return un set non modificabile di Azioni
+     * @return un iteratore di Azioni
      */
-    public SortedSet<Azione> getAzioni(){
-        return Collections.unmodifiableSortedSet(azioni);
+    public Iterator<Azione> getAzioni(){
+        return Collections.unmodifiableSortedSet(azioni).iterator();
     }
 
-    //TODO potrei fare Iterator<Allocazione> anzichè SortedSet<Allocazione>
     /**
-     * Metodo per ottenere le Allocazioni in questa Borsa
+     * Metodo per ottenere un iteratore di Allocazioni in questa Borsa
      * 
-     * @return un set non modificabile di Allocazioni
+     * @return un iteratore di Allocazioni
      */
-    public SortedSet<Allocazione> getAllocazioni(){
-        return Collections.unmodifiableSortedSet(allocazioni);
+    public Iterator<Allocazione> getAllocazioni(){
+        return Collections.unmodifiableSortedSet(allocazioni).iterator();
     }
 
     @Override
@@ -605,6 +595,7 @@ public class Borsa implements Comparable<Borsa>{
          * Costruttore privato per creare una Azione
          * 
          * @param azienda la Azienda a cui è collegata la Azione
+         * @param prezzo il prezzo di quotazione della Azienda
          * @param quantita la quantità di Azioni della Azienda
          */
         public Azione(Azienda azienda, int prezzo, int quantita){
@@ -658,6 +649,8 @@ public class Borsa implements Comparable<Borsa>{
 
         /**
          * Metodo per recuperare la Borsa a cui è collegata l'Azione
+         * 
+         * @return la Borsa a cui è collegata l'Azione
          */
         public Borsa getBorsa(){
             return borsa;

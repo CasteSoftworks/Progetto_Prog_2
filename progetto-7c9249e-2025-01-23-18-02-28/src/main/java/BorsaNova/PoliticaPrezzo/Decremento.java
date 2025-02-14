@@ -49,7 +49,7 @@ public class Decremento implements Politica {
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} è minore di 0
@@ -65,9 +65,9 @@ public class Decremento implements Politica {
     }
 
     /**
-     * Metodo per cambiare il prezzo di una Azione (non utile in questa implementazione di Politica)
+     * Metodo per cambiare il prezzo di una Azione in caso di vendita (non utile in questa implementazione di Politica)
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      */
     @Override

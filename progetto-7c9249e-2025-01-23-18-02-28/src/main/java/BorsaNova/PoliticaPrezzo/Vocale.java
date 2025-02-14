@@ -2,9 +2,27 @@ package BorsaNova.PoliticaPrezzo;
 
 import BorsaNova.Entita.Borsa.Azione;
 
-//TODO descrittore
+/**
+ * Classe per rappresentare una Politica di Vocale
+ * 
+ * <p>
+ * Una Politica di Vocale ha una lettera da controllare per applicare una modifica al prezzo.
+ * Una Politica di Vocale raddoppia il prezzo di un'Azione in caso di acquisto di un'Azione di un'Azienda il cui nome (o quello della Borsa associata) inizia con la lettera specificata o una vocale e dimezza il prezzo in caso di vendita (seguiendo la medesima condizione dell'acquisto).
+ * 
+ * <p>
+ * Fatto con l'aiuto di:
+ * <ul>
+ * <li>Github Copilot - GTP4.0 (correzione errori e problemi e autocompletamento javadoc [revisionato e corretto poi a mano])</li>
+ * </ul>
+ */
 public class Vocale implements Politica{
-    //TODO AF e RI
+    /**
+     * AF
+     * Una Politica di Vocale rappresentata da una lettera da controllare per l'applicazione della Politica di Vocale
+     *  
+     * RI
+     * L'oggetto Vocale rispetta la seguente condizione: lettera non nulla
+     */
 
     /** La lettera da controllare per la Politica di Vocale */
     private final char lettera;
@@ -13,15 +31,21 @@ public class Vocale implements Politica{
      * Costruttore di Vocale
      * 
      * @param lettera la lettera da controllare
+     * 
+     * @throws IllegalArgumentException se la lettera è nulla
      */
-    public Vocale(char lettera) {
+    public Vocale(char lettera) throws IllegalArgumentException{
+        if(lettera == ' '){
+            throw new IllegalArgumentException("La lettera non può essere nulla");
+        }
+
         this.lettera = lettera;
     }
 
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param az l'azione da modificare
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
@@ -49,7 +73,7 @@ public class Vocale implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param az l'azione da modificare
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException

@@ -22,7 +22,7 @@ public interface Politica {
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param az l'azione da modificare
+     * @param az l'Azione da modificare
      * @param valore utile per la Politica di Soglia
      *  
      * @throws IllegalArgumentException se le classi che implementano l'interfaccia incorrono in IllegalArgumentException
@@ -32,7 +32,7 @@ public interface Politica {
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param az l'azione da modificare
+     * @param az l'Azione da modificare
      * @param valore utile per la Politica di Soglia
      * 
      * @throws IllegalArgumentException se le classi che implementano l'interfaccia incorrono in IllegalArgumentException

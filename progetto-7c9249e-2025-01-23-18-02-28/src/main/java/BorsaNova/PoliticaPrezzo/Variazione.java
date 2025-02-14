@@ -53,9 +53,9 @@ public class Variazione implements Politica{
     }
 
     /**
-     * Metodo per calcolare il prezzo di una quotazione
+     * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
@@ -71,9 +71,9 @@ public class Variazione implements Politica{
     }
 
     /**
-     * Metodo per calcolare il prezzo di una quotazione
+     * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param prezzo il prezzo corrente della quotazione
+     * @param az l'Azione da modificare
      * @param valore non utile in questa implementazione di Politica
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
