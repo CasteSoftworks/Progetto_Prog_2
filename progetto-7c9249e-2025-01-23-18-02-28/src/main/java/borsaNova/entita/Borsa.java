@@ -122,7 +122,7 @@ public class Borsa implements Comparable<Borsa>{
         if(nome==null||nome.isBlank()){
             throw new IllegalArgumentException("Il nome della Borsa non può essere nullo, vuoto o composto solo da spazi bianchi");
         }
-        
+
         if(!NOMI_USATI.contains(nome)){
             throw new IllegalArgumentException("La Borsa richiesta non esiste");
         }
@@ -723,10 +723,6 @@ public class Borsa implements Comparable<Borsa>{
         private Allocazione(Operatore operatore) throws NullPointerException{
             if(operatore==null){
                 throw new NullPointerException("L'Operatore non può essere nullo");
-            }
-
-            if(operatore instanceof Operatore){
-                throw new IllegalArgumentException("L'oggetto fornito non è un Operatore");
             }
 
             this.operatore=operatore;
