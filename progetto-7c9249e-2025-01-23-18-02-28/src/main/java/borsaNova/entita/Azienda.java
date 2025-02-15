@@ -31,14 +31,18 @@ public class Azienda implements Comparable<Azienda>{
      * AF:
      * Un'Azienda è rappresentata da:
      * - nome: il nome dell'Azienda
+     * - borse: elenco delle Borse in cui è quotata
      *
      * RI:
      * L'oggetto Azienda deve rispettare la seguente condizione: 
      * - nome non deve essere null, stringa vuota o composta solo da soli spazi bianchi
+     * - borse non deve essere null e non deve contenere elementi null
      */
 
     /** Il {@code nome} dell'Azienda */
     private final String nome;
+    /** Il SortedSet delle Borse in cui è quotata */
+    private final SortedSet<Borsa> borse;
 
     /** SortedSet delle aziende (key= nome azienda, value=azienda stessa) */
     private static final SortedSet<Azienda> aziende = new TreeSet<>();
@@ -80,6 +84,7 @@ public class Azienda implements Comparable<Azienda>{
      */
     private Azienda(String nome){
         this.nome = nome;
+        this.borse = new TreeSet<>();
     }
 
     /**
@@ -100,7 +105,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @throws IllegalArgumentException se il nome dell'azienda è nullo o vuoto o se l'Azienda non esiste
      */
-    public static Azienda getAziendaDaNome(String az) throws IllegalArgumentException{
+    private static Azienda getAziendaDaNome(String az) throws IllegalArgumentException{
         if(az==null || az.isBlank()){
             throw new IllegalArgumentException("Il nome dell'azienda non può essere nullo o vuoto");
         }
@@ -131,7 +136,7 @@ public class Azienda implements Comparable<Azienda>{
      */
     public final void quotatiInBorsa(Borsa borsa, int prezzo, int quantita) throws NullPointerException, IllegalArgumentException {
         if(borsa==null ){
-            throw new NullPointerException("La borsa non esiste");
+            throw new NullPointerException("La Borsa non esiste");
         }
 
         if(prezzo <= 0){
@@ -139,10 +144,12 @@ public class Azienda implements Comparable<Azienda>{
         }
 
         if(quantita <= 0){
-            throw new IllegalArgumentException("La quantità di azioni da quotare deve essere maggiore di 0");
+            throw new IllegalArgumentException("La quantità di Azioni da quotare deve essere maggiore di 0");
         }
 
         borsa.quotaAzienda(this, prezzo, quantita);
+
+        borse.add(borsa);
     }
 
     /**

@@ -36,7 +36,7 @@ public class Soglia implements Politica{
      */
     public Soglia(int soglia) {
         if(soglia < 0) {
-            throw new IllegalArgumentException("La soglia deve essere maggiore di 0");
+            throw new IllegalArgumentException("La soglia deve essere maggiore o uguale di 0");
         }
         this.soglia = soglia;
     }
@@ -45,7 +45,7 @@ public class Soglia implements Politica{
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
      * @param az l'Azione da modificare
-     * @param valore la quantità di azioni da vendere
+     * @param valore la quantità di Azioni da vendere
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
      */
@@ -63,7 +63,7 @@ public class Soglia implements Politica{
      * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
      * @param az l'Azione da modificare
-     * @param valore la quantità di azioni da acquistare
+     * @param valore la quantità di Azioni da acquistare
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
      */

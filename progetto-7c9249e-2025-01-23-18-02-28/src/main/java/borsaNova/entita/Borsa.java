@@ -118,10 +118,11 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @throws IllegalArgumentException se il nome della Borsa è nullo, vuoto, composto solo da spazi bianchi o non esiste
      */
-    public static Borsa getBorsaDaNome(String nome){
+    private static Borsa getBorsaDaNome(String nome){
         if(nome==null||nome.isBlank()){
             throw new IllegalArgumentException("Il nome della Borsa non può essere nullo, vuoto o composto solo da spazi bianchi");
         }
+        
         if(!NOMI_USATI.contains(nome)){
             throw new IllegalArgumentException("La Borsa richiesta non esiste");
         }
@@ -176,10 +177,10 @@ public class Borsa implements Comparable<Borsa>{
         if(az==null){
             throw new NullPointerException("L'Azienda richiesta non esiste");
         }
-        
+
         if(prezzo<=0){
             throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
-        }      
+        }
 
         for(Azione azione : azioni){
             if(azione.getAzienda().equals(az)){
@@ -314,9 +315,14 @@ public class Borsa implements Comparable<Borsa>{
      * @param acquisto true se acquisto , false se vendita
      * @param quantita la quantità di Azioni acquistate o vendute (utile per Politica di Soglia)
      * 
+     * @throws NullPointerException se l'Azione è null
      * @throws IllegalArgumentException se {@code cambioPrezzoAcquisto} o {@code cambioPrezzoVendita} o {@code modificaPrezzo} lanciano una IllegalArgumentException
      */
     private final void aggiornaPrezzoAzione(Azione az, boolean acquisto,int quantita){
+        if(az==null){
+            throw new NullPointerException("L'Azione non può essere nulla");
+        }
+
         if(politica!=null){
             if(acquisto){
                 politica.cambioPrezzoAcquisto(az,quantita);
@@ -374,7 +380,7 @@ public class Borsa implements Comparable<Borsa>{
      * @param budgetAcquisto il budgetAcquisto dell'Operatore
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
-     * @throws IllegalArgumentException se il nome dell'Azienda è nullo o vuoto, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione, se l'Azienda non ha abbastanza Azioni disponibili, se {@code prelievoDalBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code aggiungiAzione} incorre in una IllegalArgumentException
+     * @throws IllegalArgumentException se Azienda è nulla, se Operatore è nullo, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione, se l'Azienda non ha abbastanza Azioni disponibili, se {@code prelievoDalBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code aggiungiAzione} incorre in una IllegalArgumentException
      */
     public final void compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
@@ -717,6 +723,10 @@ public class Borsa implements Comparable<Borsa>{
         private Allocazione(Operatore operatore) throws NullPointerException{
             if(operatore==null){
                 throw new NullPointerException("L'Operatore non può essere nullo");
+            }
+
+            if(operatore instanceof Operatore){
+                throw new IllegalArgumentException("L'oggetto fornito non è un Operatore");
             }
 
             this.operatore=operatore;
