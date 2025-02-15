@@ -6,8 +6,8 @@ import borsaNova.entita.Borsa.Azione;
  * Classe per rappresentare una Politica di Soglia
  * 
  * <p>
- * Una Politica di Soglia ha un valore minimo di azioni da acquistare o vendere per applicare una modifica al prezzo.
- * Una Politica di Soglia raddoppia il prezzo di un'azione in caso di acquisto di un numero di azioni maggiore della soglia e dimezza il prezzo in caso di vendita di un numero di azioni maggiore della soglia.
+ * Una Politica di Soglia ha un valore minimo di Azioni da acquistare o vendere per applicare una modifica al prezzo.
+ * Una Politica di Soglia raddoppia il prezzo di un'Azione in caso di acquisto di un numero di Azioni maggiore della soglia e dimezza il prezzo in caso di vendita di un numero di azioni maggiore della soglia.
  * 
  * <p>
  * Fatto con l'aiuto di:
@@ -44,7 +44,7 @@ public class Soglia implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di vendita
      * 
-     * @param az l'azione da modificare
+     * @param az l'Azione da modificare
      * @param valore la quantità di azioni da vendere
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException
@@ -62,7 +62,7 @@ public class Soglia implements Politica{
     /**
      * Metodo per cambiare il prezzo di una Azione in caso di acquisto
      * 
-     * @param az l'azione da modificare
+     * @param az l'Azione da modificare
      * @param valore la quantità di azioni da acquistare
      * 
      * @throws IllegalArgumentException se {@code modificaPrezzo} incorre in una IllegalArgumentException

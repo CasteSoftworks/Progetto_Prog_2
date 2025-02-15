@@ -3,7 +3,6 @@ package borsaNova.entita;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -175,7 +174,7 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @return la mappa dei nomi delle Aziende
      */
-    public static Iterator<Azienda> getAziende(){
+    private static Iterator<Azienda> getAziende(){
         return Collections.unmodifiableCollection(aziende).iterator();
     }
 

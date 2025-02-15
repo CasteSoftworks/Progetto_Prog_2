@@ -37,7 +37,7 @@ public class Borsa implements Comparable<Borsa>{
      * AF:
      * Una Borsa è rappresentata da:
      * - nome: il nome della Borsa
-     * - politica: la politica di prezzo della Borsa
+     * - politica: la Politica di Prezzo della Borsa
      * - azioni: un set di Azioni della Borsa
      * - allocazioni: un set di Allocazioni della Borsa
      *
@@ -52,7 +52,6 @@ public class Borsa implements Comparable<Borsa>{
     /** Il {@code nome} della Borsa */
     private final String nome;
     /** La politica di prezzo della Borsa */
-    @SuppressWarnings("unused")
     private Politica politica;
     /** SortedSet di Azioni*/
     private SortedSet<Azione> azioni = new TreeSet<>();
@@ -141,7 +140,7 @@ public class Borsa implements Comparable<Borsa>{
      * 
      * @param azienda il nome della Azienda di cui si vuole ottenere la quotazione
      * 
-     * @return la quotazione dell'Azienda richiesta o null se non esiste
+     * @return il valore di quotazione dell'Azienda richiesta o null se non esiste
      * 
      * @throws NullPointerException se l'Azienda richiesta non esiste
      */
@@ -243,7 +242,7 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per settare una politica di prezzo per la borsa
+     * Metodo per settare una Politica di Prezzo per la Borsa
      * 
      * <p>
      * Modifies {@code politica} settando la Politica di Prezzo della Borsa
@@ -271,7 +270,7 @@ public class Borsa implements Comparable<Borsa>{
      *      <li>Altrimenti la Politica è di tipo Incremento</li>
      *   </ul>
      * </li>
-     * <li>Se valore è minore di 0, la politica è di tipo Decremento</li>
+     * <li>Se valore è minore di 0, la Politica è di tipo Decremento</li>
      * <li>Se valore è uguale a 0:
      *   <ul>
      *      <li>Se vSu e vGiu sono uguali, la Politica è di tipo Soglia</li>
@@ -306,7 +305,7 @@ public class Borsa implements Comparable<Borsa>{
     }
 
     /**
-     * Metodo per applicare la variazione di prezzo ad una Azione in seguito ad un acquisto o una vendita
+     * Metodo per applicare la variazione di prezzo ad una Azione in seguito ad un acquisto o una vendita se è presente una Politica di Prezzo diversa da null
      * 
      * <p>
      * Modifies {@code azioni} cambiando il prezzo di quotazione di una Azione e {@code allocazioni} cambiando il prezzo di quotazione di tutte le Azioni possedute da un Operatore
@@ -600,6 +599,18 @@ public class Borsa implements Comparable<Borsa>{
          * @param quantita la quantità di Azioni della Azienda
          */
         public Azione(Azienda azienda, int prezzo, int quantita){
+            if(azienda==null){
+                throw new NullPointerException("L'Azienda non può essere nulla");
+            }
+
+            if(prezzo<=0){
+                throw new IllegalArgumentException("Il prezzo di quotazione deve essere maggiore di 0");
+            }
+
+            if(quantita<=0){
+                throw new IllegalArgumentException("La quantità di azioni da quotare deve essere maggiore di 0");
+            }
+
             this.azienda=azienda;
             this.borsa=Borsa.this;
             this.prezzo=prezzo;
@@ -693,7 +704,7 @@ public class Borsa implements Comparable<Borsa>{
         /** L'Operatore a cui è assegnata la Allocazione */
         private final Operatore operatore;
         /** Mappa delle Azioni possedute */
-        private SortedMap<Azione, Integer> azioniPossedute = new TreeMap<>();
+        private SortedMap<Azione, Integer> azioniPossedute;
         
 
         /**

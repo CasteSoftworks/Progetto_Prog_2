@@ -46,7 +46,7 @@ public class Operatore implements Comparable<Operatore>{
      * - portafoglioAzionario non deve essere null e non deve contenere chiavi o valori null
      */
     
-    /** Il {@code nome} dell'operatore */
+    /** Il {@code nome} dell'Operatore */
     private final String nome;
     /** Il {@code budget} dell'Operatore */
     private int budget;
@@ -60,7 +60,7 @@ public class Operatore implements Comparable<Operatore>{
 
     
     /**
-     * Metodo per costruire un operatore 
+     * Metodo per costruire un Operatore 
      * 
      * <p>
      * Modified la mappa {@code operatori} se l'Operatore non esiste già
@@ -180,16 +180,16 @@ public class Operatore implements Comparable<Operatore>{
     }
     
     /**
-     * Metodo per acquistare azioni di un'azienda
+     * Metodo per acquistare Azioni di un'Azienda
      * 
      * <p>
      * Modifies {@code portafoglioAzionario} dell'Operatore
      * <p>
      * Chiama il metodo {@code compraAzione} di Borsa
      * 
-     * @param a la Azienda a cui appartengono le azioni da acquistare
-     * @param b la Borsa dove acquistare le azioni 
-     * @param prezzoTot il prezzo totale delle azioni da acquistare
+     * @param a la Azienda a cui appartengono le Azioni da acquistare
+     * @param b la Borsa dove acquistare le Azioni 
+     * @param prezzoTot il prezzo totale delle Azioni da acquistare
      * 
      * @throws NullPointerException se l'Azienda è nulla o la Borsa è nulla o se {@code compraAzione} incorre in una NullPointerException
      * @throws IllegalArgumentException se il denaro spendibile per le Azioni è negativo o pari a 0 o se {@code compraAzione} incorre in una IllegalArgumentException
@@ -211,14 +211,14 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per vendere azioni di un'azienda (se l'Operatore possiede abbastanza azioni)
+     * Metodo per vendere Azioni di un'Azienda (se l'Operatore possiede abbastanza Azioni)
      * 
      * <p>
      * Chiama il metodo {@code vendiAzione} di Borsa
      * 
-     * @param azienda la Azienda a cui appartengono le azioni da vendere
+     * @param azienda la Azienda a cui appartengono le Azioni da vendere
      * @param borsa la Borsa dove l'Azienda di cui vendere le Azioni è quotata
-     * @param quantita la quantità di azioni da vendere
+     * @param quantita la quantità di Azioni da vendere
      * 
      * @return true se l'operazione è andata a buon fine, false altrimenti
      * 
@@ -227,15 +227,15 @@ public class Operatore implements Comparable<Operatore>{
      */
     public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
-            throw new NullPointerException("L'azienda non può essere nulla");
+            throw new NullPointerException("L'Azienda non può essere nulla");
         }
 
         if(borsa==null){
-            throw new NullPointerException("La borsa non può essere nulla");
+            throw new NullPointerException("La Borsa non può essere nulla");
         }
 
         if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da vendere non può essere negativa");
+            throw new IllegalArgumentException("La quantità di Azioni da vendere non può essere negativa");
         }
 
         borsa.vendiAzione(this, azienda, quantita);
@@ -243,9 +243,9 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per ottenere il valore totale del portafoglio dell'Operatore (valore delle azioni possedute)
+     * Metodo per ottenere il valore totale del portafoglio dell'Operatore (valore delle Azioni possedute)
      * 
-     * @return il valore totale del portafoglio azionario dell'Operatore o 0 se non possiede azioni
+     * @return il valore totale del portafoglio azionario dell'Operatore o 0 se non possiede Azioni
      */
     public int getValorePortafoglio(){
         int valorePortafoglio=0;
@@ -279,19 +279,19 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per aggiungere azioni al Portafoglio Azionario dell'Operatore
+     * Metodo per aggiungere Azioni al Portafoglio Azionario dell'Operatore
      * 
      * <p>
      * Modifies {@code portafoglioAzionario} dell'Operatore
      * 
-     * @param azione l'azione da aggiungere
-     * @param quantita la quantità di azioni da aggiungere
+     * @param azione l'Azione da aggiungere
+     * @param quantita la quantità di Azioni da aggiungere
      * 
-     * @throws IllegalArgumentException se la quantità di azioni da aggiungere è negativa o nulla
+     * @throws IllegalArgumentException se la quantità di Azioni da aggiungere è negativa o nulla
      */
     public void aggiungiAzione(Azione azione, int quantita) throws IllegalArgumentException{
         if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da aggiungere non può essere negativa o nulla");
+            throw new IllegalArgumentException("La quantità di Azioni da aggiungere non può essere negativa o nulla");
         }
 
         if(portafoglioAzionario.containsKey(azione)){
@@ -302,19 +302,19 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
-     * Metodo per rimuovere azioni dal Portafoglio Azionario dell'Operatore
+     * Metodo per rimuovere Azioni dal Portafoglio Azionario dell'Operatore
      * 
      * <p>
      * Modifies {@code portafoglioAzionario} dell'Operatore
      * 
-     * @param azione l'azione da rimuovere
-     * @param quantita la quantità di azioni da rimuovere
+     * @param azione l'Azione da rimuovere
+     * @param quantita la quantità di Azioni da rimuovere
      * 
-     * @throws IllegalArgumentException se la quantità di azioni da rimuovere è negativa o nulla, se l'Operatore non possiede azioni di questa azienda
+     * @throws IllegalArgumentException se la quantità di Azioni da rimuovere è negativa o nulla, se l'Operatore non possiede Azioni di questa Azienda
      */
     public void rimuoviAzione(Azione azione, int quantita) throws IllegalArgumentException{
         if(quantita<=0){
-            throw new IllegalArgumentException("La quantità di azioni da rimuovere non può essere negativa o nulla");
+            throw new IllegalArgumentException("La quantità di Azioni da rimuovere non può essere negativa o nulla");
         }
 
         if(portafoglioAzionario.containsKey(azione)){
@@ -324,7 +324,7 @@ public class Operatore implements Comparable<Operatore>{
                 portafoglioAzionario.put(azione, portafoglioAzionario.get(azione)-quantita);
             }
         }else{
-            throw new IllegalArgumentException("L'operatore non possiede azioni di questa azienda");
+            throw new IllegalArgumentException("L'Operatore non possiede Azioni di questa Azienda");
         }
     }
 
