@@ -175,10 +175,9 @@ public class Azienda implements Comparable<Azienda>{
      * 
      * @param b il nome della Borsa dove cercare la quotazione
      * 
-     * @return la quotazione dell'Azienda 
+     * @return la quotazione dell'Azienda o null se non è quotata in quella Borsa
      * 
      * @throws NullPointerException se la Borsa non esiste o se {@code getQuotazioneAzienda} lancia una NullPointerException
-     * @throws IllegalArgumentException se la Azienda non è quotata nella Borsa richiesta
      */
     public Integer getQuotazione(Borsa b) throws NullPointerException, IllegalArgumentException{
         if(b==null){
@@ -186,10 +185,6 @@ public class Azienda implements Comparable<Azienda>{
         }
 
         Integer quotazione = b.getQuotazioneAzienda(this);
-
-        if(quotazione==null){
-            throw new IllegalArgumentException("La Azienda non è quotata nella Borsa richiesta");
-        }
 
         return quotazione;
     }

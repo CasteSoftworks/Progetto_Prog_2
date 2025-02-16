@@ -77,12 +77,8 @@ public class QuotazioneClient {
     for(Azienda a : aziende) {
       System.out.println(a.getNome());
       for(Borsa b : borse) {
-        try {
-          if(a.getQuotazione(b) != null) {
-            System.out.println("- " + b.getNome());
-          }
-        } catch(IllegalArgumentException e) {
-          continue;
+        if(a.getQuotazione(b) != null) {
+          System.out.println("- " + b.getNome());
         }
       }
     }
@@ -90,12 +86,8 @@ public class QuotazioneClient {
     for(Borsa b : borse) {
       System.out.println(b.getNome());
       for(Azienda a : aziende) {
-        try {
-          if(a.getQuotazione(b) != null) {
-            System.out.println("- " + a.getNome());
-          }
-        } catch(IllegalArgumentException e) {
-          continue;
+        if(a.getQuotazione(b) != null) {
+          System.out.println("- " + a.getNome());
         }
       }
     }
