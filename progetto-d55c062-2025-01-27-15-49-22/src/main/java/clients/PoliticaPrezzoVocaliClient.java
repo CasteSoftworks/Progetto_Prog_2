@@ -79,7 +79,6 @@ public class PoliticaPrezzoVocaliClient {
   public static void main(String[] args) {
     Borsa b = Borsa.of(args[0]);
     char val = args[1].charAt(0);
-    System.err.println("val: "+val);
 
     b.setPoliticaPrezzo((int)val, 0, 0);
 
@@ -88,8 +87,6 @@ public class PoliticaPrezzoVocaliClient {
     o.depositaInBudget(Integer.parseInt(args[3]));
 
     SortedSet<Azienda> aziende = new TreeSet<>();
-
-    System.err.println("vocali inizio");
     
     try(Scanner scanner = new Scanner(System.in)) {
       while(scanner.hasNextLine()) {
@@ -104,7 +101,6 @@ public class PoliticaPrezzoVocaliClient {
         Azienda az = Azienda.of(tokens[0]);
         az.quotatiInBorsa(b, Integer.parseInt(tokens[2]), Integer.parseInt(tokens[1]));
 
-        System.err.println(az.getNome() + ", " + b.getQuotazioneAzienda(az));
         aziende.add(az);
       }
 
@@ -136,11 +132,7 @@ public class PoliticaPrezzoVocaliClient {
 
     for(Azienda a : aziende) {
       System.out.println(a.getNome() + ", " + b.getQuotazioneAzienda(a));
-      System.err.println(a.getNome() + ", " + b.getQuotazioneAzienda(a));
     }
-
-    System.err.println("vocali fine");
-
   }
 
 }
