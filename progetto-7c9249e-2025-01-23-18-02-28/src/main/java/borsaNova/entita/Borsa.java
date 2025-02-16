@@ -30,6 +30,7 @@ import java.util.TreeSet;
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * <li>Fernando Gavezzotti (compagno di corso, suggerimento di usare protected)</li>
  * <li>Matteo Mascherpa (compagno di corso, suggerimento di usare protected, di stile documentativo e reminder dei modifies)</li>
+ * <li>Alessandro Lamera (compagno di corso, suggerimento di semaforo booleano per la "sicurezza" di quotazione di una Azienda e della compravendita di Azioni da parte di un Operatore)</li>
  * </ul>
  */
 public class Borsa implements Comparable<Borsa>{
@@ -171,11 +172,16 @@ public class Borsa implements Comparable<Borsa>{
      * @param quantita la quantità di Azioni della Azienda
      * 
      * @throws NullPointerException se l'Azienda richiesta non esiste
+     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code quotatiInBorsa} di Azienda)
      * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se l'Azienda è già quotata in questa Borsa
      */
     public final void quotaAzienda(Azienda az, int prezzo, int quantita) throws NullPointerException,IllegalArgumentException{
         if(az==null){
             throw new NullPointerException("L'Azienda richiesta non esiste");
+        }
+
+        if(!az.getSemaforo()){
+            throw new IllegalCallerException("La chiamata di quotazione non è stata eseguita in maniera corretta");
         }
 
         if(prezzo<=0){
@@ -380,11 +386,16 @@ public class Borsa implements Comparable<Borsa>{
      * @param budgetAcquisto il budgetAcquisto dell'Operatore
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
+     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code acquistaAzione} di Operatore)
      * @throws IllegalArgumentException se Azienda è nulla, se Operatore è nullo, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione, se l'Azienda non ha abbastanza Azioni disponibili, se {@code prelievoDalBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code aggiungiAzione} incorre in una IllegalArgumentException
      */
     public final void compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
             throw new NullPointerException("L'Operatore non può essere nullo");
+        }
+
+        if(!operatore.getSemaforo()){
+            throw new IllegalCallerException("La chiamata di acquisto non è stata eseguita in maniera corretta");
         }
 
         if(azienda==null){
@@ -481,11 +492,16 @@ public class Borsa implements Comparable<Borsa>{
      * @param quantita la quantità di azioni da vendere
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
+     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code vendeAzione} di Operatore)
      * @throws IllegalArgumentException se la quantità è minore o uguale a 0, se l'Operatore non ha abbastanza azioni da vendere, se l'Operatore non ha azioni di quell'Azienda, se {@code depositaInBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code rimuoviAzione} incorre in una IllegalArgumentException
      */   
      public final void vendiAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
         if(operatore==null){
             throw new NullPointerException("L'Operatore non può essere nullo");
+        }
+
+        if(!operatore.getSemaforo()){
+            throw new IllegalCallerException("La chiamata di vendita non è stata eseguita in maniera corretta");
         }
 
         if(azienda==null){

@@ -23,6 +23,7 @@ import java.util.TreeSet;
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo e reminder dei modifies)</li>
+ * <li>Alessandro Lamera (compagno di corso, suggerimento di semaforo booleano per la "sicurezza" di quotazione)</li>
  * </ul>
  */
 
@@ -32,17 +33,21 @@ public class Azienda implements Comparable<Azienda>{
      * Un'Azienda è rappresentata da:
      * - nome: il nome dell'Azienda
      * - borse: elenco delle Borse in cui è quotata
+     * - semaforo: valore booleano per evitare operazioni indesiderate
      *
      * RI:
      * L'oggetto Azienda deve rispettare la seguente condizione: 
      * - nome non deve essere null, stringa vuota o composta solo da soli spazi bianchi
      * - borse non deve essere null e non deve contenere elementi null
+     * - semaforo deve essere true se e solo se si stanno effettuando operazioni su Azienda come la quotazione in una Borsa, false altrimenti
      */
 
     /** Il {@code nome} dell'Azienda */
     private final String nome;
     /** Il SortedSet delle Borse in cui è quotata */
     private final SortedSet<Borsa> borse;
+    /** Semaforo booleano per evitare operazioni di quotazione in Borsa non eseguite dalla Azienda */
+    private boolean semaforo = false;
 
     /** SortedSet delle aziende (key= nome azienda, value=azienda stessa) */
     private static final SortedSet<Azienda> aziende = new TreeSet<>();
@@ -97,6 +102,15 @@ public class Azienda implements Comparable<Azienda>{
     }   
 
     /**
+     * Metodo per ottenere il valore del semaforo
+     * 
+     * @return il valore del semaforo (true o false)
+     */
+    public boolean getSemaforo(){
+        return semaforo;
+    }
+    
+    /**
      * Metodo per recuperare una Azienda dal suo nome (se esiste)
      * 
      * @param az il nome dell'Azienda da cercare
@@ -147,7 +161,11 @@ public class Azienda implements Comparable<Azienda>{
             throw new IllegalArgumentException("La quantità di Azioni da quotare deve essere maggiore di 0");
         }
 
+        semaforo = true;
+
         borsa.quotaAzienda(this, prezzo, quantita);
+
+        semaforo = false;
 
         borse.add(borsa);
     }

@@ -28,7 +28,7 @@ import borsaNova.entita.Borsa.Azione;
  * <li>Simone Coccè (compagno di corso, aiuto sulla formalità della documentazione e del codice)</li>
  * <li>Piero Chobanyan (compagno di corso, logica iniziale)</li>
  * <li>Matteo Mascherpa (compagno di corso, suggerimento di stile documentativo e reminder dei modifies)</li>
-
+ * <li>Alessandro Lamera (compagno di corso, suggerimento di semaforo booleano per la "sicurezza" di compravendita di Azioni e modifica del valore di Portafoglio Azionario)</li>
  * </ul>
  */
 public class Operatore implements Comparable<Operatore>{
@@ -38,12 +38,14 @@ public class Operatore implements Comparable<Operatore>{
      * - nome: il nome dell'Operatore
      * - budget: il budget dell'Operatore
      * - portafoglioAzionario: una mappa delle Azioni possedute dall'Operatore (chiave: Azione, Valore: quantità posseduta) 
+     * - semaforo: valore booleano per evitare compravendite non eseguite dall'Operatore
      *
      * RI:
      * L'oggetto Operatore deve rispettare le seguenti condizioni:
      * - nome non null, stringa vuota o composta solo da soli spazi bianchi
      * - budget maggiore o uguale a 0 (inizialmente 0)
      * - portafoglioAzionario non deve essere null e non deve contenere chiavi o valori null
+     * - semaforo deve essere true se e solo se si stanno effettuando operazioni di acquisto o vendita, false altrimenti
      */
     
     /** Il {@code nome} dell'Operatore */
@@ -52,6 +54,8 @@ public class Operatore implements Comparable<Operatore>{
     private int budget;
     /** Il {@code Portafoglio Azionario} dell'Operatore */
     private SortedMap<Azione, Integer> portafoglioAzionario = new TreeMap<>();
+    /** Semaforo booleano per evitare compravendite non eseguite dall'Operatore */
+    private boolean semaforo = false;
 
     /** Set dei nomi degli Operatori già usati */
     private static final SortedSet<String> NOMI_USATI = new TreeSet<>();
@@ -131,6 +135,15 @@ public class Operatore implements Comparable<Operatore>{
     }
 
     /**
+     * Metodo per ottenere il valore del semaforo
+     * 
+     * @return il valore del semaforo (true o false)
+     */
+    public boolean getSemaforo(){
+        return semaforo;
+    }
+
+    /**
      * Metodo per ottenere il budget dell'Operatore
      * 
      * @return il budget dell'Operatore
@@ -207,7 +220,11 @@ public class Operatore implements Comparable<Operatore>{
             throw new IllegalArgumentException("Il denaro spendibile per le Azioni non può essere negativo o pari a 0");
         }
         
+        semaforo = true;
+
         b.compraAzione(this, a, prezzoTot);
+
+        semaforo = false;
     }
 
     /**
@@ -225,7 +242,7 @@ public class Operatore implements Comparable<Operatore>{
      * @throws NullPointerException se l'Azienda è nulla o la Borsa è nulla o se {@code vendiAzione} incorre in una NullPointerException
      * @throws IllegalArgumentException se la quantità di Azioni da vendere è negativa o se {@code vendiAzione} incorre in una IllegalArgumentException
      */
-    public boolean vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
+    public void vendeAzione(Azienda azienda, Borsa borsa, int quantita) throws NullPointerException, IllegalArgumentException{
         if(azienda==null){
             throw new NullPointerException("L'Azienda non può essere nulla");
         }
@@ -238,8 +255,11 @@ public class Operatore implements Comparable<Operatore>{
             throw new IllegalArgumentException("La quantità di Azioni da vendere non può essere negativa");
         }
 
+        semaforo = true;
+
         borsa.vendiAzione(this, azienda, quantita);
-        return true;
+
+        semaforo = false;
     }
 
     /**
@@ -288,10 +308,15 @@ public class Operatore implements Comparable<Operatore>{
      * @param quantita la quantità di Azioni da aggiungere
      * 
      * @throws IllegalArgumentException se la quantità di Azioni da aggiungere è negativa o nulla
+     * @throws IllegalStateException se non si stanno effettuando operazioni di acquisto
      */
     public void aggiungiAzione(Azione azione, int quantita) throws IllegalArgumentException{
         if(quantita<=0){
             throw new IllegalArgumentException("La quantità di Azioni da aggiungere non può essere negativa o nulla");
+        }
+
+        if(!getSemaforo()){
+            throw new IllegalStateException("Non è possibile aggiungere Azioni al Portafoglio Azionario se non si stanno effettuando operazioni di acquisto ");
         }
 
         if(portafoglioAzionario.containsKey(azione)){
@@ -311,10 +336,15 @@ public class Operatore implements Comparable<Operatore>{
      * @param quantita la quantità di Azioni da rimuovere
      * 
      * @throws IllegalArgumentException se la quantità di Azioni da rimuovere è negativa o nulla, se l'Operatore non possiede Azioni di questa Azienda
+     * @throws IllegalStateException se non si stanno effettuando operazioni di vendita
      */
     public void rimuoviAzione(Azione azione, int quantita) throws IllegalArgumentException{
         if(quantita<=0){
             throw new IllegalArgumentException("La quantità di Azioni da rimuovere non può essere negativa o nulla");
+        }
+
+        if(!getSemaforo()){
+            throw new IllegalStateException("Non è possibile rimuovere Azioni dal Portafoglio Azionario se non si stanno effettuando operazioni di vendita");
         }
 
         if(portafoglioAzionario.containsKey(azione)){
