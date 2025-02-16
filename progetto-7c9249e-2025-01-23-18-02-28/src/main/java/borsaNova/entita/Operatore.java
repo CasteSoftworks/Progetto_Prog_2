@@ -358,19 +358,22 @@ public class Operatore implements Comparable<Operatore>{
         }
     }
 
-    /**
-     * Metodo override per confrontare due Operatori in base al nome
-     * 
-     * <p>
-     * Automaticamente generato da Github Copilot sulla base di compareTo scritto in Borsa
-     * 
-     * @param o l'Operatore con cui confrontare
-     * 
-     * @return 0 se i due Operatori sono uguali, un numero negativo se l'Operatore è minore di o, un numero positivo altrimenti
-     */
     @Override
     public int compareTo(Operatore o) {
         return this.getNome().compareTo(o.getNome());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Operatore other)){
+            return false;
+        }
+        return nome.equals(other.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
     }
 
 
