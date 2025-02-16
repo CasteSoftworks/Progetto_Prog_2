@@ -237,8 +237,6 @@ public class Operatore implements Comparable<Operatore>{
      * @param borsa la Borsa dove l'Azienda di cui vendere le Azioni è quotata
      * @param quantita la quantità di Azioni da vendere
      * 
-     * @return true se l'operazione è andata a buon fine, false altrimenti
-     * 
      * @throws NullPointerException se l'Azienda è nulla o la Borsa è nulla o se {@code vendiAzione} incorre in una NullPointerException
      * @throws IllegalArgumentException se la quantità di Azioni da vendere è negativa o se {@code vendiAzione} incorre in una IllegalArgumentException
      */
