@@ -1,8 +1,0 @@
-Tesla1b London1b 200 50
-Microsoft1b London1b 50 200
---
-Soros1b 1000
-Lynch1b 4000
---
-Soros1b b London1b Tesla1b 297
-Lynch1b b London1b Tesla1b 1000
