@@ -19,7 +19,7 @@ import borsaNova.entita.Borsa.Azione;
  * </ul>
  */
 public class Variazione implements Politica{
-    /**
+    /*
      * AF
      * Una politica di Variazione è rappresentata da:
      * - variazioneSu: è la variazione da applicare al prezzo in caso di acquisto

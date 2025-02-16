@@ -19,7 +19,7 @@ import borsaNova.entita.Borsa.Azione;
  * </ul>
  */
 public class Incremento implements Politica {
-    /**
+    /*
      * AF
      * Una politica di Incremento rappresentata da un incremento da applicare al prezzo
      * 

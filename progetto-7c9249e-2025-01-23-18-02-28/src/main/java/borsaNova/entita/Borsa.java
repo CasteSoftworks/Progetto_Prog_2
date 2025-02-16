@@ -34,7 +34,7 @@ import java.util.TreeSet;
  * </ul>
  */
 public class Borsa implements Comparable<Borsa>{
-    /**
+    /*
      * AF:
      * Una Borsa è rappresentata da:
      * - nome: il nome della Borsa
@@ -172,7 +172,7 @@ public class Borsa implements Comparable<Borsa>{
      * @param quantita la quantità di Azioni della Azienda
      * 
      * @throws NullPointerException se l'Azienda richiesta non esiste
-     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code quotatiInBorsa} di Azienda)
+     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code quotatiInBorsa} di Azienda e di conseguenzza il semaforo di Azienda è false)
      * @throws IllegalArgumentException se il prezzo è minore o uguale a 0 o se l'Azienda è già quotata in questa Borsa
      */
     public final void quotaAzienda(Azienda az, int prezzo, int quantita) throws NullPointerException,IllegalArgumentException{
@@ -386,7 +386,7 @@ public class Borsa implements Comparable<Borsa>{
      * @param budgetAcquisto il budgetAcquisto dell'Operatore
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
-     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code acquistaAzione} di Operatore)
+     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code acquistaAzione} di Operatore e di conseguenza il semaforo di Operatore è false)
      * @throws IllegalArgumentException se Azienda è nulla, se Operatore è nullo, se l'Azienda non è quotata nella Borsa, se il budgetAcquisto è minore o uguale al prezzo di una Azione, se l'Azienda non ha abbastanza Azioni disponibili, se {@code prelievoDalBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code aggiungiAzione} incorre in una IllegalArgumentException
      */
     public final void compraAzione(Operatore operatore, Azienda azienda, int budgetAcquisto) throws NullPointerException, IllegalArgumentException{
@@ -492,7 +492,7 @@ public class Borsa implements Comparable<Borsa>{
      * @param quantita la quantità di azioni da vendere
      * 
      * @throws NullPointerException se l'Operatore o l'Azienda sono nulli
-     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code vendeAzione} di Operatore)
+     * @throws IllegalCallerException se il metodo non è stato chiamato correttamente (non è stato chiamato da {@code vendeAzione} di Operatore e di conseguenza il semaforo di Operatore è false)
      * @throws IllegalArgumentException se la quantità è minore o uguale a 0, se l'Operatore non ha abbastanza azioni da vendere, se l'Operatore non ha azioni di quell'Azienda, se {@code depositaInBudget} incorre in una IllegalArgumentException, se {@code modificaQuantita} incorre in una IllegalArgumentException o se {@code rimuoviAzione} incorre in una IllegalArgumentException
      */   
      public final void vendiAzione(Operatore operatore, Azienda azienda, int quantita) throws NullPointerException, IllegalArgumentException{
@@ -573,6 +573,7 @@ public class Borsa implements Comparable<Borsa>{
     public int compareTo(Borsa other) {
         return nome.compareTo(other.nome);
     }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Borsa other)){
@@ -588,7 +589,7 @@ public class Borsa implements Comparable<Borsa>{
 
     /** Classe interna Azione */
     public class Azione implements Comparable<Azione>{
-        /**
+        /*
          * AF:
          * Una Azione è rappresentata da:
          * - azienda: la Azienda a cui è collegata la Azione

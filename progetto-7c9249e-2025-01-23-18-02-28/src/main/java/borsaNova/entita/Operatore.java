@@ -32,7 +32,7 @@ import borsaNova.entita.Borsa.Azione;
  * </ul>
  */
 public class Operatore implements Comparable<Operatore>{
-    /**
+    /*
      * AF:
      * Un Operatore è rappresentato da:
      * - nome: il nome dell'Operatore
@@ -54,7 +54,7 @@ public class Operatore implements Comparable<Operatore>{
     private int budget;
     /** Il {@code Portafoglio Azionario} dell'Operatore */
     private SortedMap<Azione, Integer> portafoglioAzionario = new TreeMap<>();
-    /** Semaforo booleano per evitare compravendite non eseguite dall'Operatore */
+    /** Semaforo booleano per evitare compravendite non eseguite dall'Operatore e modifiche al contenuto del Portafoglio Azionario senza autorizzazione*/
     private boolean semaforo = false;
 
     /** Set dei nomi degli Operatori già usati */
@@ -306,7 +306,7 @@ public class Operatore implements Comparable<Operatore>{
      * @param quantita la quantità di Azioni da aggiungere
      * 
      * @throws IllegalArgumentException se la quantità di Azioni da aggiungere è negativa o nulla
-     * @throws IllegalStateException se non si stanno effettuando operazioni di acquisto
+     * @throws IllegalStateException se non si stanno effettuando operazioni di acquisto ma si sta cercando di aggiungere Azioni al Portafoglio Azionario
      */
     public void aggiungiAzione(Azione azione, int quantita) throws IllegalArgumentException{
         if(quantita<=0){
@@ -334,7 +334,7 @@ public class Operatore implements Comparable<Operatore>{
      * @param quantita la quantità di Azioni da rimuovere
      * 
      * @throws IllegalArgumentException se la quantità di Azioni da rimuovere è negativa o nulla, se l'Operatore non possiede Azioni di questa Azienda
-     * @throws IllegalStateException se non si stanno effettuando operazioni di vendita
+     * @throws IllegalStateException se non si stanno effettuando operazioni di vendita ma si sta cercando di rimuovere Azioni dal Portafoglio Azionario
      */
     public void rimuoviAzione(Azione azione, int quantita) throws IllegalArgumentException{
         if(quantita<=0){

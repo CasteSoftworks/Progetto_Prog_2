@@ -28,7 +28,7 @@ import java.util.TreeSet;
  */
 
 public class Azienda implements Comparable<Azienda>{
-    /**
+    /*
      * AF:
      * Un'Azienda è rappresentata da:
      * - nome: il nome dell'Azienda

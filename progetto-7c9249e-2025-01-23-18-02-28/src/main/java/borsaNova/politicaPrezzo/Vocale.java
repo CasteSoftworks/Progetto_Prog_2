@@ -18,10 +18,10 @@ import borsaNova.entita.Borsa.Azione;
 public class Vocale implements Politica{
     /**
      * AF
-     * Una Politica di Vocale rappresentata da una lettera da controllare per l'applicazione della Politica di Vocale
+     * Una Politica di Vocale è rappresentata da una lettera da controllare per l'applicazione della Politica di Vocale
      *  
      * RI
-     * L'oggetto Vocale rispetta la seguente condizione: lettera non nulla
+     * L'oggetto Vocale rispetta la seguente condizione: lettera non può essere spazio vuoto e deve essere una lettera dell'alfabeto (A-Z, a-z)
      */
 
     /** La lettera da controllare per la Politica di Vocale */
@@ -32,11 +32,14 @@ public class Vocale implements Politica{
      * 
      * @param lettera la lettera da controllare
      * 
-     * @throws IllegalArgumentException se la lettera è nulla
+     * @throws IllegalArgumentException se la lettera spazio vuoto o non è una lettera dell'alfabeto (A-Z, a-z)
      */
     public Vocale(char lettera) throws IllegalArgumentException{
         if(lettera == ' '){
-            throw new IllegalArgumentException("La lettera non può essere nulla");
+            throw new IllegalArgumentException("La lettera non può essere spazio vuoto");
+        }
+        if(lettera<'A' || lettera>'z' || (lettera>'Z' && lettera<'a')){
+            throw new IllegalArgumentException("La lettera deve essere una lettera dell'alfabeto (A-Z, a-z)");
         }
 
         this.lettera = lettera;

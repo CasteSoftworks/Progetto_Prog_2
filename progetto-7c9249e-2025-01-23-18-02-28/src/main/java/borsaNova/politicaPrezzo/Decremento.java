@@ -21,7 +21,7 @@ import borsaNova.entita.Borsa.Azione;
  * </ul>
  */
 public class Decremento implements Politica {
-    /**
+    /*
      * AF
      * Una politica di decremento rappresentata da un decremento da applicare al prezzo
      * 

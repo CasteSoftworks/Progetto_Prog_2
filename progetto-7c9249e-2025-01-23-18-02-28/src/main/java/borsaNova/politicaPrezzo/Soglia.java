@@ -16,7 +16,7 @@ import borsaNova.entita.Borsa.Azione;
  * </ul>
  */
 public class Soglia implements Politica{
-    /**
+    /*
      * AF
      * Una politica di Soglia rappresentata da una soglia minima per l'applicazione della Politica di Soglia
      * 
