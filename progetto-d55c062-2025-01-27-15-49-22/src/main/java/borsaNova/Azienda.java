@@ -45,7 +45,7 @@ public class Azienda implements Comparable<Azienda>{
     /** Il {@code nome} dell'Azienda */
     private final String nome;
     /** Il SortedSet delle Borse in cui è quotata */
-    private final SortedSet<Borsa> borse;
+    private final SortedSet<Borsa> borse = new TreeSet<>();
     /** Semaforo booleano per evitare operazioni di quotazione in Borsa non eseguite dalla Azienda */
     private boolean semaforo = false;
 
@@ -55,7 +55,7 @@ public class Azienda implements Comparable<Azienda>{
     private static final SortedSet<String> NOMI_USATI = new TreeSet<>();
 
     /**
-     * Metodo per o costruire un'Azienda (aggiungendola alla mappa delle Aziende) o ottenere un'Azienda già esistente
+     * Metodo per o costruire un'Azienda o ottenere un'Azienda già esistente
      * 
      * <p>
      * Modifies il set {@code aziende} e il set {@code NOMI_USATI} se l'Azienda non esiste già 
@@ -77,8 +77,10 @@ public class Azienda implements Comparable<Azienda>{
         }
 
         NOMI_USATI.add(nome);
+
         Azienda az = new Azienda(nome);
         aziende.add(az);
+        
         return az;
     }
 
@@ -89,7 +91,6 @@ public class Azienda implements Comparable<Azienda>{
      */
     private Azienda(String nome){
         this.nome = nome;
-        this.borse = new TreeSet<>();
     }
 
     /**

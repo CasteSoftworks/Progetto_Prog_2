@@ -65,7 +65,7 @@ public class Borsa implements Comparable<Borsa>{
      * Metodo per costruire una Borsa (aggiungendola alla lista delle borse) o ottenere una Borsa già esistente a partire dal nome
      * 
      * <p>
-     * Modifies la mappa {@code borse} se la Borsa non esiste già
+     * Modifies il set {@code borse} e il set {@code NOMI_USATI} se la Borsa non esiste già 
      * 
      * @param nome il nome della Borsa
      * 
@@ -84,8 +84,10 @@ public class Borsa implements Comparable<Borsa>{
         }
 
         NOMI_USATI.add(nome);
+
         Borsa bo = new Borsa(nome);
         borse.add(bo);
+
         return bo;
     }
 
@@ -724,7 +726,7 @@ public class Borsa implements Comparable<Borsa>{
         /** L'Operatore a cui è assegnata la Allocazione */
         private final Operatore operatore;
         /** Mappa delle Azioni possedute */
-        private SortedMap<Azione, Integer> azioniPossedute;
+        private SortedMap<Azione, Integer> azioniPossedute = new TreeMap<>();
         
 
         /**
@@ -739,9 +741,7 @@ public class Borsa implements Comparable<Borsa>{
                 throw new NullPointerException("L'Operatore non può essere nullo");
             }
 
-            this.operatore=operatore;
-            this.azioniPossedute=new TreeMap<>();
-            
+            this.operatore=operatore;            
         }
 
         /**

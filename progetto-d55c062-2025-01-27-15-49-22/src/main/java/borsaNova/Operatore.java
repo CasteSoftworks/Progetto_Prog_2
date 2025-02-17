@@ -67,7 +67,7 @@ public class Operatore implements Comparable<Operatore>{
      * Metodo per costruire un Operatore 
      * 
      * <p>
-     * Modified la mappa {@code operatori} se l'Operatore non esiste già
+     * Modifies il set {@code operatori} e il set {@code NOMI_USATI} se l'Operatore non esiste già 
      * 
      * @param nome il nome dell'Operatore da creare o recuperare
      * 
@@ -85,7 +85,12 @@ public class Operatore implements Comparable<Operatore>{
             return getOperatoreDaNome(nome);
         }
 
-        return new Operatore(nome);
+        NOMI_USATI.add(nome);
+
+        Operatore op = new Operatore(nome);
+        operatori.add(op);
+
+        return op;
     }
 
     /**
@@ -96,7 +101,6 @@ public class Operatore implements Comparable<Operatore>{
     private Operatore(String nome){
         this.nome = nome;
         this.budget = 0;
-        this.portafoglioAzionario=new TreeMap<>();
     }
 
     /**
