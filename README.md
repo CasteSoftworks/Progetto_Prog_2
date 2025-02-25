@@ -20,6 +20,7 @@ Le azioni seguono una politica di prezzo che fa:
 * Variazione
 * Soglia
 * Vocale
+
 **clients**
 * roba del prof
  
